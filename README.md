@@ -17,8 +17,11 @@
     1. Una vez instalado, ingresamos a la aplicacion.
     2. Activamos Apache.
     3. Activamos MySQL.
-    4. En el modulo "APACHE" en el boton "Config" seleccionamos "PHP(php.ini)" y adentro del .txt usamos "Ctrl + b" y escribimos "zip", encontraremos una linea de codigo así ";extension=zip" y le quitamos unicamente "; (el punto y coma)", luego archivo, guardar y cerramos.
-    5. Entramos a "PHPMYADMIN" en el boton "ADMIN" que se encuenta en el modulo "MySQL" (Esto nos lleva a una pestaña en nuestro navegador predeterminado).
+    4. En el modulo "APACHE" en el boton "Config" seleccionamos "PHP(php.ini)" y adentro del .txt usamos 
+    "Ctrl + b" y escribimos "zip", encontraremos una linea de codigo así ";extension=zip" y le quitamos 
+    unicamente "; (el punto y coma)", luego archivo, guardar y cerramos.
+    5. Entramos a "PHPMYADMIN" en el boton "ADMIN" que se encuenta en el modulo "MySQL" 
+    (Esto nos lleva a una pestaña en nuestro navegador predeterminado).
     6. Una vez adentro creamos una nueva base de datos con el nombre "culturatibacuy".
 
 -Instalar composer **[LINK DIRECTA DESCARGA COMPOSER](https://getcomposer.org/Composer-Setup.exe)**
@@ -32,7 +35,9 @@
 
     Codigo 1
     ---------------------------------------------------------------------------------
-    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows/8.4'))
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol 
+    = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex 
+    ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows/8.4'))
     ---------------------------------------------------------------------------------
     codigo 2
     ---------------------------------------------------------------------------------
