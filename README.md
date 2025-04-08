@@ -58,6 +58,9 @@ hasta que ya no genere nada, si en un momento se queda ahi quieto y ya no da mas
         Ingresamos
             git clone https://github.com/nicoRincon/CulturaTibacuy.git
 
+            cd CulturaTibacuy
+
+    Vamos a open folder y Abrimos nuestra carpeta creada
         creamos un new file y le colocamos por nombre ".env" y compiamos lo que tiene el ".env.example"
         
         Vamos a una nueva terminal e ingreamos
