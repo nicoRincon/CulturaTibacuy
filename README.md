@@ -44,9 +44,10 @@
         -En el boton "< > Code" 
         -Copiamos el siguiente URL (https://github.com/nicoRincon/CulturaTibacuy.git)
 
+
 -Visual Studio Code
     -En nuestro Pc, Abrimos Visual Studio Code
-        -Abrimos nuestra terminal
+        -Abrimos nuestra terminal y nos ubicamos en nuestra carpeta "XAMPP", "htdocs" y ahi clomamos el repositorio
         Ingresamos
             git clone https://github.com/nicoRincon/CulturaTibacuy.git
 
