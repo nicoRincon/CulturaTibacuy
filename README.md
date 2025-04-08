@@ -27,7 +27,9 @@
 -Instalar composer **[LINK DIRECTA DESCARGA COMPOSER](https://getcomposer.org/Composer-Setup.exe)**
 
 -Instalar Node.js **[LINK DIRECTA DESCAR NODE.JS](https://nodejs.org/dist/v22.14.0/node-v22.14.0-x64.msi)**
-(Activamos la casilla)
+(Activamos la casilla y al momento de darle en finish nos lleva a un cmd donde pide espichar una tecla, le
+damos enter hasta que nos lleve a un windows powershell y esperamos hasta que se instalen todos los paquetes
+hasta que ya no genere nada, si en un momento se queda ahi quieto y ya no da mas codigo cerramos el programa)
 
 
     -Ingresamos a Windows PowerShell como Administrador
