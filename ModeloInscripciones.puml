@@ -1,0 +1,81 @@
+@startuml
+' Diagrama BPMN estilizado del sistema de gestión escolar
+
+title **Sistema de Gestión Escolar - Procesos Clave**
+
+start
+:Inicio;
+
+partition Registro_Usuario {
+  :Registro de Usuario;
+  :Llenar formulario de usuario;
+  :Validar documento y contacto;
+  :Registrar en tabla Usuarios;
+  :Registrar lugar de nacimiento, especialidad y contacto;
+  :Usuario registrado;
+}
+
+partition Creación_Curso {
+  :Creación de Curso;
+  :Seleccionar recursos, horario, nivel y docente;
+  :Ingresar datos del curso;
+  :Registrar en tabla Cursos;
+  :Curso creado;
+}
+
+partition Inscripción_Curso {
+  :Inscripción a Curso;
+  :Usuario consulta cursos;
+  if (¿Hay cupos?) then (Sí)
+    :Registrar inscripción en Inscripciones;
+    :Actualizar número de alumnos en Cursos;
+    :Inscripción exitosa;
+  else (No)
+    :Notificar: Curso sin cupos;
+    :Proceso finalizado;
+  endif
+}
+
+partition Evaluación {
+  :Evaluación de Estudiantes;
+  :Docente selecciona estudiante;
+  :Ingresa nota y comentarios;
+  :Registrar en Evaluaciones;
+  :Actualizar Nota_Final;
+  :Evaluación registrada;
+}
+
+partition Programa_Formacion {
+  :Gestión Programa de Formación;
+  :Definir escuela, tipo, curso y responsable;
+  :Asignar ubicación;
+  :Registrar en Programa_De_Formación;
+  :Programa creado;
+}
+
+partition Roles_Permisos {
+  :Asignación de Roles y Permisos;
+  :Seleccionar usuario;
+  :Asignar rol y permisos;
+  :Registrar en Roles_Permisos;
+  :Permisos asignados;
+}
+
+partition Seguridad {
+  :Registro de Acciones (Seguridad);
+  :Detectar acción sensible;
+  :Registrar en tabla Seguridad;
+  :Acción registrada;
+}
+
+partition Historial_Cambios {
+  :Historial de Cambios;
+  :Detectar modificación en datos;
+  :Guardar campo, dato anterior y nuevo;
+  :Registrar en Historial de Cambios;
+  :Cambio auditado;
+}
+
+:Gestión completa;
+stop
+@enduml
