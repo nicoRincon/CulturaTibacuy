@@ -1,4 +1,4 @@
-@startuml ModeloClass
+@startuml modeloClass
 entity Escuelas {
   *Id_Escuela : INT (PK)
   --
