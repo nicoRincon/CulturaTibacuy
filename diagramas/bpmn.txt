@@ -1,0 +1,68 @@
+<mxfile host="app.diagrams.net" modified="2023-04-08T12:00:00.000Z" agent="5.0 (Windows)" etag="..." version="15.0.0" type="device">
+  <diagram id="prtHgNgQTEPvFCAcTncT" name="Sistema de Gestión Educativa">
+    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- Gestión de Usuarios -->
+        <mxCell id="pool1" value="Gestión de Usuarios" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="750" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="A1" value="Registro de Usuario" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;align=center;" vertex="1" parent="pool1">
+          <mxGeometry x="100" y="40" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="A2" value="Verificar Datos" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;align=center;" vertex="1" parent="pool1">
+          <mxGeometry x="240" y="40" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="A3" value="¿Datos Correctos?" style="rhombus;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;align=center;" vertex="1" parent="pool1">
+          <mxGeometry x="360" y="30" width="100" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="A4" value="Asignar Rol" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;align=center;" vertex="1" parent="pool1">
+          <mxGeometry x="500" y="40" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="A1A2" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;" edge="1" parent="pool1" source="A1" target="A2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A2A3" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;" edge="1" parent="pool1" source="A2" target="A3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A3A4Yes" value="Sí" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;" edge="1" parent="pool1" source="A3" target="A4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A3A1No" value="No" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="pool1" source="A3" target="A1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="10" />
+              <mxPoint x="150" y="10" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Gestión de Programas -->
+        <mxCell id="pool2" value="Gestión de Programas" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="750" height="140" as="geometry" />
+        </mxCell>
+        
+        <!-- Gestión de Cursos -->
+        <mxCell id="pool3" value="Gestión de Cursos" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="360" width="750" height="140" as="geometry" />
+        </mxCell>
+        
+        <!-- Proceso de Inscripción -->
+        <mxCell id="pool4" value="Proceso de Inscripción" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="520" width="750" height="140" as="geometry" />
+        </mxCell>
+        
+        <!-- Proceso de Evaluación -->
+        <mxCell id="pool5" value="Proceso de Evaluación" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="680" width="750" height="140" as="geometry" />
+        </mxCell>
+        
+        <!-- Auditoría y Seguridad -->
+        <mxCell id="pool6" value="Auditoría y Seguridad" style="swimlane;html=1;startSize=20;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="840" width="750" height="140" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
