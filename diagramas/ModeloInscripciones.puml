@@ -1,4 +1,5 @@
-@startuml
+@startum Iscripciones
+
 ' Diagrama BPMN estilizado del sistema de gestión escolar
 
 title **Sistema de Gestión Escolar - Procesos Clave**
