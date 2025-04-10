@@ -1,214 +1,253 @@
-@startuml modeloclass
-class Escuelas {
-    int Id_Escuela
-    varchar Nombre
-    varchar Descripcion
+@startuml
+entity Escuelas {
+  *Id_Escuela : INT (PK)
+  --
+  Nombre : VARCHAR
+  Descripcion : VARCHAR
 }
 
-class Tipos_Escuela {
-    int Id_Tipo_Escuela
-    varchar Tipos_Escuela
+entity Tipos_Escuela {
+  *Id_Tipo_Escuela : INT (PK)
+  --
+  Tipos_Escuela : VARCHAR
 }
 
-class Usuarios {
-    int Id_Usuario
-    varchar Primer_Nombre
-    varchar Segundo_Nombre
-    varchar Primer_Apellido
-    varchar Segundo_Apellido
-    int Id_Documento
-    int Id_Estado
-    varchar Num_Documento
-    date Fecha_Nacimiento
-    int Id_L_Nacimiento
-    int Id_Genero
-    int Id_Rol
-    int Id_Contacto
-    int Id_Especialidad
+entity Usuarios {
+  *Id_Usuario : INT (PK)
+  --
+  Primer_Nombre : VARCHAR
+  Segundo_Nombre : VARCHAR
+  Primer_Apellido : VARCHAR
+  Segundo_Apellido : VARCHAR
+  Id_Documento : INT (FK)
+  Id_Estado : INT (FK)
+  Num_Documento : VARCHAR
+  Fecha_Nacimiento : DATE
+  Id_L_Nacimiento : INT (FK)
+  Id_Genero : INT (FK)
+  Id_Rol : INT (FK)
+  Id_Contacto : INT (FK)
+  Id_Especialidad : INT (FK)
 }
 
-class Lugar_de_Nacimiento {
-    int Id_L_Nacimiento
-    int Id_País
-    int Id_Dpto
-    int Id_Mpio
+entity Lugar_de_Nacimiento {
+  *Id_L_Nacimiento : INT (PK)
+  --
+  Id_Pais : INT (FK)
+  Id_Dpto : INT (FK)
+  Id_Mpio : INT (FK)
 }
 
-class Documento_de_Identificacion {
-    int Id_Documento
-    varchar Tipo_Documento
+entity Documento_de_Identificacion {
+  *Id_Documento : INT (PK)
+  --
+  Tipo_Documento : VARCHAR
 }
 
-class Generos {
-    int Id_Genero
-    varchar Genero
+entity Generos {
+  *Id_Genero : INT (PK)
+  --
+  Genero : VARCHAR
 }
 
-class Roles {
-    int Id_Rol
-    varchar Rol
+entity Roles {
+  *Id_Rol : INT (PK)
+  --
+  Rol : VARCHAR
 }
 
-class Cursos {
-    int Id_Curso
-    varchar Curso
-    int Id_Recurso
-    int Id_Horario
-    date Fecha_Inicio
-    date Fecha_Fin
-    varchar Objetivo
-    int Id_Nivel
-    int Cupos
-    int Cantidad_Alumnos
-    int Id_Usuario
+entity Cursos {
+  *Id_Curso : INT (PK)
+  --
+  Curso : VARCHAR
+  Id_Recurso : INT (FK)
+  Id_Horario : INT (FK)
+  Fecha_Inicio : DATE
+  Fecha_Fin : DATE
+  Objetivo : VARCHAR
+  Id_Nivel : INT (FK)
+  Cupos : INT
+  Cantidad_Alumnos : INT
+  Id_Usuario : INT (FK)
 }
 
-class Contactos {
-    int Id_Contacto
-    varchar Telefono
-    varchar Correo
-    varchar Direccion
+entity Contactos {
+  *Id_Contacto : INT (PK)
+  --
+  Telefono : VARCHAR
+  Correo : VARCHAR
+  Direccion : VARCHAR
 }
 
-class Especialidades {
-    int Id_Especialidad
-    varchar Especialidad
+entity Especialidades {
+  *Id_Especialidad : INT (PK)
+  --
+  Especialidad : VARCHAR
 }
 
-class Niveles {
-    int Id_Nivel
-    varchar Nivel
+entity Niveles {
+  *Id_Nivel : INT (PK)
+  --
+  Nivel : VARCHAR
 }
 
-class Horarios {
-    int Id_Horario
-    varchar Dia
-    time Hora_Inicio
-    time Hora_Fin
+entity Niveles_Cursos{
+  *Id_Nivel : INT (FK)
+  *Id_Curso : INT (FK)
+  --
+
 }
 
-class Ubicaciones {
-    int Id_Ubicacion
-    varchar Ubicación
+
+entity Horarios {
+  *Id_Horario : INT (PK)
+  --
+  Dia : VARCHAR
+  Hora_Inicio : TIME
+  Hora_Fin : TIME
 }
 
-class Programa_De_formación {
-    int Id_Programa
-    int Id_Tipo_Escuela
-    int Id_Escuela
-    int Id_Ubicacion
-    int Id_Curso
-    int Id_Usuario
+entity Ubicaciones {
+  *Id_Ubicacion : INT (PK)
+  --
+  Ubicacion : VARCHAR
 }
 
-class Recursos {
-    int Id_Recurso
-    varchar Recurso
+entity Programa_De_formacion {
+  *Id_Programa : INT (PK)
+  --
+  Id_Tipo_Escuela : INT (FK)
+  Id_Escuela : INT (FK)
+  Id_Ubicacion : INT (FK)
+  Id_Curso : INT (FK)
+  Id_Usuario : INT (FK)
 }
 
-class Estados {
-    int Id_Estado
-    varchar Estado
+entity Recursos {
+  *Id_Recurso : INT (PK)
+  --
+  Recurso : VARCHAR
 }
 
-class Permisos {
-    int Id_Permiso
-    varchar Permiso
-    varchar Descripcion
+entity Estados {
+  *Id_Estado : INT (PK)
+  --
+  Estado : VARCHAR
 }
 
-class Historial_de_Cambios {
-    int Id
-    varchar Tabla
-    int Id_Registro
-    varchar Campo
-    varchar Dato_Anterior
-    varchar Dato_Nuevo
-    datetime Fecha_Cambio
-    int Id_Usuario
+entity Permisos {
+  *Id_Permiso : INT (PK)
+  --
+  Permiso : VARCHAR
+  Descripcion : VARCHAR
 }
 
-class Seguridad {
-    int Id
-    int Id_Usuario
-    varchar Accion
-    datetime Fecha
+entity Historial_de_Cambios {
+  *Id : INT (PK)
+  --
+  Tabla : VARCHAR
+  Id_Registro : INT
+  Campo : VARCHAR
+  Dato_Anterior : VARCHAR
+  Dato_Nuevo : VARCHAR
+  Fecha_Cambio : DATETIME
+  Id_Usuario : INT (FK)
 }
 
-class País {
-    int Id_País
-    varchar País
+entity Seguridad {
+  *Id : INT (PK)
+  --
+  Id_Usuario : INT (FK)
+  Accion : VARCHAR
+  Fecha : DATETIME
 }
 
-class Departamentos {
-    int Id_Dpto
-    int Id_País
-    varchar Departamento
+entity Pais {
+  *Id_Pais : INT (PK)
+  --
+  Pais : VARCHAR
 }
 
-class Municipios {
-    int Id_Mpio
-    int Id_País
-    int Id_Dpto
-    varchar Municipio
+entity Departamentos {
+  *Id_Dpto : INT (PK)
+  --
+  Id_Pais : INT (FK)
+  Departamento : VARCHAR
 }
 
-class Inscripciones {
-    int Id_Inscripcion
-    int Id_Usuario
-    int Id_Curso
-    date Fecha_Inscripcion
+entity Municipios {
+  *Id_Mpio : INT (PK)
+  --
+  Id_Pais : INT (FK)
+  Id_Dpto : INT (FK)
+  Municipio : VARCHAR
 }
 
-class Evaluaciones {
-    int Id_Evaluacion
-    int Id_Usuario
-    int Id_Curso
-    date Fecha_Evaluacion
-    decimal Nota
-    varchar Comentarios
+entity Inscripciones {
+  *Id_Inscripcion : INT (PK)
+  --
+  Id_Usuario : INT (FK)
+  Id_Curso : INT (FK)
+  Fecha_Inscripcion : DATE
 }
 
-class Nota_Final {
-    int Id_Nota_Final
-    int Id_Usuario
-    int Id_Curso
-    decimal Nota_Final
+entity Evaluaciones {
+  *Id_Evaluacion : INT (PK)
+  --
+  Id_Usuario : INT (FK)
+  Id_Curso : INT (FK)
+  Fecha_Evaluacion : DATE
+  Nota : DECIMAL
+  Comentarios : VARCHAR
 }
 
-class Roles_Permisos {
-    int Id_Rol
-    int Id_Permiso
-    datetime Fecha_Asignacion
+entity Nota_Final {
+  *Id_Nota_Final : INT (PK)
+  --
+  Id_Usuario : INT (FK)
+  Id_Curso : INT (FK)
+  Nota_Final : DECIMAL
 }
 
-Usuarios --> Documento_de_Identificacion : Id_Documento
-Usuarios --> Estados : Id_Estado
-Usuarios --> Generos : Id_Genero
-Usuarios --> Roles : Id_Rol
-Usuarios --> Contactos : Id_Contacto
-Usuarios --> Especialidades : Id_Especialidad
-Usuarios --> Lugar_de_Nacimiento : Id_L_Nacimiento
-Cursos --> Recursos : Id_Recurso
-Cursos --> Horarios : Id_Horario
-Cursos --> Niveles : Id_Nivel
-Cursos --> Usuarios : Id_Usuario
-Programa_De_formación --> Tipos_Escuela : Id_Tipo_Escuela
-Programa_De_formación --> Escuelas : Id_Escuela
-Programa_De_formación --> Ubicaciones : Id_Ubicacion
-Programa_De_formación --> Cursos : Id_Curso
-Programa_De_formación --> Usuarios : Id_Usuario
-Departamentos --> País : Id_País
-Municipios --> País : Id_País
-Municipios --> Departamentos : Id_Dpto
-Inscripciones --> Usuarios : Id_Usuario
-Inscripciones --> Cursos : Id_Curso
-Evaluaciones --> Usuarios : Id_Usuario
-Evaluaciones --> Cursos : Id_Curso
-Nota_Final --> Usuarios : Id_Usuario
-Nota_Final --> Cursos : Id_Curso
-Historial_de_Cambios --> Usuarios : Id_Usuario
-Seguridad --> Usuarios : Id_Usuario
-Roles_Permisos --> Roles : Id_Rol
-Roles_Permisos --> Permisos : Id_Permiso
+entity Roles_Permisos {
+  Id_Rol : INT (FK)
+  Id_Permiso : INT (FK)
+  Fecha_Asignacion : DATETIME
+}
+
+Usuarios }|--|| Documento_de_Identificacion : "Id_Documento"
+Usuarios }|--|| Estados : "Id_Estado"
+Usuarios }|--|| Lugar_de_Nacimiento : "Id_L_Nacimiento"
+Usuarios }|--|| Generos : "Id_Genero"
+Usuarios }|--|| Roles : "Id_Rol"
+Usuarios }|--|| Contactos : "Id_Contacto"
+Usuarios }|--|| Especialidades : "Id_Especialidad"
+Lugar_de_Nacimiento }|--|| Pais : "Id_Pais"
+Lugar_de_Nacimiento }|--|| Departamentos : "Id_Dpto"
+Lugar_de_Nacimiento }|--|| Municipios : "Id_Mpio"
+Cursos }|--|| Recursos : "Id_Recurso"
+Cursos }|--|| Horarios : "Id_Horario"
+Cursos }|--|| Usuarios : "Id_Usuario"
+Niveles_Cursos }|--|| Niveles : "Id_Rol"
+Niveles_Cursos }|--|| Cursos : "Id_Rol"
+Programa_De_formacion }|--|| Tipos_Escuela : "Id_Tipo_Escuela"
+Programa_De_formacion }|--|| Escuelas : "Id_Escuela"
+Programa_De_formacion }|--|| Ubicaciones : "Id_Ubicacion"
+Programa_De_formacion }|--|| Cursos : "Id_Curso"
+Programa_De_formacion }|--|| Usuarios : "Id_Usuario"
+Departamentos }|--|| Pais : "Id_Pais"
+Municipios }|--|| Pais : "Id_Pais"
+Municipios }|--|| Departamentos : "Id_Dpto"
+Inscripciones }|--|| Usuarios : "Id_Usuario"
+Inscripciones }|--|| Cursos : "Id_Curso"
+Evaluaciones }|--|| Usuarios : "Id_Usuario"
+Evaluaciones }|--|| Cursos : "Id_Curso"
+Nota_Final }|--|| Usuarios : "Id_Usuario"
+Nota_Final }|--|| Cursos : "Id_Curso"
+Historial_de_Cambios }|--|| Usuarios : "Id_Usuario"
+Seguridad }|--|| Usuarios : "Id_Usuario"
+Roles_Permisos }|--|| Roles : "Id_Rol"
+Roles_Permisos }|--|| Permisos : "Id_Permiso"
+
+
 @enduml
