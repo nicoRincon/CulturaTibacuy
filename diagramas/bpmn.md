@@ -34,10 +34,7 @@ flowchart TD
         D3 -->|Sí| D4[Registrar Inscripción]
         D3 -->|No| D5[Lista de Espera]
         D4 --> D6[Actualizar Cantidad Alumnos]
-<<<<<<< HEAD
         D5 --> D2
-=======
->>>>>>> 9d4a0855cbaa95a09f82f4e07af5206cbbe128f5
     end
 
     subgraph "Proceso de Evaluación"
