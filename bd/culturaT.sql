@@ -243,3 +243,13 @@ CREATE TABLE Roles_Permisos (
     FOREIGN KEY (Id_Rol) REFERENCES Roles(Id_Rol),
     FOREIGN KEY (Id_Permiso) REFERENCES Permisos(Id_Permiso)
 );
+
+-- Tabla de Lista de Espera
+CREATE TABLE Lista_de_Espera (
+    Id_Lista_Espera INT PRIMARY KEY, -- Identificador único para la lista de espera
+    Id_Usuario INT,                 -- Usuario en espera
+    Id_Curso INT,                   -- Curso al que desea inscribirse
+    Fecha_Solicitud DATE,           -- Fecha en la que se solicitó la inscripción
+    FOREIGN KEY (Id_Usuario) REFERENCES Usuarios(Id_Usuario),
+    FOREIGN KEY (Id_Curso) REFERENCES Cursos(Id_Curso)
+);
