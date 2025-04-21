@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Captura de Datos de Producción</title>
+</head>
+<body>
+    <h1>Captura de Datos de Producción</h1>
+    <form action="/submit_produccion" method="post">
+        <label for="id_cama">ID de la Cama:</label>
+        <input type="number" id="id_cama" name="id_cama" required><br><br>
+
+        <label for="numero_corte">Número del Corte:</label>
+        <input type="number" id="numero_corte" name="numero_corte" required><br><br>
+
+        <label for="fecha_corte">Fecha del Primer Corte:</label>
+        <input type="date" id="fecha_corte" name="fecha_corte"><br><br>
+
+        <label for="cantidad_tallos">Cantidad de Tallos:</label>
+        <input type="number" id="cantidad_tallos" name="cantidad_tallos" required><br><br>
+
+        <input type="submit" value="Registrar Corte">
+    </form>
+</body>
+</html>
