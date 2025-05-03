@@ -14,7 +14,7 @@ class Ubicacion extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'Ubicación',
+        'Ubicacion',
     ];
 
     public function programas()
