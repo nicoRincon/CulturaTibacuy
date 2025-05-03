@@ -43,10 +43,10 @@ CREATE TABLE Usuarios (
 -- Tabla de Lugar de Nacimiento
 CREATE TABLE Lugar_de_Nacimiento (
     Id_L_Nacimiento INT PRIMARY KEY,
-    Id_País INT,
+    Id_Pais INT,
     Id_Dpto INT,
     Id_Mpio INT,
-    FOREIGN KEY (Id_País) REFERENCES País(Id_País),
+    FOREIGN KEY (Id_Pais) REFERENCES pais(Id_Pais),
     FOREIGN KEY (Id_Dpto) REFERENCES Departamentos(Id_Dpto),
     FOREIGN KEY (Id_Mpio) REFERENCES Municipios(Id_Mpio)
 );
@@ -119,11 +119,11 @@ CREATE TABLE Horarios (
 -- Tabla de Ubicaciones
 CREATE TABLE Ubicaciones (
     Id_Ubicacion INT PRIMARY KEY,
-    Ubicación VARCHAR(150)
+    Ubicacion VARCHAR(150)
 );
 
 -- Tabla de Programa de Formación
-CREATE TABLE Programa_De_formación (
+CREATE TABLE Programa_De_formacion (
     Id_Programa INT PRIMARY KEY,
     Id_Tipo_Escuela INT,
     Id_Escuela INT,
@@ -178,27 +178,27 @@ CREATE TABLE Seguridad (
     FOREIGN KEY (Id_Usuario) REFERENCES Usuarios(Id_Usuario)
 );
 
--- Tabla de País
-CREATE TABLE País (
-    Id_País INT PRIMARY KEY,
-    País VARCHAR(50)
+-- Tabla de pais
+CREATE TABLE pais (
+    Id_pais INT PRIMARY KEY,
+    pais VARCHAR(50)
 );
 
 -- Tabla de Departamentos
 CREATE TABLE Departamentos (
     Id_Dpto INT PRIMARY KEY,
-    Id_País INT,
+    Id_pais INT,
     Departamento VARCHAR(50),
-    FOREIGN KEY (Id_País) REFERENCES País(Id_País)
+    FOREIGN KEY (Id_pais) REFERENCES pais(Id_pais)
 );
 
 -- Tabla de Municipios
 CREATE TABLE Municipios (
     Id_Mpio INT PRIMARY KEY,
-    Id_País INT,
+    Id_pais INT,
     Id_Dpto INT,
     Municipio VARCHAR(50),
-    FOREIGN KEY (Id_País) REFERENCES País(Id_País),
+    FOREIGN KEY (Id_pais) REFERENCES pais(Id_pais),
     FOREIGN KEY (Id_Dpto) REFERENCES Departamentos(Id_Dpto)
 );
 

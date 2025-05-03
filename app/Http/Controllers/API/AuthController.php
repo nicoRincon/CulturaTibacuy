@@ -10,9 +10,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\HasApiTokens;
 
 class AuthController extends Controller
 {
+    use HasApiTokens, Notifiable;
     /**
      * Registra un nuevo usuario en el sistema.
      *
@@ -32,7 +34,7 @@ class AuthController extends Controller
             'telefono' => 'required|string|max:20',
             'correo' => 'required|email|max:100|unique:Contactos,Correo',
             'direccion' => 'required|string|max:150',
-            'id_pais' => 'required|exists:País,Id_País',
+            'id_pais' => 'required|exists:Pais,Id_Pais',
             'id_departamento' => 'required|exists:Departamentos,Id_Dpto',
             'id_municipio' => 'required|exists:Municipios,Id_Mpio',
             'id_especialidad' => 'required|exists:Especialidades,Id_Especialidad',
@@ -53,7 +55,7 @@ class AuthController extends Controller
 
             // Crear el lugar de nacimiento
             $lugarNacimiento = LugarNacimiento::create([
-                'Id_País' => $request->id_pais,
+                'Id_Pais' => $request->id_pais,
                 'Id_Dpto' => $request->id_departamento,
                 'Id_Mpio' => $request->id_municipio,
             ]);
