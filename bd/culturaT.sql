@@ -46,7 +46,7 @@ CREATE TABLE Lugar_de_Nacimiento (
     Id_Pais INT,
     Id_Dpto INT,
     Id_Mpio INT,
-    FOREIGN KEY (Id_Pais) REFERENCES pais(Id_Pais),
+    FOREIGN KEY (Id_Pais) REFERENCES Pais(Id_Pais),
     FOREIGN KEY (Id_Dpto) REFERENCES Departamentos(Id_Dpto),
     FOREIGN KEY (Id_Mpio) REFERENCES Municipios(Id_Mpio)
 );
@@ -123,7 +123,7 @@ CREATE TABLE Ubicaciones (
 );
 
 -- Tabla de Programa de Formación
-CREATE TABLE Programa_De_formacion (
+CREATE TABLE Programa_De_Formacion (
     Id_Programa INT PRIMARY KEY,
     Id_Tipo_Escuela INT,
     Id_Escuela INT,
@@ -178,27 +178,27 @@ CREATE TABLE Seguridad (
     FOREIGN KEY (Id_Usuario) REFERENCES Usuarios(Id_Usuario)
 );
 
--- Tabla de pais
-CREATE TABLE pais (
-    Id_pais INT PRIMARY KEY,
-    pais VARCHAR(50)
+-- Tabla de Pais
+CREATE TABLE Pais (
+    Id_Pais INT PRIMARY KEY,
+    Pais VARCHAR(50)
 );
 
 -- Tabla de Departamentos
 CREATE TABLE Departamentos (
     Id_Dpto INT PRIMARY KEY,
-    Id_pais INT,
+    Id_Pais INT,
     Departamento VARCHAR(50),
-    FOREIGN KEY (Id_pais) REFERENCES pais(Id_pais)
+    FOREIGN KEY (Id_Pais) REFERENCES Pais(Id_Pais)
 );
 
 -- Tabla de Municipios
 CREATE TABLE Municipios (
     Id_Mpio INT PRIMARY KEY,
-    Id_pais INT,
+    Id_Pais INT,
     Id_Dpto INT,
     Municipio VARCHAR(50),
-    FOREIGN KEY (Id_pais) REFERENCES pais(Id_pais),
+    FOREIGN KEY (Id_Pais) REFERENCES Pais(Id_Pais),
     FOREIGN KEY (Id_Dpto) REFERENCES Departamentos(Id_Dpto)
 );
 

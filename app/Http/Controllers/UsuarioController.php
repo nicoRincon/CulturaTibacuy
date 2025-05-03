@@ -65,7 +65,7 @@ class UsuarioController extends Controller
             'telefono' => 'required|string|max:20',
             'correo' => 'required|email|max:100|unique:Contactos,Correo',
             'direccion' => 'required|string|max:150',
-            'id_pais' => 'required|exists:País,Id_País',
+            'id_pais' => 'required|exists:Pais,Id_Pais',
             'id_departamento' => 'required|exists:Departamentos,Id_Dpto',
             'id_municipio' => 'required|exists:Municipios,Id_Mpio',
             'id_especialidad' => 'required|exists:Especialidades,Id_Especialidad',
@@ -85,7 +85,7 @@ class UsuarioController extends Controller
 
         // Crear el lugar de nacimiento
         $lugarNacimiento = LugarNacimiento::create([
-            'Id_País' => $request->id_pais,
+            'Id_Pais' => $request->id_pais,
             'Id_Dpto' => $request->id_departamento,
             'Id_Mpio' => $request->id_municipio,
         ]);
@@ -131,7 +131,7 @@ class UsuarioController extends Controller
         $roles = Rol::all();
         $especialidades = Especialidad::all();
         $paises = Pais::all();
-        $departamentos = Departamento::where('Id_País', $usuario->lugarNacimiento->Id_País)->get();
+        $departamentos = Departamento::where('Id_Pais', $usuario->lugarNacimiento->Id_Pais)->get();
         $municipios = Municipio::where('Id_Dpto', $usuario->lugarNacimiento->Id_Dpto)->get();
         $estados = Estado::all();
         
@@ -156,7 +156,7 @@ class UsuarioController extends Controller
             'telefono' => 'required|string|max:20',
             'correo' => 'required|email|max:100|unique:Contactos,Correo,'.$usuario->contacto->Id_Contacto.',Id_Contacto',
             'direccion' => 'required|string|max:150',
-            'id_pais' => 'required|exists:País,Id_País',
+            'id_pais' => 'required|exists:Pais,Id_Pais',
             'id_departamento' => 'required|exists:Departamentos,Id_Dpto',
             'id_municipio' => 'required|exists:Municipios,Id_Mpio',
             'id_especialidad' => 'required|exists:Especialidades,Id_Especialidad',
@@ -177,7 +177,7 @@ class UsuarioController extends Controller
 
         // Actualizar el lugar de nacimiento
         $usuario->lugarNacimiento->update([
-            'Id_País' => $request->id_pais,
+            'Id_Pais' => $request->id_pais,
             'Id_Dpto' => $request->id_departamento,
             'Id_Mpio' => $request->id_municipio,
         ]);
@@ -227,7 +227,7 @@ class UsuarioController extends Controller
      */
     public function getDepartamentos(Request $request)
     {
-        $departamentos = Departamento::where('Id_País', $request->id_pais)->get();
+        $departamentos = Departamento::where('Id_Pais', $request->id_pais)->get();
         return response()->json($departamentos);
     }
     
