@@ -66,7 +66,7 @@ class DashboardController extends Controller
             
         // Programas por escuela
         $programasPorEscuela = ProgramaFormacion::select('escuelas.Nombre', DB::raw('count(*) as total'))
-            ->join('Escuelas', 'Programa_De_formación.Id_Escuela', '=', 'Escuelas.Id_Escuela')
+            ->join('Escuelas', 'Programa_De_Formacion.Id_Escuela', '=', 'Escuelas.Id_Escuela')
             ->groupBy('escuelas.Nombre')
             ->get();
             
