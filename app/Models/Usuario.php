@@ -14,6 +14,11 @@ class Usuario extends Authenticatable
     protected $table = 'Usuarios';
     protected $primaryKey = 'Id_Usuario';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'Primer_Nombre',
         'Segundo_Nombre',
@@ -28,14 +33,64 @@ class Usuario extends Authenticatable
         'Id_Rol',
         'Id_Contacto',
         'Id_Especialidad',
+        'password',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'Fecha_Nacimiento' => 'date',
+        'password' => 'hashed',
+    ];
+
+    /**
+     * Verifica si el usuario tiene un rol específico.
+     *
+     * @param string $rolNombre
+     * @return bool
+     */
+    public function tieneRol($rolNombre)
+    {
+        return $this->rol()->exists() && $this->rol->Rol === $rolNombre;
+    }
+
+    /**
+     * Obtener el nombre completo del usuario.
+     */
+    public function getNombreCompletoAttribute()
+    {
+        return $this->Primer_Nombre . ' ' . $this->Primer_Apellido;
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'Num_Documento';
+    }
+
     // Relaciones
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class, 'Id_Rol');
+    }
+
     public function documento()
     {
         return $this->belongsTo(DocumentoIdentificacion::class, 'Id_Documento');
@@ -56,11 +111,6 @@ class Usuario extends Authenticatable
         return $this->belongsTo(Genero::class, 'Id_Genero');
     }
 
-    public function rol()
-    {
-        return $this->belongsTo(Rol::class, 'Id_Rol');
-    }
-
     public function contacto()
     {
         return $this->belongsTo(Contacto::class, 'Id_Contacto');
@@ -69,6 +119,11 @@ class Usuario extends Authenticatable
     public function especialidad()
     {
         return $this->belongsTo(Especialidad::class, 'Id_Especialidad');
+    }
+
+    public function cursos()
+    {
+        return $this->hasMany(Curso::class, 'Id_Usuario');
     }
 
     public function inscripciones()
@@ -84,16 +139,5 @@ class Usuario extends Authenticatable
     public function notasFinales()
     {
         return $this->hasMany(NotaFinal::class, 'Id_Usuario');
-    }
-
-    // Para instructores
-    public function cursos()
-    {
-        return $this->hasMany(Curso::class, 'Id_Usuario');
-    }
-
-    public function tieneRol($rolNombre)
-    {
-        return $this->rol->Rol === $rolNombre;
     }
 }

@@ -9,7 +9,7 @@ class ProgramaFormacion extends Model
 {
     use HasFactory;
 
-    protected $table = 'Programa_De_formación';
+    protected $table = 'Programa_De_formacion';
     protected $primaryKey = 'Id_Programa';
     public $timestamps = false;
 

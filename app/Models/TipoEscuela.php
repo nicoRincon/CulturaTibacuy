@@ -1,4 +1,3 @@
-// app/Models/TipoEscuela.php
 <?php
 
 namespace App\Models;

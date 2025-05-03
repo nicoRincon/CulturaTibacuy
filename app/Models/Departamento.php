@@ -14,13 +14,13 @@ class Departamento extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'Id_País',
+        'Id_Pais',
         'Departamento',
     ];
 
     public function pais()
     {
-        return $this->belongsTo(Pais::class, 'Id_País');
+        return $this->belongsTo(Pais::class, 'Id_Pais');
     }
 
     public function municipios()
