@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @startuml diagrama_clases_mejorado
 
 ' Interfaces genéricas para tipo seguro
@@ -39,6 +40,200 @@ class LugarNacimiento {
     + pais: Pais
     + departamento: Departamento
     + municipio: Municipio
+=======
+
+@startuml diagrama_clases
+
+' Interfaces
+interface ICRUD {
+    + listarPorId(id: int): object
+    + listarTodos(): List<object>
+    + modificar(): void
+    + eliminar(observacion: String): void
+}
+
+interface Autenticable {
+    + autenticar(): boolean
+}
+
+' Usuario y Roles
+abstract class Usuario implements ICRUD {
+    - idUsuario: int
+    - primerNombre: String
+    - segundoNombre: String
+    - primerApellido: String
+    - segundoApellido: String
+    - numDocumento: String
+    # fechaNacimiento: Date
+
+    + listarPorId(id: int): Usuario
+    + listarTodos(): List<Usuario>
+    + modificar(): void
+    + eliminar(observacion: String): void
+}
+
+Usuario ..|> Autenticable
+
+class Estudiante extends Usuario {
+    + inscribirseEnCurso(cursoId: int): void
+}
+
+class Docente extends Usuario {
+    + crearCurso(): void
+    + asignarNota(usuarioId: int, cursoId: int, nota: decimal): void
+}
+
+class Administrador extends Usuario {
+    + crearCurso(): void
+    + crearUsuario(): void
+    + asignarRol(usuarioId: int, rol: Rol): void
+    + gestionarPermisos(): void
+    + auditarCambios(): void
+    + tienePermiso(accion: String): boolean
+}
+
+' Curso
+class Curso implements ICRUD {
+    - idCurso: int
+    - nombre: String
+    - fechaInicio: Date
+    - fechaFin: Date
+    - cupos: int
+    - cantidadAlumnos: int
+
+    # crear(): void
+    + listarPorId(id: int): Curso
+    + listarTodos(): List<Curso>
+    + modificar(): void
+    + eliminar(observacion: String): void
+
+    + asignarRecurso(recurso: Recurso): void
+    + asignarHorario(horario: Horario): void
+    + verDisponibilidad(): boolean
+}
+
+' Inscripciones
+class Inscripcion implements ICRUD {
+    - idInscripcion: int
+    - fechaInscripcion: Date
+
+    + listarPorId(id: int): Inscripcion
+    + listarTodos(): List<Inscripcion>
+    + modificar(): void
+    + eliminar(observacion: String): void
+
+    + validarCupo(): boolean
+    + confirmarInscripcion(): void
+}
+
+' Evaluaciones
+class Evaluacion implements ICRUD {
+    - idEvaluacion: int
+    - fechaEvaluacion: Date
+    - nota: decimal
+    - comentarios: String
+
+    + listarPorId(id: int): Evaluacion
+    + listarTodos(): List<Evaluacion>
+    + modificar(): void
+    + eliminar(observacion: String): void
+
+    + registrarNota(): void
+    + consultarNota(): decimal
+}
+
+' Nota Final
+class NotaFinal implements ICRUD {
+    - idNotaFinal: int
+    - notaFinal: decimal
+
+    + listarPorId(id: int): NotaFinal
+    + listarTodos(): List<NotaFinal>
+    + modificar(): void
+    + eliminar(observacion: String): void
+
+    + calcularPromedio(): decimal
+}
+
+' Permisos y Roles
+class Permiso implements ICRUD {
+    - idPermiso: int
+    - nombre: String
+    - descripcion: String
+
+    + listarPorId(id: int): Permiso
+    + listarTodos(): List<Permiso>
+    + modificar(): void
+    + eliminar(observacion: String): void
+}
+
+class Rol implements ICRUD {
+    - idRol: int
+    - nombre: String
+
+    + listarPorId(id: int): Rol
+    + listarTodos(): List<Rol>
+    + modificar(): void
+    + eliminar(observacion: String): void
+}
+
+class RolesPermisos {
+    - idRol: int
+    - idPermiso: int
+    - fechaAsignacion: Date
+}
+
+Administrador --> Rol : asigna
+Rol --> RolesPermisos : contiene
+Permiso --> RolesPermisos : contiene
+
+Estudiante --> Inscripcion : realiza
+Estudiante --> Evaluacion : recibe
+Estudiante --> NotaFinal : tiene
+
+Docente --> Curso : crea
+Curso --> Evaluacion : evalua
+Curso --> NotaFinal : asigna
+
+' Geografía
+class Pais implements ICRUD {
+    - idPais: int
+    - nombre: String
+
+    + listarPorId(id: int): Pais
+    + listarTodos(): List<Pais>
+    + modificar(): void
+    + eliminar(observacion: String): void
+}
+
+class Departamento implements ICRUD {
+    - idDpto: int
+    - nombre: String
+
+    + listarPorId(id: int): Departamento
+    + listarTodos(): List<Departamento>
+    + modificar(): void
+    + eliminar(observacion: String): void
+}
+
+class Municipio implements ICRUD {
+    - idMpio: int
+    - nombre: String
+
+    + listarPorId(id: int): Municipio
+    + listarTodos(): List<Municipio>
+    + modificar(): void
+    + eliminar(observacion: String): void
+}
+
+class LugarNacimiento implements ICRUD {
+    - idLugar: int
+
+    + listarPorId(id: int): LugarNacimiento
+    + listarTodos(): List<LugarNacimiento>
+    + modificar(): void
+    + eliminar(observacion: String): void
+>>>>>>> b82e25301a055926e5fe4415c8df322c24405380
 }
 
 LugarNacimiento *-- Pais
@@ -46,6 +241,7 @@ LugarNacimiento *-- Departamento
 LugarNacimiento *-- Municipio
 
 ' Escuela y programas
+<<<<<<< HEAD
 class Ubicacion extends BaseCRUD<Ubicacion> {
     + descripcion: String
 }
@@ -239,3 +435,63 @@ Escuela "1" -- "1" TipoEscuela : es de tipo
 ProgramaFormacion "1" -- "1" Escuela : ofrecido por
 
 @enduml
+=======
+class Ubicacion implements ICRUD {
+    - idUbicacion: int
+    - descripcion: String
+
+    + listarPorId(id: int): Ubicacion
+    + listarTodos(): List<Ubicacion>
+    + modificar(): void
+    + eliminar(observacion: String): void
+}
+
+class Escuela implements ICRUD {
+    - idEscuela: int
+    - nombre: String
+    - descripcion: String
+
+    + listarPorId(id: int): Escuela
+    + listarTodos(): List<Escuela>
+    + modificar(): void
+    + eliminar(observacion: String): void
+}
+
+class TipoEscuela implements ICRUD {
+    - idTipo: int
+    - tipo: String
+
+    + listarPorId(id: int): TipoEscuela
+    + listarTodos(): List<TipoEscuela>
+    + modificar(): void
+    + eliminar(observacion: String): void
+}
+
+class ProgramaFormacion implements ICRUD {
+    - idPrograma: int
+
+    + listarPorId(id: int): ProgramaFormacion
+    + listarTodos(): List<ProgramaFormacion>
+    + modificar(): void
+    + eliminar(observacion: String): void
+}
+
+class Especialidad implements ICRUD {
+    - idEspecialidad: int
+    - nombre: String
+
+    + listarPorId(id: int): Especialidad
+    + listarTodos(): List<Especialidad>
+    + modificar(): void
+    + eliminar(observacion: String): void
+}
+
+ProgramaFormacion --> Escuela
+ProgramaFormacion --> TipoEscuela
+ProgramaFormacion --> Ubicacion
+
+Usuario --> LugarNacimiento
+Usuario --> Especialidad
+
+@enduml
+>>>>>>> b82e25301a055926e5fe4415c8df322c24405380
