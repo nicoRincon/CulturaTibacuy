@@ -11,8 +11,8 @@ class Usuario extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'Usuarios';
-    protected $primaryKey = 'Id_Usuario';
+    protected $table = 'Usuarios'; // Nombre de la tabla en la base de datos
+    protected $primaryKey = 'Id_Usuario'; // Clave primaria de la tabla
 
     /**
      * The attributes that are mass assignable.
@@ -33,6 +33,8 @@ class Usuario extends Authenticatable
         'Id_Rol',
         'Id_Contacto',
         'Id_Especialidad',
+        'email', // Agregado desde el modelo User
+        'email_verified_at', // Agregado desde el modelo User
         'password',
     ];
 
@@ -53,6 +55,7 @@ class Usuario extends Authenticatable
      */
     protected $casts = [
         'Fecha_Nacimiento' => 'date',
+        'email_verified_at' => 'datetime', // Agregado desde el modelo User
         'password' => 'hashed',
     ];
 
@@ -82,7 +85,7 @@ class Usuario extends Authenticatable
      */
     public function username()
     {
-        return 'Num_Documento';
+        return 'email'; // Cambiado a 'email' para usarlo como identificador de inicio de sesión
     }
 
     // Relaciones

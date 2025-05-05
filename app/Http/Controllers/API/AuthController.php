@@ -11,10 +11,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 
 class AuthController extends Controller
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens,Notifiable;
     /**
      * Registra un nuevo usuario en el sistema.
      *
@@ -26,18 +27,20 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'primer_nombre' => 'required|string|max:50',
             'primer_apellido' => 'required|string|max:50',
-            'id_documento' => 'required|exists:Documento_de_Identificacion,Id_Documento',
-            'num_documento' => 'required|string|max:20|unique:Usuarios,Num_Documento',
+            'segundo_apellido' => 'nullable|string|max:50',
+            'segundo_nombre' => 'nullable|string|max:50',
+            'id_documento' => 'required|exists:documentos_identificacion,id_documento',
+            'num_documento' => 'required|string|max:20|unique:usuarios,Num_Documento',
             'fecha_nacimiento' => 'required|date',
             'id_genero' => 'required|exists:Generos,Id_Genero',
             'id_rol' => 'required|exists:Roles,Id_Rol',
             'telefono' => 'required|string|max:20',
-            'correo' => 'required|email|max:100|unique:Contactos,Correo',
+            'correo' => 'required|email|max:100|unique:contactos,correo',
             'direccion' => 'required|string|max:150',
-            'id_pais' => 'required|exists:Pais,Id_Pais',
-            'id_departamento' => 'required|exists:Departamentos,Id_Dpto',
-            'id_municipio' => 'required|exists:Municipios,Id_Mpio',
-            'id_especialidad' => 'required|exists:Especialidades,Id_Especialidad',
+            'id_pais' => 'required|exists:paises,id_pais',
+            'id_departamento' => 'required|exists:departamentos,id_dpto',
+            'id_municipio' => 'required|exists:municipios,id_mpio',
+            'id_especialidad' => 'required|exists:especialidades,id_especialidad',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -83,9 +86,12 @@ class AuthController extends Controller
                 'user' => $usuario
             ], 201);
         } catch (\Exception $e) {
+            \Log::error('Error al registrar el usuario: ' . $e->getMessage(), [
+                'exception' => $e
+            ]);
+
             return response()->json([
-                'message' => 'Error al registrar el usuario',
-                'error' => $e->getMessage()
+                'message' => 'Ocurrió un error inesperado al registrar el usuario. Por favor, inténtelo de nuevo más tarde.'
             ], 500);
         }
     }
@@ -108,7 +114,7 @@ class AuthController extends Controller
         }
 
         // Intentar autenticar al usuario
-        if (Auth::attempt(['Num_Documento' => $request->num_documento, 'password' => $request->password])) {
+        if (Auth::attempt(['num_documento' => $request->num_documento, 'password' => $request->password])) {
             $user = Auth::user();
             
             // Verificar si el usuario está activo
@@ -121,9 +127,11 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
             
             return response()->json([
-                'message' => 'Inicio de sesión exitoso',
-                'user' => $user,
-                'token' => $token
+                'data' => [
+                    'message' => 'Inicio de sesión exitoso',
+                    'user' => $user,
+                    'token' => $token
+                ]
             ]);
         }
         
@@ -142,11 +150,22 @@ class AuthController extends Controller
     {
         $user = $request->user();
         
-        // Cargar relaciones necesarias
-        $user->load(['documento', 'genero', 'rol', 'especialidad', 'contacto', 'lugarNacimiento.pais', 'lugarNacimiento.departamento', 'lugarNacimiento.municipio']);
-        
         return response()->json([
-            'user' => $user
+            'user' => [
+                'data' => $user,
+                'relations' => [
+                    'documento' => $user->documento,
+                    'genero' => $user->genero,
+                    'rol' => $user->rol,
+                    'especialidad' => $user->especialidad,
+                    'contacto' => $user->contacto,
+                    'lugarNacimiento' => [
+                        'pais' => $user->lugarNacimiento->pais ?? null,
+                        'departamento' => $user->lugarNacimiento->departamento ?? null,
+                        'municipio' => $user->lugarNacimiento->municipio ?? null,
+                    ],
+                ],
+            ],
         ]);
     }
 
