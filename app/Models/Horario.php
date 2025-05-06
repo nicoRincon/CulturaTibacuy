@@ -9,18 +9,18 @@ class Horario extends Model
 {
     use HasFactory;
 
-    protected $table = 'Horarios';
-    protected $primaryKey = 'Id_Horario';
+    protected $table = 'horarios';
+    protected $primaryKey = 'id_horario';
     public $timestamps = false;
 
     protected $fillable = [
-        'Dia',
-        'Hora_Inicio',
-        'Hora_Fin',
+        'dia',
+        'hora_inicio',
+        'hora_fin',
     ];
 
     public function cursos()
     {
-        return $this->hasMany(Curso::class, 'Id_Horario');
+        return $this->hasMany(Curso::class, 'id_horario');
     }
 }

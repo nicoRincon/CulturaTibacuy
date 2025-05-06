@@ -9,16 +9,16 @@ class DocumentoIdentificacion extends Model
 {
     use HasFactory;
 
-    protected $table = 'Documento_de_Identificacion';
-    protected $primaryKey = 'Id_Documento';
+    protected $table = 'documento_de_identificacion';
+    protected $primaryKey = 'id_documento';
     public $timestamps = false;
 
     protected $fillable = [
-        'Tipo_Documento',
+        'tipo_documento',
     ];
 
     public function usuarios()
     {
-        return $this->hasMany(Usuario::class, 'Id_Documento');
+        return $this->hasMany(User::class, 'id_documento');
     }
 }

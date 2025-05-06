@@ -9,29 +9,29 @@ class Evaluacion extends Model
 {
     use HasFactory;
 
-    protected $table = 'Evaluaciones';
-    protected $primaryKey = 'Id_Evaluacion';
+    protected $table = 'evaluaciones';
+    protected $primaryKey = 'id_evaluacion';
     public $timestamps = false;
 
     protected $fillable = [
-        'Id_Usuario',
-        'Id_Curso',
-        'Fecha_Evaluacion',
-        'Nota',
-        'Comentarios',
+        'id_usuario',
+        'id_curso',
+        'fecha_evaluacion',
+        'nota',
+        'comentarios',
     ];
 
     protected $dates = [
-        'Fecha_Evaluacion',
+        'fecha_evaluacion',
     ];
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'Id_Usuario');
+        return $this->belongsTo(User::class, 'id_usuario');
     }
 
     public function curso()
     {
-        return $this->belongsTo(Curso::class, 'Id_Curso');
+        return $this->belongsTo(Curso::class, 'id_curso');
     }
 }

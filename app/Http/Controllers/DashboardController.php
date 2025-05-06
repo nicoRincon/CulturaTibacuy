@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
+use App\Models\User;
 use App\Models\Curso;
 use App\Models\Inscripcion;
 use App\Models\Evaluacion;
@@ -47,27 +47,27 @@ class DashboardController extends Controller
     private function adminDashboard()
     {
         // Estadísticas generales
-        $totalUsuarios = Usuario::count();
+        $totalUsuarios = User::count();
         $totalCursos = Curso::count();
         $totalInscripciones = Inscripcion::count();
         $totalEscuelas = Escuela::count();
         
         // Cursos por capacidad
-        $cursosPorCapacidad = Curso::select('Id_Curso', 'Curso', 'Cupos', 'Cantidad_Alumnos')
-            ->orderBy('Cantidad_Alumnos', 'desc')
+        $cursosPorCapacidad = Curso::select('id_curso', 'curso', 'cupos', 'cantidad_alumnos')
+            ->orderBy('cantidad_alumnos', 'desc')
             ->take(5)
             ->get();
             
         // Usuarios por rol
-        $usuariosPorRol = Usuario::select('roles.Rol', DB::raw('count(*) as total'))
-            ->join('Roles', 'Usuarios.Id_Rol', '=', 'Roles.Id_Rol')
-            ->groupBy('roles.Rol')
+        $usuariosPorRol = User::select('roles.rol', DB::raw('count(*) as total'))
+            ->join('roles', 'usuarios.id_rol', '=', 'roles.id_rol')
+            ->groupBy('roles.rol')
             ->get();
             
         // Programas por escuela
-        $programasPorEscuela = ProgramaFormacion::select('escuelas.Nombre', DB::raw('count(*) as total'))
-            ->join('Escuelas', 'Programa_De_formación.Id_Escuela', '=', 'Escuelas.Id_Escuela')
-            ->groupBy('escuelas.Nombre')
+        $programasPorEscuela = ProgramaFormacion::select('escuelas.nombre', DB::raw('count(*) as total'))
+            ->join('escuelas', 'programa_de_formación.id_escuela', '=', 'escuelas.id_escuela')
+            ->groupBy('escuelas.nombre')
             ->get();
             
         return view('dashboard.admin', compact(
@@ -87,25 +87,25 @@ class DashboardController extends Controller
     private function instructorDashboard($user)
     {
         // Cursos que imparte
-        $cursos = Curso::where('Id_Usuario', $user->Id_Usuario)->get();
+        $cursos = Curso::where('id_usuario', $user->id_usuario)->get();
         
         // Inscripciones en sus cursos
-        $inscripciones = Inscripcion::whereIn('Id_Curso', $cursos->pluck('Id_Curso'))
+        $inscripciones = Inscripcion::whereIn('id_curso', $cursos->pluck('id_curso'))
             ->with(['usuario', 'curso'])
             ->get();
             
         // Evaluaciones recientes
-        $evaluacionesRecientes = Evaluacion::whereIn('Id_Curso', $cursos->pluck('Id_Curso'))
+        $evaluacionesRecientes = Evaluacion::whereIn('id_curso', $cursos->pluck('id_curso'))
             ->with(['usuario', 'curso'])
-            ->orderBy('Fecha_Evaluacion', 'desc')
+            ->orderBy('fecha_evaluacion', 'desc')
             ->take(5)
             ->get();
             
         // Promedio de evaluaciones por curso
-        $promedioEvaluaciones = Evaluacion::select('cursos.Curso', DB::raw('avg(Evaluaciones.Nota) as promedio'))
-            ->join('Cursos', 'Evaluaciones.Id_Curso', '=', 'Cursos.Id_Curso')
-            ->whereIn('Evaluaciones.Id_Curso', $cursos->pluck('Id_Curso'))
-            ->groupBy('cursos.Curso')
+        $promedio_evaluaciones = Evaluacion::select('cursos.curso', DB::raw('avg(evaluaciones.nota) as promedio'))
+            ->join('cursos', 'evaluaciones.id_curso', '=', 'cursos.id_curso')
+            ->whereIn('evaluaciones.id_curso', $cursos->pluck('id_curso'))
+            ->groupBy('cursos.curso')
             ->get();
             
         return view('dashboard.instructor', compact(
@@ -122,25 +122,25 @@ class DashboardController extends Controller
     private function estudianteDashboard($user)
     {
         // Inscripciones del estudiante
-        $inscripciones = Inscripcion::where('Id_Usuario', $user->Id_Usuario)
+        $inscripciones = Inscripcion::where('id_usuario', $user->id_usuario)
             ->with('curso')
             ->get();
             
         // Evaluaciones del estudiante
-        $evaluaciones = Evaluacion::where('Id_Usuario', $user->Id_Usuario)
+        $evaluaciones = Evaluacion::where('id_usuario', $user->id_usuario)
             ->with('curso')
             ->get();
             
         // Notas finales
-        $notasFinales = DB::table('Nota_Final')
-            ->join('Cursos', 'Nota_Final.Id_Curso', '=', 'Cursos.Id_Curso')
-            ->select('Cursos.Curso', 'Nota_Final.Nota_Final')
-            ->where('Nota_Final.Id_Usuario', $user->Id_Usuario)
+        $notasFinales = DB::table('nota_final')
+            ->join('cursos', 'nota_final.id_curso', '=', 'cursos.id_curso')
+            ->select('cursos.curso', 'nota_final.nota_final')
+            ->where('nota_final.id_usuario', $user->id_usuario)
             ->get();
             
         // Cursos disponibles (con cupos)
-        $cursosDisponibles = Curso::whereRaw('Cupos > Cantidad_Alumnos')
-            ->whereNotIn('Id_Curso', $inscripciones->pluck('Id_Curso'))
+        $cursosDisponibles = Curso::whereRaw('cupos > cantidad_alumnos')
+            ->whereNotIn('id_curso', $inscripciones->pluck('id_curso'))
             ->take(5)
             ->get();
             

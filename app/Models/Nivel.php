@@ -9,16 +9,16 @@ class Nivel extends Model
 {
     use HasFactory;
 
-    protected $table = 'Niveles';
-    protected $primaryKey = 'Id_Nivel';
+    protected $table = 'niveles';
+    protected $primaryKey = 'id_nivel';
     public $timestamps = false;
 
     protected $fillable = [
-        'Nivel',
+        'nivel',
     ];
 
     public function cursos()
     {
-        return $this->hasMany(Curso::class, 'Id_Nivel');
+        return $this->hasMany(Curso::class, 'id_nivel');
     }
 }

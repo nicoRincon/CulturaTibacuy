@@ -9,16 +9,16 @@ class Recurso extends Model
 {
     use HasFactory;
 
-    protected $table = 'Recursos';
-    protected $primaryKey = 'Id_Recurso';
+    protected $table = 'recursos';
+    protected $primaryKey = 'id_recurso';
     public $timestamps = false;
 
     protected $fillable = [
-        'Recurso',
+        'recurso',
     ];
 
     public function cursos()
     {
-        return $this->hasMany(Curso::class, 'Id_Recurso');
+        return $this->hasMany(Curso::class, 'id_recurso');
     }
 }

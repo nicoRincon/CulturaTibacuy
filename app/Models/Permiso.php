@@ -9,18 +9,18 @@ class Permiso extends Model
 {
     use HasFactory;
 
-    protected $table = 'Permisos';
-    protected $primaryKey = 'Id_Permiso';
+    protected $table = 'permisos';
+    protected $primaryKey = 'id_permiso';
     public $timestamps = false;
 
     protected $fillable = [
-        'Permiso',
-        'Descripcion',
+        'permiso',
+        'descripcion',
     ];
 
     public function roles()
     {
-        return $this->belongsToMany(Rol::class, 'Roles_Permisos', 'Id_Permiso', 'Id_Rol')
-            ->withPivot('Fecha_Asignacion');
+        return $this->belongsToMany(Rol::class, 'roles_permisos', 'id_permiso', 'id_rol')
+            ->withPivot('fecha_asignacion');
     }
 }

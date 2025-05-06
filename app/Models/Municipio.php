@@ -9,28 +9,28 @@ class Municipio extends Model
 {
     use HasFactory;
 
-    protected $table = 'Municipios';
-    protected $primaryKey = 'Id_Mpio';
+    protected $table = 'municipios';
+    protected $primaryKey = 'id_mpio';
     public $timestamps = false;
 
     protected $fillable = [
-        'Id_Pais',
-        'Id_Dpto',
-        'Municipio',
+        'id_pais',
+        'id_dpto',
+        'municipio',
     ];
 
     public function pais()
     {
-        return $this->belongsTo(Pais::class, 'Id_Pais');
+        return $this->belongsTo(Pais::class, 'id_pais');
     }
 
     public function departamento()
     {
-        return $this->belongsTo(Departamento::class, 'Id_Dpto');
+        return $this->belongsTo(Departamento::class, 'id_dpto');
     }
 
     public function lugaresNacimiento()
     {
-        return $this->hasMany(LugarNacimiento::class, 'Id_Mpio');
+        return $this->hasMany(LugarNacimiento::class, 'id_mpio');
     }
 }

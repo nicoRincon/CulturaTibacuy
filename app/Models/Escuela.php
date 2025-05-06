@@ -9,17 +9,17 @@ class Escuela extends Model
 {
     use HasFactory;
 
-    protected $table = 'Escuelas';
-    protected $primaryKey = 'Id_Escuela';
+    protected $table = 'escuelas';
+    protected $primaryKey = 'id_escuela';
     public $timestamps = false;
 
     protected $fillable = [
-        'Nombre',
-        'Descripcion',
+        'nombre',
+        'descripcion',
     ];
 
     public function programas()
     {
-        return $this->hasMany(ProgramaFormacion::class, 'Id_Escuela');
+        return $this->hasMany(ProgramaFormacion::class, 'id_escuela');
     }
 }

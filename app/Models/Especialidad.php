@@ -9,16 +9,16 @@ class Especialidad extends Model
 {
     use HasFactory;
 
-    protected $table = 'Especialidades';
-    protected $primaryKey = 'Id_Especialidad';
+    protected $table = 'especialidades';
+    protected $primaryKey = 'id_especialidad';
     public $timestamps = false;
 
     protected $fillable = [
-        'Especialidad',
+        'especialidad',
     ];
 
     public function usuarios()
     {
-        return $this->hasMany(Usuario::class, 'Id_Especialidad');
+        return $this->hasMany(User::class, 'id_especialidad');
     }
 }

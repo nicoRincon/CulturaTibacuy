@@ -45,6 +45,6 @@ class LoginController extends Controller
      */
     public function username()
     {
-        return 'Num_Documento';
+        return 'email';
     }
 }

@@ -4,27 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 
 class Rol extends Model
 {
     use HasFactory;
 
-    protected $table = 'Roles';
-    protected $primaryKey = 'Id_Rol';
+    protected $table = 'roles';
+    protected $primaryKey = 'id_rol';
     public $timestamps = false;
 
     protected $fillable = [
-        'Rol',
+        'rol',
     ];
 
     public function usuarios()
     {
-        return $this->hasMany(Usuario::class, 'Id_Rol');
+        return $this->hasMany(User::class, 'id_rol');
     }
 
     public function permisos()
     {
-        return $this->belongsToMany(Permiso::class, 'Roles_Permisos', 'Id_Rol', 'Id_Permiso')
-            ->withPivot('Fecha_Asignacion');
+        return $this->belongsToMany(Permiso::class, 'roles_permisos', 'id_rol', 'id_permiso')
+            ->withPivot('fecha_asignacion');
     }
 }
