@@ -43,8 +43,8 @@ class EscuelaController extends Controller
         
         try {
             $escuela = Escuela::create([
-                'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion,
+                'nombre' => $request->nombre,
+                'descripcion' => $request->descripcion,
             ]);
             
             return response()->json([
@@ -102,8 +102,8 @@ class EscuelaController extends Controller
             }
             
             $escuela->update([
-                'Nombre' => $request->nombre,
-                'Descripcion' => $request->descripcion,
+                'nombre' => $request->nombre,
+                'descripcion' => $request->descripcion,
             ]);
             
             return response()->json([

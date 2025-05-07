@@ -10,9 +10,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\HasApiTokens;
 
 class AuthController extends Controller
 {
+    use HasApiTokens;
     /**
      * Registra un nuevo usuario en el sistema.
      *
@@ -25,7 +27,7 @@ class AuthController extends Controller
             'primer_nombre' => 'required|string|max:50',
             'primer_apellido' => 'required|string|max:50',
             'id_documento' => 'required|exists:documento_de_identificacion,id_documento',
-            'num_documento' => 'required|string|max:20|unique:usuarios,num_documento',
+            'num_documento' => 'required|string|max:20|unique:users,num_documento',
             'fecha_nacimiento' => 'required|date',
             'id_genero' => 'required|exists:generos,id_genero',
             'id_rol' => 'required|exists:roles,id_rol',
@@ -78,7 +80,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'message' => 'Usuario registrado exitosamente',
-                'user' => $usuario
+                'user' => $usuario,
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
@@ -115,7 +117,7 @@ class AuthController extends Controller
                     'message' => 'Usuario inactivo'
                 ], 401);
             }
-            
+            //
             $token = $user->createToken('auth_token')->plainTextToken;
             
             return response()->json([
@@ -144,7 +146,7 @@ class AuthController extends Controller
         $user->load(['documento', 'genero', 'rol', 'especialidad', 'contacto', 'lugarNacimiento.pais', 'lugarNacimiento.departamento', 'lugarNacimiento.municipio']);
         
         return response()->json([
-            'user' => $user
+            'usuario' => $user
         ]);
     }
 

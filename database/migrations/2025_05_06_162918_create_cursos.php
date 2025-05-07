@@ -28,7 +28,7 @@ return new class extends Migration
             $table->foreign('id_recurso')->references('id_recurso')->on('recursos');
             $table->foreign('id_horario')->references('id_horario')->on('horarios');
             $table->foreign('id_nivel')->references('id_nivel')->on('niveles');
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuarios');
+            $table->foreign('id_usuario')->references('id_usuario')->on('users');
         });
     }
 

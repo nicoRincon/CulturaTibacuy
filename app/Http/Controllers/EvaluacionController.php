@@ -202,8 +202,8 @@ class EvaluacionController extends Controller
         
         // Actualizar la nota final
         $notaFinal = NotaFinal::updateOrCreate(
-            ['Id_Usuario' => $id_usuario, 'Id_Curso' => $id_curso],
-            ['Nota_Final' => $this->calcularNotaFinal($id_usuario, $id_curso)]
+            ['id_usuario' => $id_usuario, 'id_curso' => $id_curso],
+            ['nota_final' => $this->calcularNotaFinal($id_usuario, $id_curso)]
         );
         
         return redirect()->route('evaluaciones.index')->with('success', 'Evaluación eliminada exitosamente');

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreign('id_escuela')->references('id_escuela')->on('escuelas');
             $table->foreign('id_ubicacion')->references('id_ubicacion')->on('ubicaciones');
             $table->foreign('id_curso')->references('id_curso')->on('cursos');
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuarios');
+            $table->foreign('id_usuario')->references('id_usuario')->on('users');
         });
     }
 

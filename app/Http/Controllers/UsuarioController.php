@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
 use App\Models\DocumentoIdentificacion;
 use App\Models\Genero;
 use App\Models\Rol;

@@ -24,14 +24,14 @@ class EvaluacionController extends Controller
         // Si es estudiante, mostrar solo sus evaluaciones
         if ($user->tieneRol('Estudiante')) {
             $evaluaciones = Evaluacion::with(['curso', 'usuario'])
-                ->where('Id_Usuario', $user->Id_Usuario)
+                ->where('id_usuario', $user->id_usuario)
                 ->get();
         } 
         // Si es instructor, mostrar las evaluaciones de sus cursos
         else if ($user->tieneRol('Instructor')) {
             $evaluaciones = Evaluacion::with(['curso', 'usuario'])
                 ->whereHas('curso', function($query) use ($user) {
-                    $query->where('Id_Usuario', $user->Id_Usuario);
+                    $query->where('id_usuario', $user->id_usuario);
                 })
                 ->get();
         } 
@@ -63,8 +63,8 @@ class EvaluacionController extends Controller
         }
         
         $validator = Validator::make($request->all(), [
-            'id_curso' => 'required|exists:Cursos,Id_Curso',
-            'id_usuario' => 'required|exists:Usuarios,Id_Usuario',
+            'id_curso' => 'required|exists:cursos,id_curso',
+            'id_usuario' => 'required|exists:usuarios,id_usuario',
             'nota' => 'required|numeric|min:0|max:5',
             'comentarios' => 'nullable|string|max:255',
         ]);
@@ -75,8 +75,8 @@ class EvaluacionController extends Controller
         
         try {
             // Verificar si el estudiante está inscrito en el curso
-            $inscripcion = Inscripcion::where('Id_Usuario', $request->id_usuario)
-                ->where('Id_Curso', $request->id_curso)
+            $inscripcion = Inscripcion::where('id_usuario', $request->id_usuario)
+                ->where('id_curso', $request->id_curso)
                 ->first();
                 
             if (!$inscripcion) {
@@ -87,7 +87,7 @@ class EvaluacionController extends Controller
             
             // Si es instructor, verificar que el curso le pertenezca
             if ($user->tieneRol('Instructor')) {
-                $esMiCurso = $user->cursos()->where('Id_Curso', $request->id_curso)->exists();
+                $esMiCurso = $user->cursos()->where('id_curso', $request->id_curso)->exists();
                 
                 if (!$esMiCurso) {
                     return response()->json([
@@ -98,17 +98,17 @@ class EvaluacionController extends Controller
             
             // Crear la evaluación
             $evaluacion = Evaluacion::create([
-                'Id_Usuario' => $request->id_usuario,
-                'Id_Curso' => $request->id_curso,
-                'Fecha_Evaluacion' => now(),
-                'Nota' => $request->nota,
-                'Comentarios' => $request->comentarios,
+                'id_usuario' => $request->id_usuario,
+                'id_curso' => $request->id_curso,
+                'fecha_evaluacion' => now(),
+                'nota' => $request->nota,
+                'comentarios' => $request->comentarios,
             ]);
             
             // Actualizar o crear la nota final
             $notaFinal = NotaFinal::updateOrCreate(
-                ['Id_Usuario' => $request->id_usuario, 'Id_Curso' => $request->id_curso],
-                ['Nota_Final' => $this->calcularNotaFinal($request->id_usuario, $request->id_curso)]
+                ['id_usuario' => $request->id_usuario, 'id_curso' => $request->id_curso],
+                ['nota_final' => $this->calcularNotaFinal($request->id_usuario, $request->id_curso)]
             );
             
             return response()->json([
@@ -138,8 +138,8 @@ class EvaluacionController extends Controller
             // Verificar permisos
             $user = Auth::user();
             if (!($user->tieneRol('Administrador') || 
-                  ($user->tieneRol('Instructor') && $evaluacion->curso->Id_Usuario == $user->Id_Usuario) ||
-                  ($user->tieneRol('Estudiante') && $evaluacion->Id_Usuario == $user->Id_Usuario))) {
+                  ($user->tieneRol('Instructor') && $evaluacion->curso->id_usuario == $user->id_usuario) ||
+                  ($user->tieneRol('Estudiante') && $evaluacion->id_usuario == $user->id_usuario))) {
                 return response()->json([
                     'message' => 'No tienes permiso para ver esta evaluación'
                 ], 403);
@@ -170,7 +170,7 @@ class EvaluacionController extends Controller
             // Verificar permisos
             $user = Auth::user();
             if (!($user->tieneRol('Administrador') || 
-                  ($user->tieneRol('Instructor') && $evaluacion->curso->Id_Usuario == $user->Id_Usuario))) {
+                  ($user->tieneRol('Instructor') && $evaluacion->curso->id_usuario == $user->id_usuario))) {
                 return response()->json([
                     'message' => 'No tienes permiso para actualizar esta evaluación'
                 ], 403);
@@ -187,15 +187,15 @@ class EvaluacionController extends Controller
             
             // Actualizar la evaluación
             $evaluacion->update([
-                'Nota' => $request->nota,
-                'Comentarios' => $request->comentarios,
-                'Fecha_Evaluacion' => now(),
+                'nota' => $request->nota,
+                'comentarios' => $request->comentarios,
+                'fecha_evaluacion' => now(),
             ]);
             
             // Actualizar la nota final
             $notaFinal = NotaFinal::updateOrCreate(
-                ['Id_Usuario' => $evaluacion->Id_Usuario, 'Id_Curso' => $evaluacion->Id_Curso],
-                ['Nota_Final' => $this->calcularNotaFinal($evaluacion->Id_Usuario, $evaluacion->Id_Curso)]
+                ['id_usuario' => $evaluacion->id_usuario, 'id_curso' => $evaluacion->id_curso],
+                ['nota_final' => $this->calcularNotaFinal($evaluacion->id_usuario, $evaluacion->id_curso)]
             );
             
             return response()->json([
@@ -225,22 +225,22 @@ class EvaluacionController extends Controller
             // Verificar permisos
             $user = Auth::user();
             if (!($user->tieneRol('Administrador') || 
-                  ($user->tieneRol('Instructor') && $evaluacion->curso->Id_Usuario == $user->Id_Usuario))) {
+                  ($user->tieneRol('Instructor') && $evaluacion->curso->id_usuario == $user->id_usuario))) {
                 return response()->json([
                     'message' => 'No tienes permiso para eliminar esta evaluación'
                 ], 403);
             }
             
-            $id_usuario = $evaluacion->Id_Usuario;
-            $id_curso = $evaluacion->Id_Curso;
+            $id_usuario = $evaluacion->id_usuario;
+            $id_curso = $evaluacion->id_curso;
             
             // Eliminar la evaluación
             $evaluacion->delete();
             
             // Actualizar la nota final
             $notaFinal = NotaFinal::updateOrCreate(
-                ['Id_Usuario' => $id_usuario, 'Id_Curso' => $id_curso],
-                ['Nota_Final' => $this->calcularNotaFinal($id_usuario, $id_curso)]
+                ['id_usuario' => $id_usuario, 'Id_Curso' => $id_curso],
+                ['nota_final' => $this->calcularNotaFinal($id_usuario, $id_curso)]
             );
             
             return response()->json([
@@ -265,7 +265,7 @@ class EvaluacionController extends Controller
     private function calcularNotaFinal($id_usuario, $id_curso)
     {
         $evaluaciones = Evaluacion::where('Id_Usuario', $id_usuario)
-            ->where('Id_Curso', $id_curso)
+            ->where('id_curso', $id_curso)
             ->get();
             
         if ($evaluaciones->isEmpty()) {

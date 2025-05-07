@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
+
 class CursoController extends Controller
 {
     /**
@@ -22,7 +23,7 @@ class CursoController extends Controller
         
         // Filtrar por disponibilidad
         if ($request->has('disponibles') && $request->disponibles) {
-            $query->whereRaw('Cupos > Cantidad_Alumnos');
+            $query->whereRaw('Cupos > cantidad_alumnos');
         }
         
         // Filtrar por nivel
@@ -32,7 +33,7 @@ class CursoController extends Controller
         
         // Filtrar por instructor
         if ($request->has('instructor') && $request->instructor) {
-            $query->where('Id_Usuario', $request->instructor);
+            $query->where('id_usuario', $request->instructor);
         }
         
         $cursos = $query->get();
@@ -52,14 +53,14 @@ class CursoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'curso' => 'required|string|max:100',
-            'id_recurso' => 'required|exists:Recursos,Id_Recurso',
-            'id_horario' => 'required|exists:Horarios,Id_Horario',
+            'id_recurso' => 'required|exists:recursos,id_recurso',
+            'id_horario' => 'required|exists:horarios,id_horario',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date|after:fecha_inicio',
             'objetivo' => 'required|string|max:255',
-            'id_nivel' => 'required|exists:Niveles,Id_Nivel',
+            'id_nivel' => 'required|exists:niveles,id_nivel',
             'cupos' => 'required|integer|min:1',
-            'id_instructor' => 'required|exists:Usuarios,Id_Usuario',
+            'id_instructor' => 'required|exists:usuarios,id_usuario',
         ]);
         
         if ($validator->fails()) {
@@ -68,16 +69,16 @@ class CursoController extends Controller
         
         try {
             $curso = Curso::create([
-                'Curso' => $request->curso,
-                'Id_Recurso' => $request->id_recurso,
-                'Id_Horario' => $request->id_horario,
-                'Fecha_Inicio' => $request->fecha_inicio,
-                'Fecha_Fin' => $request->fecha_fin,
-                'Objetivo' => $request->objetivo,
-                'Id_Nivel' => $request->id_nivel,
-                'Cupos' => $request->cupos,
-                'Cantidad_Alumnos' => 0, // Inicialmente sin alumnos
-                'Id_Usuario' => $request->id_instructor,
+                'curso' => $request->curso,
+                'id_recurso' => $request->id_recurso,
+                'id_horario' => $request->id_horario,
+                'fecha_inicio' => $request->fecha_inicio,
+                'fecha_fin' => $request->fecha_fin,
+                'objetivo' => $request->objetivo,
+                'id_nivel' => $request->id_nivel,
+                'cupos' => $request->cupos,
+                'cantidad_alumnos' => 0, // Inicialmente sin alumnos
+                'id_usuario' => $request->id_instructor,
             ]);
             
             return response()->json([
@@ -127,14 +128,14 @@ class CursoController extends Controller
             
             $validator = Validator::make($request->all(), [
                 'curso' => 'required|string|max:100',
-                'id_recurso' => 'required|exists:Recursos,Id_Recurso',
-                'id_horario' => 'required|exists:Horarios,Id_Horario',
+                'id_recurso' => 'required|exists:recursos,id_recurso',
+                'id_horario' => 'required|exists:horarios,id_horario',
                 'fecha_inicio' => 'required|date',
                 'fecha_fin' => 'required|date|after:fecha_inicio',
                 'objetivo' => 'required|string|max:255',
-                'id_nivel' => 'required|exists:Niveles,Id_Nivel',
+                'id_nivel' => 'required|exists:niveles,id_nivel',
                 'cupos' => 'required|integer|min:' . $curso->Cantidad_Alumnos,
-                'id_instructor' => 'required|exists:Usuarios,Id_Usuario',
+                'id_instructor' => 'required|exists:usuarios,id_usuario',
             ]);
             
             if ($validator->fails()) {
@@ -142,15 +143,15 @@ class CursoController extends Controller
             }
             
             $curso->update([
-                'Curso' => $request->curso,
-                'Id_Recurso' => $request->id_recurso,
-                'Id_Horario' => $request->id_horario,
-                'Fecha_Inicio' => $request->fecha_inicio,
-                'Fecha_Fin' => $request->fecha_fin,
-                'Objetivo' => $request->objetivo,
-                'Id_Nivel' => $request->id_nivel,
-                'Cupos' => $request->cupos,
-                'Id_Usuario' => $request->id_instructor,
+                'curso' => $request->curso,
+                'id_recurso' => $request->id_recurso,
+                'id_horario' => $request->id_horario,
+                'fecha_inicio' => $request->fecha_inicio,
+                'fecha_fin' => $request->fecha_fin,
+                'objetivo' => $request->objetivo,
+                'id_nivel' => $request->id_nivel,
+                'cupos' => $request->cupos,
+                'id_usuario' => $request->id_instructor,
             ]);
             
             return response()->json([

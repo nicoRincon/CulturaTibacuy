@@ -70,8 +70,8 @@ class InscripcionController extends Controller
         // Si es administrador o instructor, mostrar todos los cursos y usuarios
         else {
             $cursos = Curso::all();
-            $usuarios = Usuario::whereHas('rol', function($query) {
-                $query->where('Rol', 'Estudiante');
+            $usuarios = User::whereHas('rol', function($query) {
+                $query->where('rol', 'Estudiante');
             })->get();
             
             return view('inscripciones.create', compact('cursos', 'usuarios'));
@@ -157,7 +157,7 @@ class InscripcionController extends Controller
         
         // Actualizar cantidad de alumnos en el curso
         $curso->update([
-            'Cantidad_Alumnos' => $curso->Cantidad_Alumnos + 1,
+            'cantidad_alumnos' => $curso->cantidad_alumnos + 1,
         ]);
         
         return redirect()->route('inscripciones.index')->with('success', 'Inscripción realizada exitosamente');
@@ -176,7 +176,7 @@ class InscripcionController extends Controller
         
         // Actualizar cantidad de alumnos en el curso
         $curso->update([
-            'Cantidad_Alumnos' => $curso->Cantidad_Alumnos - 1,
+            'cantidad_alumnos' => $curso->cantidad_alumnos - 1,
         ]);
         
         // Verificar si hay estudiantes en lista de espera
@@ -194,7 +194,7 @@ class InscripcionController extends Controller
             
             // Actualizar cantidad de alumnos en el curso
             $curso->update([
-                'Cantidad_Alumnos' => $curso->Cantidad_Alumnos + 1,
+                'cantidad_alumnos' => $curso->cantidad_alumnos + 1,
             ]);
             
             // Eliminar de la lista de espera
