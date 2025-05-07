@@ -25,31 +25,31 @@
                 <tbody>
                     @foreach($inscripciones as $inscripcion)
                     <tr>
-                        <td>{{ $inscripcion->Id_Inscripcion }}</td>
-                        <td>{{ $inscripcion->usuario->Primer_Nombre }} {{ $inscripcion->usuario->Primer_Apellido }}</td>
-                        <td>{{ $inscripcion->curso->Curso }}</td>
-                        <td>{{ $inscripcion->Fecha_Inscripcion->format('d/m/Y') }}</td>
+                        <td>{{ $inscripcion->id_inscripcion }}</td>
+                        <td>{{ $inscripcion->usuario->primer_nombre }} {{ $inscripcion->usuario->primer_apellido }}</td>
+                        <td>{{ $inscripcion->curso->curso }}</td>
+                        <td>{{ $inscripcion->fecha_inscripcion->format('d/m/Y') }}</td>
                         <td>
                             <div class="btn-group" role="group">
-                                @if(Auth::user()->tieneRol('Estudiante') && $inscripcion->Id_Usuario == Auth::user()->Id_Usuario)
-                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $inscripcion->Id_Inscripcion }}">
+                                @if(Auth::user()->tieneRol('Estudiante') && $inscripcion->id_usuario == Auth::user()->id_usuario)
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $inscripcion->id_inscripcion }}">
                                     <i class="fas fa-trash"></i> Cancelar
                                 </button>
                                 
                                 <!-- Modal de cancelación -->
-                                <div class="modal fade" id="deleteModal{{ $inscripcion->Id_Inscripcion }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $inscripcion->Id_Inscripcion }}" aria-hidden="true">
+                                <div class="modal fade" id="deleteModal{{ $inscripcion->id_inscripcion }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $inscripcion->id_inscripcion }}" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalLabel{{ $inscripcion->Id_Inscripcion }}">Confirmar Cancelación</h5>
+                                                <h5 class="modal-title" id="deleteModalLabel{{ $inscripcion->id_inscripcion }}">Confirmar Cancelación</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                ¿Está seguro de que desea cancelar su inscripción al curso {{ $inscripcion->curso->Curso }}?
+                                                ¿Está seguro de que desea cancelar su inscripción al curso {{ $inscripcion->curso->curso }}?
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                <form action="{{ route('inscripciones.destroy', $inscripcion->Id_Inscripcion) }}" method="POST">
+                                                <form action="{{ route('inscripciones.destroy', $inscripcion->id_inscripcion) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">Confirmar Cancelación</button>
@@ -60,25 +60,25 @@
                                 </div>
                                 @endif
                                 
-                                @if(Auth::user()->tieneRol('Administrador') || (Auth::user()->tieneRol('Instructor') && $inscripcion->curso->Id_Usuario == Auth::user()->Id_Usuario))
-                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $inscripcion->Id_Inscripcion }}">
+                                @if(Auth::user()->tieneRol('Administrador') || (Auth::user()->tieneRol('Instructor') && $inscripcion->curso->id_usuario == Auth::user()->id_usuario))
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $inscripcion->id_inscripcion }}">
                                     <i class="fas fa-trash"></i> Eliminar
                                 </button>
                                 
                                 <!-- Modal de eliminación -->
-                                <div class="modal fade" id="deleteModal{{ $inscripcion->Id_Inscripcion }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $inscripcion->Id_Inscripcion }}" aria-hidden="true">
+                                <div class="modal fade" id="deleteModal{{ $inscripcion->id_inscripcion }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $inscripcion->id_inscripcion }}" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalLabel{{ $inscripcion->Id_Inscripcion }}">Confirmar Eliminación</h5>
+                                                <h5 class="modal-title" id="deleteModalLabel{{ $inscripcion->id_inscripcion }}">Confirmar Eliminación</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                ¿Está seguro de que desea eliminar la inscripción de {{ $inscripcion->usuario->Primer_Nombre }} {{ $inscripcion->usuario->Primer_Apellido }} al curso {{ $inscripcion->curso->Curso }}?
+                                                ¿Está seguro de que desea eliminar la inscripción de {{ $inscripcion->usuario->primer_nombre }} {{ $inscripcion->usuario->primer_apellido }} al curso {{ $inscripcion->curso->curso }}?
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                <form action="{{ route('inscripciones.destroy', $inscripcion->Id_Inscripcion) }}" method="POST">
+                                                <form action="{{ route('inscripciones.destroy', $inscripcion->id_inscripcion) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">Eliminar</button>

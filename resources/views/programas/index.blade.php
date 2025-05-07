@@ -29,15 +29,15 @@
                 <tbody>
                     @foreach($programas as $programa)
                     <tr>
-                        <td>{{ $programa->Id_Programa }}</td>
-                        <td>{{ $programa->escuela->Nombre }}</td>
-                        <td>{{ $programa->tipoEscuela->Tipos_Escuela }}</td>
-                        <td>{{ $programa->curso->Curso }}</td>
-                        <td>{{ $programa->ubicacion->Ubicación }}</td>
-                        <td>{{ $programa->responsable->Primer_Nombre }} {{ $programa->responsable->Primer_Apellido }}</td>
+                        <td>{{ $programa->id_programa }}</td>
+                        <td>{{ $programa->escuela->nombre }}</td>
+                        <td>{{ $programa->tipo_escuela->tipos_escuela }}</td>
+                        <td>{{ $programa->curso->curso }}</td>
+                        <td>{{ $programa->ubicacion->ubicacion }}</td>
+                        <td>{{ $programa->responsable->primer_nombre }} {{ $programa->responsable->primer_apellido }}</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a href="{{ route('programas.show', $programa->Id_Programa) }}" class="btn btn-sm btn-info">
+                                <a href="{{ route('programas.show', $programa->id_programa) }}" class="btn btn-sm btn-info">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 
@@ -45,16 +45,16 @@
                                 <a href="{{ route('programas.edit', $programa->Id_Programa) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $programa->Id_Programa }}">
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $programa->id_programa }}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                                 
                                 <!-- Modal de eliminación -->
-                                <div class="modal fade" id="deleteModal{{ $programa->Id_Programa }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $programa->Id_Programa }}" aria-hidden="true">
+                                <div class="modal fade" id="deleteModal{{ $programa->id_programa }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $programa->id_programa }}" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalLabel{{ $programa->Id_Programa }}">Confirmar Eliminación</h5>
+                                                <h5 class="modal-title" id="deleteModalLabel{{ $programa->id_programa }}">Confirmar Eliminación</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -62,7 +62,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                <form action="{{ route('programas.destroy', $programa->Id_Programa) }}" method="POST">
+                                                <form action="{{ route('programas.destroy', $programa->id_programa) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">Eliminar</button>

@@ -32,8 +32,8 @@
                         <select class="form-select @error('id_nivel') is-invalid @enderror" id="id_nivel" name="id_nivel" required>
                             <option value="">Seleccione...</option>
                             @foreach($niveles as $nivel)
-                            <option value="{{ $nivel->Id_Nivel }}" {{ old('id_nivel') == $nivel->Id_Nivel ? 'selected' : '' }}>
-                                {{ $nivel->Nivel }}
+                     d       <option value="{{ $nivel->id_nivel }}" {{ old('id_nivel') == $nivel->id_nivel ? 'selected' : '' }}>
+                                {{ $nivel->nivel }}
                             </option>
                             @endforeach
                         </select>
@@ -53,8 +53,8 @@
                         <select class="form-select @error('id_recurso') is-invalid @enderror" id="id_recurso" name="id_recurso" required>
                             <option value="">Seleccione...</option>
                             @foreach($recursos as $recurso)
-                            <option value="{{ $recurso->Id_Recurso }}" {{ old('id_recurso') == $recurso->Id_Recurso ? 'selected' : '' }}>
-                                {{ $recurso->Recurso }}
+                            <option value="{{ $recurso->id_recurso }}" {{ old('id_recurso') == $recurso->id_recurso ? 'selected' : '' }}>
+                                {{ $recurso->recurso }}
                             </option>
                             @endforeach
                         </select>
@@ -71,8 +71,8 @@
                         <select class="form-select @error('id_horario') is-invalid @enderror" id="id_horario" name="id_horario" required>
                             <option value="">Seleccione...</option>
                             @foreach($horarios as $horario)
-                            <option value="{{ $horario->Id_Horario }}" {{ old('id_horario') == $horario->Id_Horario ? 'selected' : '' }}>
-                                {{ $horario->Dia }} - {{ $horario->Hora_Inicio }} a {{ $horario->Hora_Fin }}
+                            <option value="{{ $horario->id_horario }}" {{ old('id_horario') == $horario->id_horario ? 'selected' : '' }}>
+                                {{ $horario->dia }} - {{ $horario->hora_inicio }} a {{ $horario->hora_fin }}
                             </option>
                             @endforeach
                         </select>
@@ -128,8 +128,8 @@
                         <select class="form-select @error('id_instructor') is-invalid @enderror" id="id_instructor" name="id_instructor" required>
                             <option value="">Seleccione...</option>
                             @foreach($instructores as $instructor)
-                            <option value="{{ $instructor->Id_Usuario }}" {{ old('id_instructor') == $instructor->Id_Usuario ? 'selected' : '' }}>
-                                {{ $instructor->Primer_Nombre }} {{ $instructor->Primer_Apellido }}
+                            <option value="{{ $instructor->id_usuario }}" {{ old('id_instructor') == $instructor->id_usuario ? 'selected' : '' }}>
+                                {{ $instructor->primer_nombre }} {{ $instructor->primer_apellido }}
                             </option>
                             @endforeach
                         </select>

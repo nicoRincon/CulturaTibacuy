@@ -24,12 +24,12 @@
         <tbody>
             @foreach($usuarios as $usuario)
             <tr>
-                <td>{{ $usuario->Id_Usuario }}</td>
-                <td>{{ $usuario->Primer_Nombre }} {{ $usuario->Segundo_Nombre }} {{ $usuario->Primer_Apellido }} {{ $usuario->Segundo_Apellido }}</td>
-                <td>{{ $usuario->documento->Tipo_Documento }}: {{ $usuario->Num_Documento }}</td>
-                <td>{{ $usuario->rol->Rol }}</td>
-                <td>{{ $usuario->contacto->Correo }}</td>
-                <td>{{ $usuario->estado->Estado }}</td>
+                <td>{{ $usuario->id_usuario }}</td>
+                <td>{{ $usuario->primer_nombre }} {{ $usuario->segundo_nombre }} {{ $usuario->primer_apellido }} {{ $usuario->segundo_apellido }}</td>
+                <td>{{ $usuario->documento->tipo_documento }}: {{ $usuario->num_documento }}</td>
+                <td>{{ $usuario->rol->rol }}</td>
+                <td>{{ $usuario->contacto->correo }}</td>
+                <td>{{ $usuario->estado->estado }}</td>
             </tr>
             @endforeach
         </tbody>
@@ -101,12 +101,12 @@
         <tbody>
             @foreach($usuarios as $usuario)
             <tr>
-                <td>{{ $usuario->Id_Usuario }}</td>
-                <td>{{ $usuario->Primer_Nombre }} {{ $usuario->Segundo_Nombre }} {{ $usuario->Primer_Apellido }} {{ $usuario->Segundo_Apellido }}</td>
-                <td>{{ $usuario->documento->Tipo_Documento }}: {{ $usuario->Num_Documento }}</td>
-                <td>{{ $usuario->rol->Rol }}</td>
-                <td>{{ $usuario->contacto->Correo }}</td>
-                <td>{{ $usuario->estado->Estado }}</td>
+                <td>{{ $usuario->id_usuario }}</td>
+                <td>{{ $usuario->primer_nombre }} {{ $usuario->segundo_nombre }} {{ $usuario->primer_apellido }} {{ $usuario->segundo_apellido }}</td>
+                <td>{{ $usuario->documento->tipo_documento }}: {{ $usuario->num_documento }}</td>
+                <td>{{ $usuario->rol->rol }}</td>
+                <td>{{ $usuario->contacto->correo }}</td>
+                <td>{{ $usuario->estado->estado }}</td>
             </tr>
             @endforeach
         </tbody>

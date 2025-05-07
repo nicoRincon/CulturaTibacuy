@@ -73,7 +73,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ Auth::user()->Primer_Nombre }} {{ Auth::user()->Primer_Apellido }}
+                            {{ Auth::user()->primer_nombre }} {{ Auth::user()->primer_apellido }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('home') }}">
