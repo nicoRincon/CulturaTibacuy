@@ -31,20 +31,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="id_documento" class="col-md-4 col-form-label text-md-end">{{ __('Tipo de Documento') }}</label>
-                            <div class="col-md-6">
-                                <select id="id_documento" class="form-control @error('id_documento') is-invalid @enderror" name="id_documento" required>
-                                    <option value="" disabled selected>Selecciona un tipo de documento</option>
-                                    <option value="1">Cédula de Ciudadanía</option>
-                                    <option value="2">Tarjeta de Identidad</option>
-                                    <!-- Agrega más opciones según tu base de datos -->
-                                </select>
-                                @error('id_documento')
-                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                @enderror
-                            </div>
-                        </div>
+
 
                         <div class="row mb-3">
                             <label for="num_documento" class="col-md-4 col-form-label text-md-end">{{ __('Número de Documento') }}</label>

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('fecha_inscripcion');
             $table->timestamps();
 
-            $table->foreign('id_usuario')->references('id_usuario')->on('users');
+            $table->foreign('id_usuario')->references('id_usuario')->on('usuarios');
             $table->foreign('id_curso')->references('id_curso')->on('cursos');
         });
     }

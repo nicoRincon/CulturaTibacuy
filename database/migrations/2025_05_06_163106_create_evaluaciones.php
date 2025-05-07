@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('comentarios', 255)->nullable();
             $table->timestamps();
 
-            $table->foreign('id_usuario')->references('id_usuario')->on('users');
+            $table->foreign('id_usuario')->references('id_usuario')->on('usuarios');
             $table->foreign('id_curso')->references('id_curso')->on('cursos');
         });
     }
