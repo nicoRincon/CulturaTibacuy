@@ -21,6 +21,6 @@ class Contacto extends Model
 
     public function usuarios()
     {
-        return $this->hasMany(user::class, 'id_contacto');
+        return $this->hasMany(User::class, 'id_contacto');
     }
 }

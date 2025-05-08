@@ -239,4 +239,13 @@ class UsuarioController extends Controller
         $municipios = Municipio::where('id_dpto', $request->id_dpto)->get();
         return response()->json($municipios);
     }
+
+    public function buscarPorEmail($email)
+    {
+        $usuario = User::whereHas('contacto', function($query) use ($email) {
+            $query->where('email', $email);
+        })->first();
+    
+        return $usuario;
+    }    
 }

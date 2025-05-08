@@ -26,8 +26,6 @@ return new class extends Migration
             $table->unsignedBigInteger('id_rol');
             $table->unsignedBigInteger('id_contacto');
             $table->unsignedBigInteger('id_especialidad');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

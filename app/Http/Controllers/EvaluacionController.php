@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Evaluacion;
 use App\Models\NotaFinal;
 use App\Models\Curso;
-use App\Models\User;
 use App\Models\Inscripcion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EvaluacionController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');

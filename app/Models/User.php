@@ -36,7 +36,6 @@ class User extends Authenticatable
         'id_rol',
         'id_contacto',
         'id_especialidad',
-        'email',
         'password',
     ];
 

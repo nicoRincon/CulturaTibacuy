@@ -62,7 +62,6 @@ class RegisterController extends Controller
             'id_rol' => ['required', 'integer', 'exists:roles,id_rol'],
             'id_contacto' => ['nullable', 'integer', 'exists:contactos,id_contacto'],
             'id_especialidad' => ['nullable', 'integer', 'exists:especialidades,id_especialidad'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:usuarios'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -83,7 +82,6 @@ class RegisterController extends Controller
             'id_rol' => $data['id_rol'],
             'id_contacto' => $data['id_contacto'] ?? null,
             'id_especialidad' => $data['id_especialidad'] ?? null,
-            'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
     }
