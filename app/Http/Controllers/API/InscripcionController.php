@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Inscripcion;
 use App\Models\Curso;
 use App\Models\ListaEspera;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class InscripcionController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        $user = User::user();
         
         // Si es estudiante, mostrar solo sus inscripciones
         if ($user->tieneRol('Estudiante')) {
@@ -53,7 +54,7 @@ class InscripcionController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
+        $user = User::user();
         
         // Validación para estudiantes
         if ($user->tieneRol('Estudiante')) {
@@ -165,7 +166,7 @@ class InscripcionController extends Controller
             $curso = $inscripcion->curso;
             
             // Verificar permisos
-            $user = Auth::user();
+            $user = User::user();
             if (!($user->tieneRol('Administrador') || $user->tieneRol('Instructor') || 
                 ($user->tieneRol('Estudiante') && $inscripcion->id_usuario == $user->id_usuario))) {
                 return response()->json([

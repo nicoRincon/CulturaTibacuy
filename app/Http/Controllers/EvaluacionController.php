@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\API\AuthController;
 use App\Models\Evaluacion;
 use App\Models\NotaFinal;
 use App\Models\Curso;
 use App\Models\Inscripcion;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
+
 
 class EvaluacionController extends Controller
 {
@@ -23,7 +25,7 @@ class EvaluacionController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        $user = User::user();
         
         // Si es estudiante, mostrar solo sus evaluaciones
         if ($user->tieneRol('Estudiante')) {
@@ -52,7 +54,7 @@ class EvaluacionController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
+        $user = User::user();
         
         // Solo instructores y administradores pueden crear evaluaciones
         if (!($user->tieneRol('Instructor') || $user->tieneRol('Administrador'))) {
@@ -146,7 +148,7 @@ class EvaluacionController extends Controller
     public function edit($id)
     {
         $evaluacion = Evaluacion::findOrFail($id);
-        $user = Auth::user();
+        $user = User::user();
         
         // Solo el instructor del curso o un administrador puede editar la evaluación
         if (!($user->tieneRol('Administrador') || ($user->tieneRol('Instructor') && $evaluacion->curso->id_usuario == $user->id_usuario))) {

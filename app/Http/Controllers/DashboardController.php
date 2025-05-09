@@ -8,11 +8,11 @@ use App\Models\Inscripcion;
 use App\Models\Evaluacion;
 use App\Models\Escuela;
 use App\Models\ProgramaFormacion;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    
     public function __construct()
     {
         $this->middleware('auth');
@@ -23,7 +23,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        $user = User::user();
         
         // Dashboard para administradores
         if ($user->tieneRol('Administrador')) {

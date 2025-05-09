@@ -9,6 +9,7 @@ use App\Models\Inscripcion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class EvaluacionController extends Controller
 {
@@ -19,7 +20,7 @@ class EvaluacionController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        $user = User::user();
         
         // Si es estudiante, mostrar solo sus evaluaciones
         if ($user->tieneRol('Estudiante')) {
@@ -53,7 +54,7 @@ class EvaluacionController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
+        $user = User::user();
         
         // Solo instructores y administradores pueden crear evaluaciones
         if (!($user->tieneRol('Instructor') || $user->tieneRol('Administrador'))) {
@@ -136,7 +137,7 @@ class EvaluacionController extends Controller
             $evaluacion = Evaluacion::with(['curso', 'usuario'])->findOrFail($id);
             
             // Verificar permisos
-            $user = Auth::user();
+            $user = User::user();
             if (!($user->tieneRol('Administrador') || 
                   ($user->tieneRol('Instructor') && $evaluacion->curso->id_usuario == $user->id_usuario) ||
                   ($user->tieneRol('Estudiante') && $evaluacion->id_usuario == $user->id_usuario))) {
@@ -168,7 +169,7 @@ class EvaluacionController extends Controller
             $evaluacion = Evaluacion::findOrFail($id);
             
             // Verificar permisos
-            $user = Auth::user();
+            $user = User::user();
             if (!($user->tieneRol('Administrador') || 
                   ($user->tieneRol('Instructor') && $evaluacion->curso->id_usuario == $user->id_usuario))) {
                 return response()->json([
@@ -223,7 +224,7 @@ class EvaluacionController extends Controller
             $evaluacion = Evaluacion::findOrFail($id);
             
             // Verificar permisos
-            $user = Auth::user();
+            $user = User::user();
             if (!($user->tieneRol('Administrador') || 
                   ($user->tieneRol('Instructor') && $evaluacion->curso->id_usuario == $user->id_usuario))) {
                 return response()->json([

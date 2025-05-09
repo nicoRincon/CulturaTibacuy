@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -108,8 +109,8 @@ class AuthController extends Controller
         }
 
         // Intentar autenticar al usuario
-        if (Auth::attempt(['num_documento' => $request->num_documento, 'password' => $request->password])) {
-            $user = Auth::user();
+        if (User::attempt(['num_documento' => $request->num_documento, 'password' => $request->password])) {
+            $user = User::user();
             
             // Verificar si el usuario está activo
             if ($user->id_estado != 1) {
@@ -117,8 +118,8 @@ class AuthController extends Controller
                     'message' => 'Usuario inactivo'
                 ], 401);
             }
-            //
-            $token = $user->createToken('auth_token')->plainTextToken;
+            // Revocar tokens anteriores
+            $token = $user->tokenable('auth_token')->plainTextToken;
             
             return response()->json([
                 'message' => 'Inicio de sesión exitoso',
