@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use COM;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Contacto;
+use App\Models\LugarNacimiento;
 
 class RegisterController extends Controller
 {
@@ -50,38 +53,39 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'primer_nombre' => ['required', 'string', 'max:50'],
-            'segundo_nombre' => ['nullable', 'string', 'max:50'],
             'primer_apellido' => ['required', 'string', 'max:50'],
-            'segundo_apellido' => ['nullable', 'string', 'max:50'],
-            'id_documento' => ['required', 'integer', 'exists:documento_de_identificacion,id_documento'],
-            'id_estado' => ['required', 'integer', 'exists:estados,id_estado'],
+            'email' => ['required', 'string', 'email', 'max:100', 'unique:contactos,email'],
             'num_documento' => ['required', 'string', 'max:20', 'unique:usuarios'],
-            'fecha_nacimiento' => ['required', 'date'],
-            'id_lugar_nacimiento' => ['required', 'integer', 'exists:lugar_de_nacimiento,id_lugar_nacimiento'],
-            'id_genero' => ['required', 'integer', 'exists:generos,id_genero'],
-            'id_rol' => ['required', 'integer', 'exists:roles,id_rol'],
-            'id_contacto' => ['nullable', 'integer', 'exists:contactos,id_contacto'],
-            'id_especialidad' => ['nullable', 'integer', 'exists:especialidades,id_especialidad'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
-    
+
     protected function create(array $data)
     {
+        // Primero crear contacto
+        $contacto = Contacto::create([
+            'email' => $data['email'],
+            'telefono' => $data['telefono'] ?? '',
+            'direccion' => $data['direccion'] ?? '',
+        ]);
+        
+        // Crear lugar de nacimiento predeterminado (se puede actualizar después)
+        $lugarNacimiento = LugarNacimiento::first();
+        
         return User::create([
             'primer_nombre' => $data['primer_nombre'],
             'segundo_nombre' => $data['segundo_nombre'] ?? null,
             'primer_apellido' => $data['primer_apellido'],
             'segundo_apellido' => $data['segundo_apellido'] ?? null,
-            'id_documento' => $data['id_documento'],
-            'id_estado' => $data['id_estado'],
+            'id_documento' => 1, // Predeterminado - se puede actualizar luego
+            'id_estado' => 1, // Activo por defecto
             'num_documento' => $data['num_documento'],
-            'fecha_nacimiento' => $data['fecha_nacimiento'],
-            'id_lugar_nacimiento' => $data['id_lugar_nacimiento'],
-            'id_genero' => $data['id_genero'],
-            'id_rol' => $data['id_rol'],
-            'id_contacto' => $data['id_contacto'] ?? null,
-            'id_especialidad' => $data['id_especialidad'] ?? null,
+            'fecha_nacimiento' => $data['fecha_nacimiento'] ?? now()->subYears(18),
+            'id_lugar_nacimiento' => $lugarNacimiento->id_lugar_nacimiento,
+            'id_genero' => 1, // Predeterminado - se puede actualizar luego
+            'id_rol' => 3, // Rol de estudiante por defecto
+            'id_contacto' => $contacto->id_contacto,
+            'id_especialidad' => 1, // Predeterminado - se puede actualizar luego
             'password' => Hash::make($data['password']),
         ]);
     }

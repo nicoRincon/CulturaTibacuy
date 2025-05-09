@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CursoController extends Controller
 {
+// En app/Http/Controllers/CursoController.php
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('role:Administrador|Instructor')->except(['index', 'show']);
     }
     
     /**
@@ -47,36 +49,41 @@ class CursoController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'curso' => 'required|string|max:100',
-            'id_recurso' => 'required|exists:recursos,id_recurso',
-            'id_horario' => 'required|exists:horarios,id_horario',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date|after:fecha_inicio',
-            'objetivo' => 'required|string|max:255',
-            'id_nivel' => 'required|exists:niveles,id_nivel',
-            'cupos' => 'required|integer|min:1',
-            'id_instructor' => 'required|exists:usuarios,id_usuario',
-        ]);
-        
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+        try {
+            $validator = Validator::make($request->all(), [
+                'curso' => 'required|string|max:100',
+                'id_recurso' => 'required|exists:recursos,id_recurso',
+                'id_horario' => 'required|exists:horarios,id_horario',
+                'fecha_inicio' => 'required|date',
+                'fecha_fin' => 'required|date|after:fecha_inicio',
+                'objetivo' => 'required|string|max:255',
+                'id_nivel' => 'required|exists:niveles,id_nivel',
+                'cupos' => 'required|integer|min:1',
+                'id_instructor' => 'required|exists:usuarios,id_usuario',
+            ]);
+            
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+            
+            $curso = Curso::create([
+                'curso' => $request->curso,
+                'id_recurso' => $request->id_recurso,
+                'id_horario' => $request->id_horario,
+                'fecha_inicio' => $request->fecha_inicio,
+                'fecha_fin' => $request->fecha_fin,
+                'objetivo' => $request->objetivo,
+                'id_nivel' => $request->id_nivel,
+                'cupos' => $request->cupos,
+                'cantidad_alumnos' => 0,
+                'id_usuario' => $request->id_instructor,
+            ]);
+            
+            return redirect()->route('cursos.index')->with('success', 'Curso creado exitosamente');
+        } catch (\Exception $e) {
+            \Log::error('Error al crear curso: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Ocurrió un error al crear el curso. Por favor, inténtalo nuevamente.');
         }
-        
-        $curso = Curso::create([
-            'curso' => $request->curso,
-            'id_recurso' => $request->id_recurso,
-            'id_horario' => $request->id_horario,
-            'fecha_inicio' => $request->fecha_inicio,
-            'fecha_fin' => $request->fecha_fin,
-            'objetivo' => $request->objetivo,
-            'id_nivel' => $request->id_nivel,
-            'cupos' => $request->cupos,
-            'cantidad_alumnos' => 0,
-            'id_usuario' => $request->id_instructor,
-        ]);
-        
-        return redirect()->route('cursos.index')->with('success', 'Curso creado exitosamente');
     }
     
     /**
