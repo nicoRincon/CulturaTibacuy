@@ -7,10 +7,9 @@ use App\Models\TipoEscuela;
 use App\Models\Escuela;
 use App\Models\Ubicacion;
 use App\Models\Curso;
-use App\Models\Usuario;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 
 class ProgramaFormacionController extends Controller
 {
@@ -19,7 +18,7 @@ class ProgramaFormacionController extends Controller
         $this->middleware('auth');
         $this->middleware('role:Administrador')->except(['index', 'show']);
     }
-    
+
     /**
      * Muestra un listado de programas de formación.
      */
@@ -28,7 +27,7 @@ class ProgramaFormacionController extends Controller
         $programas = ProgramaFormacion::with(['tipoEscuela', 'escuela', 'ubicacion', 'curso', 'responsable'])->get();
         return view('programas.index', compact('programas'));
     }
-    
+
     /**
      * Muestra el formulario para crear un nuevo programa de formación.
      */
@@ -38,41 +37,41 @@ class ProgramaFormacionController extends Controller
         $escuelas = Escuela::all();
         $ubicaciones = Ubicacion::all();
         $cursos = Curso::all();
-        $responsables = Usuario::whereHas('rol', function($query) {
-            $query->where('Rol', 'Instructor')->orWhere('Rol', 'Administrador');
+        $responsables = User::whereHas('rol', function ($query) {
+            $query->where('rol', 'Instructor')->orWhere('rol', 'Administrador');
         })->get();
-        
+
         return view('programas.create', compact('tiposEscuela', 'escuelas', 'ubicaciones', 'cursos', 'responsables'));
     }
-    
+
     /**
      * Almacena un nuevo programa de formación en la base de datos.
      */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_tipo_escuela' => 'required|exists:Tipos_Escuela,Id_Tipo_Escuela',
-            'id_escuela' => 'required|exists:Escuelas,Id_Escuela',
-            'id_ubicacion' => 'required|exists:Ubicaciones,Id_Ubicacion',
-            'id_curso' => 'required|exists:Cursos,Id_Curso',
-            'id_responsable' => 'required|exists:Usuarios,Id_Usuario',
+            'id_tipo_escuela' => 'required|exists:tipos_escuela,id_tipo_escuela',
+            'id_escuela' => 'required|exists:escuelas,id_escuela',
+            'id_ubicacion' => 'required|exists:ubicaciones,id_ubicacion',
+            'id_curso' => 'required|exists:cursos,id_curso',
+            'id_responsable' => 'required|exists:usuarios,id_usuario',
         ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
-        $programa = ProgramaFormacion::create([
-            'Id_Tipo_Escuela' => $request->id_tipo_escuela,
-            'Id_Escuela' => $request->id_escuela,
-            'Id_Ubicacion' => $request->id_ubicacion,
-            'Id_Curso' => $request->id_curso,
-            'Id_Usuario' => $request->id_responsable,
+
+        ProgramaFormacion::create([
+            'id_tipo_escuela' => $request->id_tipo_escuela,
+            'id_escuela' => $request->id_escuela,
+            'id_ubicacion' => $request->id_ubicacion,
+            'id_curso' => $request->id_curso,
+            'id_usuario' => $request->id_responsable,
         ]);
-        
+
         return redirect()->route('programas.index')->with('success', 'Programa de formación creado exitosamente');
     }
-    
+
     /**
      * Muestra la información de un programa de formación específico.
      */
@@ -81,7 +80,7 @@ class ProgramaFormacionController extends Controller
         $programa = ProgramaFormacion::with(['tipoEscuela', 'escuela', 'ubicacion', 'curso', 'responsable'])->findOrFail($id);
         return view('programas.show', compact('programa'));
     }
-    
+
     /**
      * Muestra el formulario para editar un programa de formación existente.
      */
@@ -92,43 +91,43 @@ class ProgramaFormacionController extends Controller
         $escuelas = Escuela::all();
         $ubicaciones = Ubicacion::all();
         $cursos = Curso::all();
-        $responsables = Usuario::whereHas('rol', function($query) {
-            $query->where('Rol', 'Instructor')->orWhere('Rol', 'Administrador');
+        $responsables = User::whereHas('rol', function ($query) {
+            $query->where('rol', 'Instructor')->orWhere('rol', 'Administrador');
         })->get();
-        
+
         return view('programas.edit', compact('programa', 'tiposEscuela', 'escuelas', 'ubicaciones', 'cursos', 'responsables'));
     }
-    
+
     /**
      * Actualiza la información de un programa de formación existente en la base de datos.
      */
     public function update(Request $request, $id)
     {
         $programa = ProgramaFormacion::findOrFail($id);
-        
+
         $validator = Validator::make($request->all(), [
-            'id_tipo_escuela' => 'required|exists:Tipos_Escuela,Id_Tipo_Escuela',
-            'id_escuela' => 'required|exists:Escuelas,Id_Escuela',
-            'id_ubicacion' => 'required|exists:Ubicaciones,Id_Ubicacion',
-            'id_curso' => 'required|exists:Cursos,Id_Curso',
-            'id_responsable' => 'required|exists:Usuarios,Id_Usuario',
+            'id_tipo_escuela' => 'required|exists:tipos_escuela,id_tipo_escuela',
+            'id_escuela' => 'required|exists:escuelas,id_escuela',
+            'id_ubicacion' => 'required|exists:ubicaciones,id_ubicacion',
+            'id_curso' => 'required|exists:cursos,id_curso',
+            'id_responsable' => 'required|exists:usuarios,id_usuario',
         ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
+
         $programa->update([
-            'Id_Tipo_Escuela' => $request->id_tipo_escuela,
-            'Id_Escuela' => $request->id_escuela,
-            'Id_Ubicacion' => $request->id_ubicacion,
-            'Id_Curso' => $request->id_curso,
-            'Id_Usuario' => $request->id_responsable,
+            'id_tipo_escuela' => $request->id_tipo_escuela,
+            'id_escuela' => $request->id_escuela,
+            'id_ubicacion' => $request->id_ubicacion,
+            'id_curso' => $request->id_curso,
+            'id_usuario' => $request->id_responsable,
         ]);
-        
+
         return redirect()->route('programas.index')->with('success', 'Programa de formación actualizado exitosamente');
     }
-    
+
     /**
      * Elimina un programa de formación de la base de datos.
      */
@@ -136,7 +135,7 @@ class ProgramaFormacionController extends Controller
     {
         $programa = ProgramaFormacion::findOrFail($id);
         $programa->delete();
-        
+
         return redirect()->route('programas.index')->with('success', 'Programa de formación eliminado exitosamente');
     }
 }

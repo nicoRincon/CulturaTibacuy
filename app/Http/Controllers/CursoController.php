@@ -6,7 +6,7 @@ use App\Models\Curso;
 use App\Models\Recurso;
 use App\Models\Horario;
 use App\Models\Nivel;
-use App\Models\Usuario;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -35,9 +35,8 @@ class CursoController extends Controller
         $recursos = Recurso::all();
         $horarios = Horario::all();
         $niveles = Nivel::all();
-        // Solo obtener usuarios con el rol "Instructor"
-        $instructores = Usuario::whereHas('rol', function($query) {
-            $query->where('Rol', 'Instructor');
+        $instructores = User::whereHas('rol', function($query) {
+            $query->where('rol', 'instructor');
         })->get();
         
         return view('cursos.create', compact('recursos', 'horarios', 'niveles', 'instructores'));
@@ -50,14 +49,14 @@ class CursoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'curso' => 'required|string|max:100',
-            'id_recurso' => 'required|exists:Recursos,Id_Recurso',
-            'id_horario' => 'required|exists:Horarios,Id_Horario',
+            'id_recurso' => 'required|exists:recursos,id_recurso',
+            'id_horario' => 'required|exists:horarios,id_horario',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date|after:fecha_inicio',
             'objetivo' => 'required|string|max:255',
-            'id_nivel' => 'required|exists:Niveles,Id_Nivel',
+            'id_nivel' => 'required|exists:niveles,id_nivel',
             'cupos' => 'required|integer|min:1',
-            'id_instructor' => 'required|exists:Usuarios,Id_Usuario',
+            'id_instructor' => 'required|exists:usuarios,id_usuario',
         ]);
         
         if ($validator->fails()) {
@@ -65,16 +64,16 @@ class CursoController extends Controller
         }
         
         $curso = Curso::create([
-            'Curso' => $request->curso,
-            'Id_Recurso' => $request->id_recurso,
-            'Id_Horario' => $request->id_horario,
-            'Fecha_Inicio' => $request->fecha_inicio,
-            'Fecha_Fin' => $request->fecha_fin,
-            'Objetivo' => $request->objetivo,
-            'Id_Nivel' => $request->id_nivel,
-            'Cupos' => $request->cupos,
-            'Cantidad_Alumnos' => 0, // Inicialmente sin alumnos
-            'Id_Usuario' => $request->id_instructor,
+            'curso' => $request->curso,
+            'id_recurso' => $request->id_recurso,
+            'id_horario' => $request->id_horario,
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_fin' => $request->fecha_fin,
+            'objetivo' => $request->objetivo,
+            'id_nivel' => $request->id_nivel,
+            'cupos' => $request->cupos,
+            'cantidad_alumnos' => 0,
+            'id_usuario' => $request->id_instructor,
         ]);
         
         return redirect()->route('cursos.index')->with('success', 'Curso creado exitosamente');
@@ -98,8 +97,8 @@ class CursoController extends Controller
         $recursos = Recurso::all();
         $horarios = Horario::all();
         $niveles = Nivel::all();
-        $instructores = Usuario::whereHas('rol', function($query) {
-            $query->where('Rol', 'Instructor');
+        $instructores = User::whereHas('rol', function($query) {
+            $query->where('rol', 'instructor');
         })->get();
         
         return view('cursos.edit', compact('curso', 'recursos', 'horarios', 'niveles', 'instructores'));
@@ -114,14 +113,14 @@ class CursoController extends Controller
         
         $validator = Validator::make($request->all(), [
             'curso' => 'required|string|max:100',
-            'id_recurso' => 'required|exists:Recursos,Id_Recurso',
-            'id_horario' => 'required|exists:Horarios,Id_Horario',
+            'id_recurso' => 'required|exists:recursos,id_recurso',
+            'id_horario' => 'required|exists:horarios,id_horario',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date|after:fecha_inicio',
             'objetivo' => 'required|string|max:255',
-            'id_nivel' => 'required|exists:Niveles,Id_Nivel',
-            'cupos' => 'required|integer|min:' . $curso->Cantidad_Alumnos,
-            'id_instructor' => 'required|exists:Usuarios,Id_Usuario',
+            'id_nivel' => 'required|exists:niveles,id_nivel',
+            'cupos' => 'required|integer|min:' . $curso->cantidad_alumnos,
+            'id_instructor' => 'required|exists:usuarios,id_usuario',
         ]);
         
         if ($validator->fails()) {
@@ -129,15 +128,15 @@ class CursoController extends Controller
         }
         
         $curso->update([
-            'Curso' => $request->curso,
-            'Id_Recurso' => $request->id_recurso,
-            'Id_Horario' => $request->id_horario,
-            'Fecha_Inicio' => $request->fecha_inicio,
-            'Fecha_Fin' => $request->fecha_fin,
-            'Objetivo' => $request->objetivo,
-            'Id_Nivel' => $request->id_nivel,
-            'Cupos' => $request->cupos,
-            'Id_Usuario' => $request->id_instructor,
+            'curso' => $request->curso,
+            'id_recurso' => $request->id_recurso,
+            'id_horario' => $request->id_horario,
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_fin' => $request->fecha_fin,
+            'objetivo' => $request->objetivo,
+            'id_nivel' => $request->id_nivel,
+            'cupos' => $request->cupos,
+            'id_usuario' => $request->id_instructor,
         ]);
         
         return redirect()->route('cursos.index')->with('success', 'Curso actualizado exitosamente');
@@ -150,8 +149,7 @@ class CursoController extends Controller
     {
         $curso = Curso::findOrFail($id);
         
-        // Verificar si hay estudiantes inscritos
-        if ($curso->Cantidad_Alumnos > 0) {
+        if ($curso->cantidad_alumnos > 0) {
             return redirect()->route('cursos.index')->with('error', 'No se puede eliminar un curso con estudiantes inscritos');
         }
         

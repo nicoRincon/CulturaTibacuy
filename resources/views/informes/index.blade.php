@@ -88,7 +88,7 @@
                         <select name="id_curso" id="id_curso" class="form-select">
                             <option value="">Todos</option>
                             @foreach(App\Models\Curso::all() as $curso)
-                            <option value="{{ $curso->Id_Curso }}">{{ $curso->Curso }}</option>
+                            <option value="{{ $curso->id_curso }}">{{ $curso->curso }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -127,7 +127,7 @@
                         <select name="id_curso" id="id_curso" class="form-select">
                             <option value="">Todos</option>
                             @foreach(App\Models\Curso::all() as $curso)
-                            <option value="{{ $curso->Id_Curso }}">{{ $curso->Curso }}</option>
+                            <option value="{{ $curso->id_curso }}">{{ $curso->curso }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -167,7 +167,7 @@
                         <select name="id_escuela" id="id_escuela" class="form-select">
                             <option value="">Todas</option>
                             @foreach(App\Models\Escuela::all() as $escuela)
-                            <option value="{{ $escuela->Id_Escuela }}">{{ $escuela->Nombre }}</option>
+                            <option value="{{ $escuela->id_escuela }}">{{ $escuela->nombre }}</option>
                             @endforeach
                         </select>
                     </div>

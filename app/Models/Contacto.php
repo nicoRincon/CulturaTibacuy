@@ -9,18 +9,18 @@ class Contacto extends Model
 {
     use HasFactory;
 
-    protected $table = 'Contactos';
-    protected $primaryKey = 'Id_Contacto';
+    protected $table = 'contactos';
+    protected $primaryKey = 'id_contacto';
     public $timestamps = false;
 
     protected $fillable = [
-        'Telefono',
-        'Correo',
-        'Direccion',
+        'telefono',
+        'email',
+        'direccion',
     ];
 
     public function usuarios()
     {
-        return $this->hasMany(Usuario::class, 'Id_Contacto');
+        return $this->hasMany(User::class, 'id_contacto');
     }
 }

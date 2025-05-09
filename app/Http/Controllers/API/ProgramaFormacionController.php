@@ -22,12 +22,12 @@ class ProgramaFormacionController extends Controller
         
         // Filtrar por escuela
         if ($request->has('escuela') && $request->escuela) {
-            $query->where('Id_Escuela', $request->escuela);
+            $query->where('id_escuela', $request->escuela);
         }
         
         // Filtrar por tipo de escuela
         if ($request->has('tipo') && $request->tipo) {
-            $query->where('Id_Tipo_Escuela', $request->tipo);
+            $query->where('id_tipo_escuela', $request->tipo);
         }
         
         $programas = $query->get();
@@ -46,11 +46,11 @@ class ProgramaFormacionController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_tipo_escuela' => 'required|exists:Tipos_Escuela,Id_Tipo_Escuela',
-            'id_escuela' => 'required|exists:Escuelas,Id_Escuela',
-            'id_ubicacion' => 'required|exists:Ubicaciones,Id_Ubicacion',
-            'id_curso' => 'required|exists:Cursos,Id_Curso',
-            'id_responsable' => 'required|exists:Usuarios,Id_Usuario',
+            'id_tipo_escuela' => 'required|exists:tipos_escuela,id_tipo_escuela',
+            'id_escuela' => 'required|exists:escuelas,id_escuela',
+            'id_ubicacion' => 'required|exists:ubicaciones,id_ubicacion',
+            'id_curso' => 'required|exists:cursos,id_curso',
+            'id_responsable' => 'required|exists:usuarios,id_usuario',
         ]);
         
         if ($validator->fails()) {
@@ -59,11 +59,11 @@ class ProgramaFormacionController extends Controller
         
         try {
             $programa = ProgramaFormacion::create([
-                'Id_Tipo_Escuela' => $request->id_tipo_escuela,
-                'Id_Escuela' => $request->id_escuela,
-                'Id_Ubicacion' => $request->id_ubicacion,
-                'Id_Curso' => $request->id_curso,
-                'Id_Usuario' => $request->id_responsable,
+                'id_tipo_escuela' => $request->id_tipo_escuela,
+                'id_escuela' => $request->id_escuela,
+                'id_ubicacion' => $request->id_ubicacion,
+                'id_curso' => $request->id_curso,
+                'id_usuario' => $request->id_responsable,
             ]);
             
             return response()->json([
@@ -112,11 +112,11 @@ class ProgramaFormacionController extends Controller
             $programa = ProgramaFormacion::findOrFail($id);
             
             $validator = Validator::make($request->all(), [
-                'id_tipo_escuela' => 'required|exists:Tipos_Escuela,Id_Tipo_Escuela',
-                'id_escuela' => 'required|exists:Escuelas,Id_Escuela',
-                'id_ubicacion' => 'required|exists:Ubicaciones,Id_Ubicacion',
-                'id_curso' => 'required|exists:Cursos,Id_Curso',
-                'id_responsable' => 'required|exists:Usuarios,Id_Usuario',
+                'id_tipo_escuela' => 'required|exists:tipos_escuela,id_tipo_escuela',
+                'id_escuela' => 'required|exists:escuelas,id_escuela',
+                'id_ubicacion' => 'required|exists:ubicaciones,id_ubicacion',
+                'id_curso' => 'required|exists:cursos,id_curso',
+                'id_responsable' => 'required|exists:usuarios,id_usuario',
             ]);
             
             if ($validator->fails()) {
@@ -124,11 +124,11 @@ class ProgramaFormacionController extends Controller
             }
             
             $programa->update([
-                'Id_Tipo_Escuela' => $request->id_tipo_escuela,
-                'Id_Escuela' => $request->id_escuela,
-                'Id_Ubicacion' => $request->id_ubicacion,
-                'Id_Curso' => $request->id_curso,
-                'Id_Usuario' => $request->id_responsable,
+                'id_tipo_escuela' => $request->id_tipo_escuela,
+                'id_escuela' => $request->id_escuela,
+                'id_ubicacion' => $request->id_ubicacion,
+                'id_curso' => $request->id_curso,
+                'id_usuario' => $request->id_responsable,
             ]);
             
             return response()->json([

@@ -9,16 +9,16 @@ class Ubicacion extends Model
 {
     use HasFactory;
 
-    protected $table = 'Ubicaciones';
-    protected $primaryKey = 'Id_Ubicacion';
+    protected $table = 'ubicaciones';
+    protected $primaryKey = 'id_ubicacion';
     public $timestamps = false;
 
     protected $fillable = [
-        'Ubicacion',
+        'ubicacion',
     ];
 
     public function programas()
     {
-        return $this->hasMany(ProgramaFormacion::class, 'Id_Ubicacion');
+        return $this->hasMany(ProgramaFormacion::class, 'id_ubicacion');
     }
 }

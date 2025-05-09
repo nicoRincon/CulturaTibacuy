@@ -71,8 +71,8 @@
                         <select class="form-select @error('id_documento') is-invalid @enderror" id="id_documento" name="id_documento" required>
                             <option value="">Seleccione...</option>
                             @foreach($documentos as $documento)
-                            <option value="{{ $documento->Id_Documento }}" {{ old('id_documento') == $documento->Id_Documento ? 'selected' : '' }}>
-                                {{ $documento->Tipo_Documento }}
+                            <option value="{{ $documento->id_documento }}" {{ old('id_documento') == $documento->id_documento ? 'selected' : '' }}>
+                                {{ $documento->tipo_documento }}
                             </option>
                             @endforeach
                         </select>
@@ -114,8 +114,8 @@
                         <select class="form-select @error('id_genero') is-invalid @enderror" id="id_genero" name="id_genero" required>
                             <option value="">Seleccione...</option>
                             @foreach($generos as $genero)
-                            <option value="{{ $genero->Id_Genero }}" {{ old('id_genero') == $genero->Id_Genero ? 'selected' : '' }}>
-                                {{ $genero->Genero }}
+                            <option value="{{ $genero->id_genero }}" {{ old('id_genero') == $genero->id_genero ? 'selected' : '' }}>
+                                {{ $genero->genero }}
                             </option>
                             @endforeach
                         </select>
@@ -135,8 +135,8 @@
                         <select class="form-select @error('id_pais') is-invalid @enderror" id="id_pais" name="id_pais" required>
                             <option value="">Seleccione...</option>
                             @foreach($paises as $pais)
-                            <option value="{{ $pais->Id_País }}" {{ old('id_pais') == $pais->Id_País ? 'selected' : '' }}>
-                                {{ $pais->País }}
+                            <option value="{{ $pais->id_pais }}" {{ old('id_pais') == $pais->id_pais ? 'selected' : '' }}>
+                                {{ $pais->pais }}
                             </option>
                             @endforeach
                         </select>
@@ -182,7 +182,7 @@
                         <select class="form-select @error('id_rol') is-invalid @enderror" id="id_rol" name="id_rol" required>
                             <option value="">Seleccione...</option>
                             @foreach($roles as $rol)
-                            <option value="{{ $rol->Id_Rol }}" {{ old('id_rol') == $rol->Id_Rol ? 'selected' : '' }}>
+                            <option value="{{ $rol->id_rol }}" {{ old('id_rol') == $rol->id_rol ? 'selected' : '' }}>
                                 {{ $rol->Rol }}
                             </option>
                             @endforeach
@@ -200,8 +200,8 @@
                         <select class="form-select @error('id_especialidad') is-invalid @enderror" id="id_especialidad" name="id_especialidad" required>
                             <option value="">Seleccione...</option>
                             @foreach($especialidades as $especialidad)
-                            <option value="{{ $especialidad->Id_Especialidad }}" {{ old('id_especialidad') == $especialidad->Id_Especialidad ? 'selected' : '' }}>
-                                {{ $especialidad->Especialidad }}
+                            <option value="{{ $especialidad->id_especialidad }}" {{ old('id_especialidad') == $especialidad->id_especialidad ? 'selected' : '' }}>
+                                {{ $especialidad->especialidad }}
                             </option>
                             @endforeach
                         </select>
@@ -228,9 +228,9 @@
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label for="correo" class="form-label">Correo Electrónico *</label>
-                        <input type="email" class="form-control @error('correo') is-invalid @enderror" id="correo" name="correo" value="{{ old('correo') }}" required>
-                        @error('correo')
+                        <label for="email" class="form-label">Correo Electrónico *</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
+                        @error('email')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -293,7 +293,7 @@
                         $('#id_departamento').empty();
                         $('#id_departamento').append('<option value="">Seleccione un departamento</option>');
                         $.each(data, function(key, value) {
-                            $('#id_departamento').append('<option value="'+ value.Id_Dpto +'">'+ value.Departamento +'</option>');
+                            $('#id_departamento').append('<option value="'+ value.id_dpto +'">'+ value.Departamento +'</option>');
                         });
                         $('#id_municipio').empty();
                         $('#id_municipio').append('<option value="">Seleccione primero un departamento</option>');
@@ -319,7 +319,7 @@
                         $('#id_municipio').empty();
                         $('#id_municipio').append('<option value="">Seleccione un municipio</option>');
                         $.each(data, function(key, value) {
-                            $('#id_municipio').append('<option value="'+ value.Id_Mpio +'">'+ value.Municipio +'</option>');
+                            $('#id_municipio').append('<option value="'+ value.id_mpio +'">'+ value.Municipio +'</option>');
                         });
                     }
                 });

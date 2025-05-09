@@ -8,6 +8,8 @@ use App\Http\Controllers\API\InscripcionController;
 use App\Http\Controllers\API\EvaluacionController;
 use App\Http\Controllers\API\ProgramaFormacionController;
 use App\Http\Controllers\API\EscuelaController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UsuarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +22,8 @@ use App\Http\Controllers\API\EscuelaController;
 
 // Rutas públicas
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [RegisterController::class, 'register']);
+
 
 // Rutas protegidas con Sanctum
 Route::middleware('auth:sanctum')->group(function () {
@@ -68,4 +71,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/escuelas/{id}', [EscuelaController::class, 'update']);
         Route::delete('/escuelas/{id}', [EscuelaController::class, 'destroy']);
     });
+
+    Route::get('/buscar-usuario/{email}', [UsuarioController::class, 'buscarPorEmail']);
 });

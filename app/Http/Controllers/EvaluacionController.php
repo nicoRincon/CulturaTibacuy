@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Evaluacion;
 use App\Models\NotaFinal;
 use App\Models\Curso;
-use App\Models\Usuario;
 use App\Models\Inscripcion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EvaluacionController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -28,14 +28,14 @@ class EvaluacionController extends Controller
         // Si es estudiante, mostrar solo sus evaluaciones
         if ($user->tieneRol('Estudiante')) {
             $evaluaciones = Evaluacion::with(['curso', 'usuario'])
-                ->where('Id_Usuario', $user->Id_Usuario)
+                ->where('id_usuario', $user->id_usuario)
                 ->get();
         } 
         // Si es instructor, mostrar las evaluaciones de sus cursos
         else if ($user->tieneRol('Instructor')) {
             $evaluaciones = Evaluacion::with(['curso', 'usuario'])
                 ->whereHas('curso', function($query) use ($user) {
-                    $query->where('Id_Usuario', $user->Id_Usuario);
+                    $query->where('id_usuario', $user->id_usuario);
                 })
                 ->get();
         } 
@@ -61,7 +61,7 @@ class EvaluacionController extends Controller
         
         // Si es instructor, mostrar solo sus cursos
         if ($user->tieneRol('Instructor')) {
-            $cursos = Curso::where('Id_Usuario', $user->Id_Usuario)->get();
+            $cursos = Curso::where('id_usuario', $user->id_usuario)->get();
         } else {
             $cursos = Curso::all();
         }
@@ -75,13 +75,13 @@ class EvaluacionController extends Controller
     public function getEstudiantes(Request $request)
     {
         $estudiantes = Inscripcion::with('usuario')
-            ->where('Id_Curso', $request->id_curso)
+            ->where('id_curso', $request->id_curso)
             ->get()
             ->map(function ($inscripcion) {
                 return [
-                    'id' => $inscripcion->usuario->Id_Usuario,
-                    'nombre' => $inscripcion->usuario->Primer_Nombre . ' ' . $inscripcion->usuario->Primer_Apellido,
-                    'documento' => $inscripcion->usuario->Num_Documento,
+                    'id' => $inscripcion->usuario->id_usuario,
+                    'nombre' => $inscripcion->usuario->primer_nombre . ' ' . $inscripcion->usuario->primer_apellido,
+                    'documento' => $inscripcion->usuario->num_documento,
                 ];
             });
             
@@ -94,8 +94,8 @@ class EvaluacionController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_curso' => 'required|exists:Cursos,Id_Curso',
-            'id_usuario' => 'required|exists:Usuarios,Id_Usuario',
+            'id_curso' => 'required|exists:Cursos,id_curso',
+            'id_usuario' => 'required|exists:usuarios,id_usuario',
             'nota' => 'required|numeric|min:0|max:5',
             'comentarios' => 'nullable|string|max:255',
         ]);
@@ -105,8 +105,8 @@ class EvaluacionController extends Controller
         }
         
         // Verificar si el estudiante está inscrito en el curso
-        $inscripcion = Inscripcion::where('Id_Usuario', $request->id_usuario)
-            ->where('Id_Curso', $request->id_curso)
+        $inscripcion = Inscripcion::where('id_usuario', $request->id_usuario)
+            ->where('id_curso', $request->id_curso)
             ->first();
             
         if (!$inscripcion) {
@@ -115,17 +115,17 @@ class EvaluacionController extends Controller
         
         // Crear la evaluación
         $evaluacion = Evaluacion::create([
-            'Id_Usuario' => $request->id_usuario,
-            'Id_Curso' => $request->id_curso,
-            'Fecha_Evaluacion' => now(),
-            'Nota' => $request->nota,
-            'Comentarios' => $request->comentarios,
+            'id_usuario' => $request->id_usuario,
+            'id_curso' => $request->id_curso,
+            'fecha_evaluacion' => now(),
+            'nota' => $request->nota,
+            'comentarios' => $request->comentarios,
         ]);
         
         // Actualizar o crear la nota final
         $notaFinal = NotaFinal::updateOrCreate(
-            ['Id_Usuario' => $request->id_usuario, 'Id_Curso' => $request->id_curso],
-            ['Nota_Final' => $this->calcularNotaFinal($request->id_usuario, $request->id_curso)]
+            ['id_usuario' => $request->id_usuario, 'id_curso' => $request->id_curso],
+            ['nota_final' => $this->calcularNotaFinal($request->id_usuario, $request->id_curso)]
         );
         
         return redirect()->route('evaluaciones.index')->with('success', 'Evaluación registrada exitosamente');
@@ -149,7 +149,7 @@ class EvaluacionController extends Controller
         $user = Auth::user();
         
         // Solo el instructor del curso o un administrador puede editar la evaluación
-        if (!($user->tieneRol('Administrador') || ($user->tieneRol('Instructor') && $evaluacion->curso->Id_Usuario == $user->Id_Usuario))) {
+        if (!($user->tieneRol('Administrador') || ($user->tieneRol('Instructor') && $evaluacion->curso->id_usuario == $user->id_usuario))) {
             return redirect()->route('evaluaciones.index')->with('error', 'No tienes permiso para editar esta evaluación');
         }
         
@@ -174,15 +174,15 @@ class EvaluacionController extends Controller
         
         // Actualizar la evaluación
         $evaluacion->update([
-            'Nota' => $request->nota,
-            'Comentarios' => $request->comentarios,
-            'Fecha_Evaluacion' => now(),
+            'nota' => $request->nota,
+            'comentarios' => $request->comentarios,
+            'fecha_evaluacion' => now(),
         ]);
         
         // Actualizar la nota final
         $notaFinal = NotaFinal::updateOrCreate(
-            ['Id_Usuario' => $evaluacion->Id_Usuario, 'Id_Curso' => $evaluacion->Id_Curso],
-            ['Nota_Final' => $this->calcularNotaFinal($evaluacion->Id_Usuario, $evaluacion->Id_Curso)]
+            ['id_usuario' => $evaluacion->id_usuario, 'id_curso' => $evaluacion->id_curso],
+            ['nota_final' => $this->calcularNotaFinal($evaluacion->id_usuario, $evaluacion->id_curso)]
         );
         
         return redirect()->route('evaluaciones.index')->with('success', 'Evaluación actualizada exitosamente');
@@ -194,16 +194,16 @@ class EvaluacionController extends Controller
     public function destroy($id)
     {
         $evaluacion = Evaluacion::findOrFail($id);
-        $id_usuario = $evaluacion->Id_Usuario;
-        $id_curso = $evaluacion->Id_Curso;
+        $id_usuario = $evaluacion->id_usuario;
+        $id_curso = $evaluacion->id_curso;
         
         // Eliminar la evaluación
         $evaluacion->delete();
         
         // Actualizar la nota final
         $notaFinal = NotaFinal::updateOrCreate(
-            ['Id_Usuario' => $id_usuario, 'Id_Curso' => $id_curso],
-            ['Nota_Final' => $this->calcularNotaFinal($id_usuario, $id_curso)]
+            ['id_usuario' => $id_usuario, 'id_curso' => $id_curso],
+            ['nota_final' => $this->calcularNotaFinal($id_usuario, $id_curso)]
         );
         
         return redirect()->route('evaluaciones.index')->with('success', 'Evaluación eliminada exitosamente');
@@ -214,8 +214,8 @@ class EvaluacionController extends Controller
      */
     private function calcularNotaFinal($id_usuario, $id_curso)
     {
-        $evaluaciones = Evaluacion::where('Id_Usuario', $id_usuario)
-            ->where('Id_Curso', $id_curso)
+        $evaluaciones = Evaluacion::where('id_usuario', $id_usuario)
+            ->where('id_curso', $id_curso)
             ->get();
             
         if ($evaluaciones->isEmpty()) {

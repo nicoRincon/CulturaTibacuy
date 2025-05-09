@@ -9,27 +9,27 @@ class ListaEspera extends Model
 {
     use HasFactory;
 
-    protected $table = 'Lista_de_Espera';
-    protected $primaryKey = 'Id_Lista_Espera';
+    protected $table = 'lista_de_espera';
+    protected $primaryKey = 'id_lista_espera';
     public $timestamps = false;
 
     protected $fillable = [
-        'Id_Usuario',
-        'Id_Curso',
-        'Fecha_Solicitud',
+        'id_usuario',
+        'id_curso',
+        'fecha_solicitud',
     ];
 
     protected $dates = [
-        'Fecha_Solicitud',
+        'fecha_solicitud',
     ];
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'Id_Usuario');
+        return $this->belongsTo(User::class, 'id_usuario');
     }
 
     public function curso()
     {
-        return $this->belongsTo(Curso::class, 'Id_Curso');
+        return $this->belongsTo(Curso::class, 'id_curso');
     }
 }

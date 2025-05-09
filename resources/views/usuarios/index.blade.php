@@ -27,13 +27,13 @@
                 <tbody>
                     @foreach($usuarios as $usuario)
                     <tr>
-                        <td>{{ $usuario->Id_Usuario }}</td>
-                        <td>{{ $usuario->Primer_Nombre }} {{ $usuario->Primer_Apellido }}</td>
-                        <td>{{ $usuario->documento->Tipo_Documento }}: {{ $usuario->Num_Documento }}</td>
-                        <td>{{ $usuario->rol->Rol }}</td>
-                        <td>{{ $usuario->contacto->Correo }}</td>
+                        <td>{{ $usuario->id_usuario }}</td>
+                        <td>{{ $usuario->primer_nombre }} {{ $usuario->primer_apellido }}</td>
+                        <td>{{ $usuario->documento->tipo_documento }}: {{ $usuario->num_documento }}</td>
+                        <td>{{ $usuario->rol->rol }}</td>
+                        <td>{{ $usuario->contacto->email }}</td>
                         <td>
-                            @if($usuario->Id_Estado == 1)
+                            @if($usuario->id_estado == 1)
                             <span class="badge bg-success">Activo</span>
                             @else
                             <span class="badge bg-danger">Inactivo</span>
@@ -41,31 +41,31 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a href="{{ route('usuarios.show', $usuario->Id_Usuario) }}" class="btn btn-sm btn-info">
+                                <a href="{{ route('usuarios.show', $usuario->id_usuario) }}" class="btn btn-sm btn-info">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ route('usuarios.edit', $usuario->Id_Usuario) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route('usuarios.edit', $usuario->id_usuario) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $usuario->Id_Usuario }}">
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $usuario->id_usuario }}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
                             
                             <!-- Modal de eliminación -->
-                            <div class="modal fade" id="deleteModal{{ $usuario->Id_Usuario }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $usuario->Id_Usuario }}" aria-hidden="true">
+                            <div class="modal fade" id="deleteModal{{ $usuario->id_usuario }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $usuario->id_usuario }}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel{{ $usuario->Id_Usuario }}">Confirmar Eliminación</h5>
+                                            <h5 class="modal-title" id="deleteModalLabel{{ $usuario->id_usuario }}">Confirmar Eliminación</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            ¿Está seguro de que desea eliminar al usuario {{ $usuario->Primer_Nombre }} {{ $usuario->Primer_Apellido }}?
+                                            ¿Está seguro de que desea eliminar al usuario {{ $usuario->primer_nombre }} {{ $usuario->primer_apellido }}?
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <form action="{{ route('usuarios.destroy', $usuario->Id_Usuario) }}" method="POST">
+                                            <form action="{{ route('usuarios.destroy', $usuario->id_usuario) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">Eliminar</button>

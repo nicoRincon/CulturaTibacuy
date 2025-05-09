@@ -9,71 +9,71 @@ class Curso extends Model
 {
     use HasFactory;
 
-    protected $table = 'Cursos';
-    protected $primaryKey = 'Id_Curso';
+    protected $table = 'cursos';
+    protected $primaryKey = 'id_curso';
     public $timestamps = false;
 
     protected $fillable = [
-        'Curso',
-        'Id_Recurso',
-        'Id_Horario',
-        'Fecha_Inicio',
-        'Fecha_Fin',
-        'Objetivo',
-        'Id_Nivel',
-        'Cupos',
-        'Cantidad_Alumnos',
-        'Id_Usuario', // Instructor
+        'curso',
+        'id_recurso',
+        'id_horario',
+        'fecha_inicio',
+        'fecha_fin',
+        'objetivo',
+        'id_nivel',
+        'cupos',
+        'cantidad_alumnos',
+        'id_usuario', // Instructor
     ];
 
     protected $dates = [
-        'Fecha_Inicio',
-        'Fecha_Fin',
+        'fecha_inicio',
+        'fecha_fin',
     ];
 
     public function recurso()
     {
-        return $this->belongsTo(Recurso::class, 'Id_Recurso');
+        return $this->belongsTo(Recurso::class, 'id_recurso');
     }
 
     public function horario()
     {
-        return $this->belongsTo(Horario::class, 'Id_Horario');
+        return $this->belongsTo(Horario::class, 'id_horario');
     }
 
     public function nivel()
     {
-        return $this->belongsTo(Nivel::class, 'Id_Nivel');
+        return $this->belongsTo(Nivel::class, 'id_nivel');
     }
 
     public function instructor()
     {
-        return $this->belongsTo(Usuario::class, 'Id_Usuario');
+        return $this->belongsTo(User::class, 'id_usuario');
     }
 
     public function inscripciones()
     {
-        return $this->hasMany(Inscripcion::class, 'Id_Curso');
+        return $this->hasMany(Inscripcion::class, 'id_curso');
     }
 
     public function evaluaciones()
     {
-        return $this->hasMany(Evaluacion::class, 'Id_Curso');
+        return $this->hasMany(Evaluacion::class, 'id_curso');
     }
 
     public function notasFinales()
     {
-        return $this->hasMany(NotaFinal::class, 'Id_Curso');
+        return $this->hasMany(NotaFinal::class, 'id_curso');
     }
 
     public function programas()
     {
-        return $this->hasMany(ProgramaFormacion::class, 'Id_Curso');
+        return $this->hasMany(ProgramaFormacion::class, 'id_curso');
     }
 
     public function cuposDisponibles()
     {
-        return $this->Cupos - $this->Cantidad_Alumnos;
+        return $this->cupos - $this->cantidad_alumnos;
     }
 
     public function tieneDisponibilidad()

@@ -9,16 +9,16 @@ class Estado extends Model
 {
     use HasFactory;
 
-    protected $table = 'Estados';
-    protected $primaryKey = 'Id_Estado';
+    protected $table = 'estados';
+    protected $primaryKey = 'id_estado';
     public $timestamps = false;
 
     protected $fillable = [
-        'Estado',
+        'estado',
     ];
 
     public function usuarios()
     {
-        return $this->hasMany(Usuario::class, 'Id_Estado');
+        return $this->hasMany(User::class, 'id_estado');
     }
 }

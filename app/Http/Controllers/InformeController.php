@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
+use App\Models\User;
 use App\Models\Curso;
 use App\Models\Inscripcion;
 use App\Models\Evaluacion;
@@ -46,7 +46,7 @@ class InformeController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         
-        $query = Usuario::with(['documento', 'genero', 'rol', 'especialidad', 'contacto']);
+        $query = User::with(['documento', 'genero', 'rol', 'especialidad', 'contacto']);
         
         // Filtro por tipo de usuario (rol)
         if ($request->tipo_usuario != 'todos') {
@@ -57,7 +57,7 @@ class InformeController extends Controller
             ];
             
             $query->whereHas('rol', function($q) use ($rolMap, $request) {
-                $q->where('Rol', $rolMap[$request->tipo_usuario]);
+                $q->where('rol', $rolMap[$request->tipo_usuario]);
             });
         }
         
@@ -68,7 +68,7 @@ class InformeController extends Controller
                 'inactivos' => 2, // ID del estado "Inactivo"
             ];
             
-            $query->where('Id_Estado', $estadoMap[$request->estado]);
+            $query->where('id_estado', $estadoMap[$request->estado]);
         }
         
         $usuarios = $query->get();
@@ -108,14 +108,14 @@ class InformeController extends Controller
             $today = now()->format('Y-m-d');
             
             if ($request->estado_curso == 'activos') {
-                $query->where('Fecha_Inicio', '<=', $today)
-                      ->where('Fecha_Fin', '>=', $today);
+                $query->where('fecha_inicio', '<=', $today)
+                      ->where('fecha_fin', '>=', $today);
             } 
             else if ($request->estado_curso == 'finalizados') {
-                $query->where('Fecha_Fin', '<', $today);
+                $query->where('fecha_fin', '<', $today);
             } 
             else if ($request->estado_curso == 'proximos') {
-                $query->where('Fecha_Inicio', '>', $today);
+                $query->where('fecha_inicio', '>', $today);
             }
         }
         
@@ -141,7 +141,7 @@ class InformeController extends Controller
     public function inscripcionesInforme(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_curso' => 'nullable|exists:Cursos,Id_Curso',
+            'id_curso' => 'nullable|exists:cursos,id_curso',
             'fecha_desde' => 'nullable|date',
             'fecha_hasta' => 'nullable|date|after_or_equal:fecha_desde',
             'formato' => 'required|in:web,pdf,excel',
@@ -155,7 +155,7 @@ class InformeController extends Controller
         
         // Filtro por curso
         if ($request->filled('id_curso')) {
-            $query->where('Id_Curso', $request->id_curso);
+            $query->where('id_curso', $request->id_curso);
         }
         
         // Filtro por fecha
@@ -189,7 +189,7 @@ class InformeController extends Controller
     public function evaluacionesInforme(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_curso' => 'nullable|exists:Cursos,Id_Curso',
+            'id_curso' => 'nullable|exists:cursos,id_curso',
             'fecha_desde' => 'nullable|date',
             'fecha_hasta' => 'nullable|date|after_or_equal:fecha_desde',
             'formato' => 'required|in:web,pdf,excel',
@@ -203,16 +203,16 @@ class InformeController extends Controller
         
         // Filtro por curso
         if ($request->filled('id_curso')) {
-            $query->where('Id_Curso', $request->id_curso);
+            $query->where('id_curso', $request->id_curso);
         }
         
         // Filtro por fecha
         if ($request->filled('fecha_desde')) {
-            $query->where('Fecha_Evaluacion', '>=', $request->fecha_desde);
+            $query->where('fecha_evaluacion', '>=', $request->fecha_desde);
         }
         
         if ($request->filled('fecha_hasta')) {
-            $query->where('Fecha_Evaluacion', '<=', $request->fecha_hasta);
+            $query->where('fecha_evaluacion', '<=', $request->fecha_hasta);
         }
         
         $evaluaciones = $query->get();
@@ -239,20 +239,20 @@ class InformeController extends Controller
         $user = Auth::user();
         
         // Obtener inscripciones del estudiante
-        $inscripciones = Inscripcion::where('Id_Usuario', $user->Id_Usuario)
+        $inscripciones = Inscripcion::where('id_usuario', $user->id_usuario)
             ->with('curso')
             ->get();
             
         // Obtener evaluaciones del estudiante
-        $evaluaciones = Evaluacion::where('Id_Usuario', $user->Id_Usuario)
+        $evaluaciones = Evaluacion::where('id_usuario', $user->id_usuario)
             ->with('curso')
             ->get();
             
         // Obtener notas finales
-        $notasFinales = DB::table('Nota_Final')
-            ->join('Cursos', 'Nota_Final.Id_Curso', '=', 'Cursos.Id_Curso')
-            ->select('Cursos.Curso', 'Nota_Final.Nota_Final')
-            ->where('Nota_Final.Id_Usuario', $user->Id_Usuario)
+        $notasFinales = DB::table('nota_final')
+            ->join('cursos', 'nota_final.id_curso', '=', 'cursos.id_curso')
+            ->select('cursos.curso', 'nota_final.nota_final')
+            ->where('nota_final.id_usuario', $user->id_usuario)
             ->get();
             
         $pdf = PDF::loadView('informes.estudiante_pdf', compact('user', 'inscripciones', 'evaluaciones', 'notasFinales'));
@@ -265,7 +265,7 @@ class InformeController extends Controller
     public function programasInforme(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_escuela' => 'nullable|exists:Escuelas,Id_Escuela',
+            'id_escuela' => 'nullable|exists:escuelas,id_escuela',
             'formato' => 'required|in:web,pdf,excel',
         ]);
         
@@ -277,7 +277,7 @@ class InformeController extends Controller
         
         // Filtro por escuela
         if ($request->filled('id_escuela')) {
-            $query->where('Id_Escuela', $request->id_escuela);
+            $query->where('id_escuela', $request->id_escuela);
         }
         
         $programas = $query->get();

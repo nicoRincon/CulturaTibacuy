@@ -9,26 +9,26 @@ class Pais extends Model
 {
     use HasFactory;
 
-    protected $table = 'Pais';
-    protected $primaryKey = 'Id_Pais';
+    protected $table = 'pais';
+    protected $primaryKey = 'id_pais';
     public $timestamps = false;
 
     protected $fillable = [
-        'Pais',
+        'pais',
     ];
 
     public function departamentos()
     {
-        return $this->hasMany(Departamento::class, 'Id_Pais');
+        return $this->hasMany(Departamento::class, 'id_pais');
     }
 
     public function municipios()
     {
-        return $this->hasMany(Municipio::class, 'Id_Pais');
+        return $this->hasMany(Municipio::class, 'id_pais');
     }
 
     public function lugaresNacimiento()
     {
-        return $this->hasMany(LugarNacimiento::class, 'Id_Pais');
+        return $this->hasMany(LugarNacimiento::class, 'id_pais');
     }
 }

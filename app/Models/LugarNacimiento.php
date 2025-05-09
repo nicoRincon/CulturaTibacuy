@@ -9,33 +9,33 @@ class LugarNacimiento extends Model
 {
     use HasFactory;
 
-    protected $table = 'Lugar_de_Nacimiento';
-    protected $primaryKey = 'Id_L_Nacimiento';
+    protected $table = 'lugar_de_nacimiento';
+    protected $primaryKey = 'id_lugar_nacimiento';
     public $timestamps = false;
 
     protected $fillable = [
-        'Id_Pais',
-        'Id_Dpto',
-        'Id_Mpio',
+        'id_pais',
+        'id_dpto',
+        'id_mpio',
     ];
 
     public function pais()
     {
-        return $this->belongsTo(Pais::class, 'Id_Pais');
+        return $this->belongsTo(Pais::class, 'id_pais');
     }
 
     public function departamento()
     {
-        return $this->belongsTo(Departamento::class, 'Id_Dpto');
+        return $this->belongsTo(Departamento::class, 'id_dpto');
     }
 
     public function municipio()
     {
-        return $this->belongsTo(Municipio::class, 'Id_Mpio');
+        return $this->belongsTo(Municipio::class, 'id_mpio');
     }
 
     public function usuarios()
     {
-        return $this->hasMany(Usuario::class, 'Id_L_Nacimiento');
+        return $this->hasMany(User::class, 'id_lugar_nacimiento');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Inscripcion;
 use App\Models\Curso;
 use App\Models\ListaEspera;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -19,19 +20,19 @@ class InscripcionController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        $user = User::user();
         
         // Si es estudiante, mostrar solo sus inscripciones
         if ($user->tieneRol('Estudiante')) {
             $inscripciones = Inscripcion::with(['curso', 'usuario'])
-                ->where('Id_Usuario', $user->Id_Usuario)
+                ->where('id_usuario', $user->id_usuario)
                 ->get();
         } 
         // Si es instructor, mostrar las inscripciones a sus cursos
         else if ($user->tieneRol('Instructor')) {
             $inscripciones = Inscripcion::with(['curso', 'usuario'])
                 ->whereHas('curso', function($query) use ($user) {
-                    $query->where('Id_Usuario', $user->Id_Usuario);
+                    $query->where('id_usuario', $user->id_usuario);
                 })
                 ->get();
         } 
@@ -53,21 +54,21 @@ class InscripcionController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
+        $user = User::user();
         
         // Validación para estudiantes
         if ($user->tieneRol('Estudiante')) {
             $validator = Validator::make($request->all(), [
-                'id_curso' => 'required|exists:Cursos,Id_Curso',
+                'id_curso' => 'required|exists:cursos,id_curso',
             ]);
             
-            $id_usuario = $user->Id_Usuario;
+            $id_usuario = $user->id_usuario;
         } 
         // Validación para administradores e instructores
         else {
             $validator = Validator::make($request->all(), [
-                'id_usuario' => 'required|exists:Usuarios,Id_Usuario',
-                'id_curso' => 'required|exists:Cursos,Id_Curso',
+                'id_usuario' => 'required|exists:usuarios,id_usuario',
+                'id_curso' => 'required|exists:cursos,id_curso',
             ]);
             
             $id_usuario = $request->id_usuario;
@@ -81,8 +82,8 @@ class InscripcionController extends Controller
             $curso = Curso::findOrFail($request->id_curso);
             
             // Verificar si ya está inscrito
-            $inscripcionExistente = Inscripcion::where('Id_Usuario', $id_usuario)
-                ->where('Id_Curso', $request->id_curso)
+            $inscripcionExistente = Inscripcion::where('id_usuario', $id_usuario)
+                ->where('id_curso', $request->id_curso)
                 ->first();
                 
             if ($inscripcionExistente) {
@@ -94,8 +95,8 @@ class InscripcionController extends Controller
             // Verificar si el curso tiene cupos disponibles
             if ($curso->Cantidad_Alumnos >= $curso->Cupos) {
                 // Verificar si ya está en lista de espera
-                $listaEsperaExistente = ListaEspera::where('Id_Usuario', $id_usuario)
-                    ->where('Id_Curso', $request->id_curso)
+                $listaEsperaExistente = ListaEspera::where('id_usuario', $id_usuario)
+                    ->where('id_curso', $request->id_curso)
                     ->first();
                     
                 if ($listaEsperaExistente) {
@@ -106,9 +107,9 @@ class InscripcionController extends Controller
                 
                 // Agregar a lista de espera
                 $listaEspera = ListaEspera::create([
-                    'Id_Usuario' => $id_usuario,
-                    'Id_Curso' => $request->id_curso,
-                    'Fecha_Solicitud' => now(),
+                    'id_usuario' => $id_usuario,
+                    'id_curso' => $request->id_curso,
+                    'fecha_solicitud' => now(),
                 ]);
                 
                 return response()->json([
@@ -119,7 +120,7 @@ class InscripcionController extends Controller
             
             // Verificar si el estudiante tiene más de 2 inscripciones activas (solo para roles estudiante)
             if ($user->tieneRol('Estudiante')) {
-                $inscripcionesActivas = Inscripcion::where('Id_Usuario', $id_usuario)->count();
+                $inscripcionesActivas = Inscripcion::where('id_usuario', $id_usuario)->count();
                 
                 if ($inscripcionesActivas >= 2) {
                     return response()->json([
@@ -130,14 +131,14 @@ class InscripcionController extends Controller
             
             // Crear la inscripción
             $inscripcion = Inscripcion::create([
-                'Id_Usuario' => $id_usuario,
-                'Id_Curso' => $request->id_curso,
-                'Fecha_Inscripcion' => now(),
+                'id_usuario' => $id_usuario,
+                'id_curso' => $request->id_curso,
+                'fecha_inscripcion' => now(),
             ]);
             
             // Actualizar cantidad de alumnos en el curso
             $curso->update([
-                'Cantidad_Alumnos' => $curso->Cantidad_Alumnos + 1,
+                'cantidad_alumnos' => $curso->cantidad_alumnos + 1,
             ]);
             
             return response()->json([
@@ -165,9 +166,9 @@ class InscripcionController extends Controller
             $curso = $inscripcion->curso;
             
             // Verificar permisos
-            $user = Auth::user();
+            $user = User::user();
             if (!($user->tieneRol('Administrador') || $user->tieneRol('Instructor') || 
-                ($user->tieneRol('Estudiante') && $inscripcion->Id_Usuario == $user->Id_Usuario))) {
+                ($user->tieneRol('Estudiante') && $inscripcion->id_usuario == $user->id_usuario))) {
                 return response()->json([
                     'message' => 'No tienes permiso para eliminar esta inscripción'
                 ], 403);
@@ -178,25 +179,25 @@ class InscripcionController extends Controller
             
             // Actualizar cantidad de alumnos en el curso
             $curso->update([
-                'Cantidad_Alumnos' => $curso->Cantidad_Alumnos - 1,
+                'cantidad_alumnos' => $curso->cantidad_alumnos - 1,
             ]);
             
             // Verificar si hay estudiantes en lista de espera
-            $listaEspera = ListaEspera::where('Id_Curso', $curso->Id_Curso)
-                ->orderBy('Fecha_Solicitud', 'asc')
+            $listaEspera = ListaEspera::where('id_curso', $curso->id_curso)
+                ->orderBy('fecha_solicitud', 'asc')
                 ->first();
                 
             if ($listaEspera) {
                 // Inscribir al primer estudiante de la lista de espera
                 $nuevaInscripcion = Inscripcion::create([
-                    'Id_Usuario' => $listaEspera->Id_Usuario,
-                    'Id_Curso' => $listaEspera->Id_Curso,
-                    'Fecha_Inscripcion' => now(),
+                    'id_usuario' => $listaEspera->id_usuario,
+                    'id_curso' => $listaEspera->id_curso,
+                    'fecha_inscripcion' => now(),
                 ]);
                 
                 // Actualizar cantidad de alumnos en el curso
                 $curso->update([
-                    'Cantidad_Alumnos' => $curso->Cantidad_Alumnos + 1,
+                    'cantidad_alumnos' => $curso->cantidad_alumnos + 1,
                 ]);
                 
                 // Eliminar de la lista de espera

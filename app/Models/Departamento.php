@@ -9,27 +9,27 @@ class Departamento extends Model
 {
     use HasFactory;
 
-    protected $table = 'Departamentos';
-    protected $primaryKey = 'Id_Dpto';
+    protected $table = 'departamentos';
+    protected $primaryKey = 'id_dpto';
     public $timestamps = false;
 
     protected $fillable = [
-        'Id_Pais',
-        'Departamento',
+        'id_pais',
+        'departamento',
     ];
 
     public function pais()
     {
-        return $this->belongsTo(Pais::class, 'Id_Pais');
+        return $this->belongsTo(Pais::class, 'id_pais');
     }
 
     public function municipios()
     {
-        return $this->hasMany(Municipio::class, 'Id_Dpto');
+        return $this->hasMany(Municipio::class, 'id_dpto');
     }
 
     public function lugaresNacimiento()
     {
-        return $this->hasMany(LugarNacimiento::class, 'Id_Dpto');
+        return $this->hasMany(LugarNacimiento::class, 'id_dpto');
     }
 }

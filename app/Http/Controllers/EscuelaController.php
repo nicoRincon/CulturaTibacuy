@@ -47,8 +47,8 @@ class EscuelaController extends Controller
         }
         
         $escuela = Escuela::create([
-            'Nombre' => $request->nombre,
-            'Descripcion' => $request->descripcion,
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
         ]);
         
         return redirect()->route('escuelas.index')->with('success', 'Escuela creada exitosamente');
@@ -89,8 +89,8 @@ class EscuelaController extends Controller
         }
         
         $escuela->update([
-            'Nombre' => $request->nombre,
-            'Descripcion' => $request->descripcion,
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
         ]);
         
         return redirect()->route('escuelas.index')->with('success', 'Escuela actualizada exitosamente');

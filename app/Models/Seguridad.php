@@ -9,22 +9,22 @@ class Seguridad extends Model
 {
     use HasFactory;
 
-    protected $table = 'Seguridad';
-    protected $primaryKey = 'Id';
+    protected $table = 'seguridad';
+    protected $primaryKey = 'id_seguridad';
     public $timestamps = false;
 
     protected $fillable = [
-        'Id_Usuario',
-        'Accion',
-        'Fecha',
+        'id_usuario',
+        'accion',
+        'fecha',
     ];
 
     protected $dates = [
-        'Fecha',
+        'fecha',
     ];
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'Id_Usuario');
+        return $this->belongsTo(User::class, 'id_usuario');
     }
 }

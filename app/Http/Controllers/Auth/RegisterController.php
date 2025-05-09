@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -49,23 +49,39 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'primer_nombre' => ['required', 'string', 'max:50'],
+            'segundo_nombre' => ['nullable', 'string', 'max:50'],
+            'primer_apellido' => ['required', 'string', 'max:50'],
+            'segundo_apellido' => ['nullable', 'string', 'max:50'],
+            'id_documento' => ['required', 'integer', 'exists:documento_de_identificacion,id_documento'],
+            'id_estado' => ['required', 'integer', 'exists:estados,id_estado'],
+            'num_documento' => ['required', 'string', 'max:20', 'unique:usuarios'],
+            'fecha_nacimiento' => ['required', 'date'],
+            'id_lugar_nacimiento' => ['required', 'integer', 'exists:lugar_de_nacimiento,id_lugar_nacimiento'],
+            'id_genero' => ['required', 'integer', 'exists:generos,id_genero'],
+            'id_rol' => ['required', 'integer', 'exists:roles,id_rol'],
+            'id_contacto' => ['nullable', 'integer', 'exists:contactos,id_contacto'],
+            'id_especialidad' => ['nullable', 'integer', 'exists:especialidades,id_especialidad'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
+    
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'primer_nombre' => $data['primer_nombre'],
+            'segundo_nombre' => $data['segundo_nombre'] ?? null,
+            'primer_apellido' => $data['primer_apellido'],
+            'segundo_apellido' => $data['segundo_apellido'] ?? null,
+            'id_documento' => $data['id_documento'],
+            'id_estado' => $data['id_estado'],
+            'num_documento' => $data['num_documento'],
+            'fecha_nacimiento' => $data['fecha_nacimiento'],
+            'id_lugar_nacimiento' => $data['id_lugar_nacimiento'],
+            'id_genero' => $data['id_genero'],
+            'id_rol' => $data['id_rol'],
+            'id_contacto' => $data['id_contacto'] ?? null,
+            'id_especialidad' => $data['id_especialidad'] ?? null,
             'password' => Hash::make($data['password']),
         ]);
     }
