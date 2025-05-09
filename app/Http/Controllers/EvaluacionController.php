@@ -222,6 +222,6 @@ class EvaluacionController extends Controller
             return 0;
         }
         
-        return $evaluaciones->avg('Nota');
+        return $evaluaciones->avg('nota');
     }
 }

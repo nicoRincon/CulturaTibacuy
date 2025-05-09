@@ -128,14 +128,17 @@
                 </div>
             </div>
             
+                <!-- Simplificar sección de ubicación -->
             <div class="row mb-3">
+                <div class="col-md-12">
+                    <h5>Ubicación</h5>
+                </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label for="id_pais" class="form-label">País de Nacimiento *</label>
+                        <label for="id_pais" class="form-label">País *</label>
                         <select class="form-select @error('id_pais') is-invalid @enderror" id="id_pais" name="id_pais" required>
-                            <option value="">Seleccione...</option>
                             @foreach($paises as $pais)
-                            <option value="{{ $pais->id_pais }}" {{ old('id_pais') == $pais->id_pais ? 'selected' : '' }}>
+                            <option value="{{ $pais->id_pais }}" {{ old('id_pais') == $pais->id_pais || $pais->id_pais == 1 ? 'selected' : '' }}>
                                 {{ $pais->pais }}
                             </option>
                             @endforeach
