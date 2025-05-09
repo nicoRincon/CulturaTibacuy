@@ -23,7 +23,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $user = User::user();
+        $user = Auth::user();
         
         // Dashboard para administradores
         if ($user->tieneRol('Administrador')) {
@@ -66,7 +66,7 @@ class DashboardController extends Controller
             
         // Programas por escuela
         $programasPorEscuela = ProgramaFormacion::select('escuelas.nombre', DB::raw('count(*) as total'))
-            ->join('escuelas', 'programa_de_formación.id_escuela', '=', 'escuelas.id_escuela')
+            ->join('escuelas', 'programa_de_formacion.id_escuela', '=', 'escuelas.id_escuela')
             ->groupBy('escuelas.nombre')
             ->get();
             
@@ -112,7 +112,7 @@ class DashboardController extends Controller
             'cursos', 
             'inscripciones', 
             'evaluacionesRecientes', 
-            'promedioEvaluaciones'
+            'promedio_evaluaciones'
         ));
     }
     

@@ -22,7 +22,7 @@ class InscripcionController extends Controller
      */
     public function index()
     {
-        $user = User::user();
+        $user = Auth::user();
         
         // Si es estudiante, mostrar solo sus inscripciones
         if ($user->tieneRol('Estudiante')) {
@@ -51,7 +51,7 @@ class InscripcionController extends Controller
      */
     public function create()
     {
-        $user = User::user();
+        $user = Auth::user();
         
         // Si es estudiante, solo mostrar cursos disponibles
         if ($user->tieneRol('Estudiante')) {
@@ -83,7 +83,7 @@ class InscripcionController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::user();
+        $user = Auth::user();
         
         // Validación para estudiantes
         if ($user->tieneRol('Estudiante')) {
