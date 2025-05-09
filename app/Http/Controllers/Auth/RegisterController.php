@@ -71,12 +71,15 @@ class RegisterController extends Controller
         
         // Crear lugar de nacimiento predeterminado (se puede actualizar después)
         $lugarNacimiento = LugarNacimiento::first();
-        
+    
+    protected function create(array $data)
+    {
         return User::create([
             'primer_nombre' => $data['primer_nombre'],
             'segundo_nombre' => $data['segundo_nombre'] ?? null,
             'primer_apellido' => $data['primer_apellido'],
             'segundo_apellido' => $data['segundo_apellido'] ?? null,
+
             'id_documento' => 1, // Predeterminado - se puede actualizar luego
             'id_estado' => 1, // Activo por defecto
             'num_documento' => $data['num_documento'],

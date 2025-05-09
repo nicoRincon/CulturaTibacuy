@@ -4,9 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Contacto;
+use App\Models\LugarNacimiento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\HasApiTokens;
 
 class AuthController extends Controller
 {
@@ -28,21 +32,26 @@ class AuthController extends Controller
         }
 
         // Intentar autenticar al usuario
-        if (!Auth::attempt(['num_documento' => $request->num_documento, 'password' => $request->password])) {
+        $credentials = [
+            'num_documento' => $request->num_documento,
+            'password' => $request->password
+        ];
+        
+        if (!Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Credenciales inválidas'
             ], 401);
         }
-
-        $user = Auth::user();
         
+        $user = Auth::user();
+            
         // Verificar si el usuario está activo
         if ($user->id_estado != 1) {
             return response()->json([
                 'message' => 'Usuario inactivo'
             ], 401);
         }
-
+        
         // Revocar tokens antiguos y crear uno nuevo
         $user->tokens()->delete();
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -51,24 +60,6 @@ class AuthController extends Controller
             'message' => 'Inicio de sesión exitoso',
             'user' => $user,
             'token' => $token
-        ]);
-    }
-
-    /**
-     * Obtiene la información del usuario autenticado.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function user(Request $request)
-    {
-        $user = $request->user();
-        
-        // Cargar relaciones necesarias
-        $user->load(['documento', 'genero', 'rol', 'especialidad', 'contacto', 'lugarNacimiento.pais', 'lugarNacimiento.departamento', 'lugarNacimiento.municipio']);
-        
-        return response()->json([
-            'usuario' => $user
         ]);
     }
 

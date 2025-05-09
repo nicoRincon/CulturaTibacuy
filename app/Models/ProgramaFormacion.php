@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 
 class ProgramaFormacion extends Model
 {
@@ -11,7 +12,9 @@ class ProgramaFormacion extends Model
 
     protected $table = 'programa_de_formacion';
     protected $primaryKey = 'id_programa';
+
     public $timestamps = true;
+
 
     protected $fillable = [
         'id_tipo_escuela',
