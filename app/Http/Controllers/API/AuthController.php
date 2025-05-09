@@ -8,7 +8,6 @@ use App\Models\Contacto;
 use App\Models\LugarNacimiento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -108,8 +107,8 @@ class AuthController extends Controller
         }
 
         // Intentar autenticar al usuario
-        if (Auth::attempt(['num_documento' => $request->num_documento, 'password' => $request->password])) {
-            $user = Auth::user();
+        if (User::attempt(['num_documento' => $request->num_documento, 'password' => $request->password])) {
+            $user = User::user();
             
             // Verificar si el usuario está activo
             if ($user->id_estado != 1) {
