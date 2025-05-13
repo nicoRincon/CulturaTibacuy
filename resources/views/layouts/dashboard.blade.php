@@ -57,7 +57,7 @@
 <body>
     <header class="navbar navbar-expand-md navbar-dark bg-primary sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('dashboard') }}">
+            <a class="navbar-brand" href="{{ route('home') }}">
                 {{ config('app.name', 'Sistema Escolar') }}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -76,7 +76,7 @@
                             {{ Auth::user()->primer_nombre }} {{ Auth::user()->primer_apellido }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('welcome') }}">
+                            <a class="dropdown-item" href="{{ route('home') }}">
                                 <i class="fas fa-home me-2"></i>{{ __('Inicio') }}
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -135,7 +135,7 @@
                         @endif
                         
                         <li class="nav-item">
-                            <a class="nav-link sidebar-link {{ request()->routeIs('inscripciones.*') ? 'active' : '' }}" href="{{ route('inscripciones.index') }}">
+                            <a class="nav-link sidebar-link {{ request()->routeIs('inscripciones.index') ? 'active' : '' }}" href="{{ route('inscripciones.index') }}">
                                 <i class="fas fa-clipboard-list me-2"></i>
                                 Inscripciones
                             </a>
