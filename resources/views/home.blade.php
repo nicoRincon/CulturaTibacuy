@@ -5,17 +5,11 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
-
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        {{ __('You are logged in!') }}
-                    </div>
+                 <!-- Main Content -->
+                    <main class="flex-grow-1 d-flex justify-content-center align-items-center p-4">
+                        <!-- Aquí podrías poner contenido adicional -->
+                        <h1>Bienvenido a Tibacuy</h1>
+                    </main>
                 </div>
             </div>
         </div>

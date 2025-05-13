@@ -119,7 +119,7 @@ class InscripcionController extends Controller
         }
         
         // Verificar si el curso tiene cupos disponibles
-        if ($curso->Cantidad_Alumnos >= $curso->Cupos) {
+        if ($curso->cantidad_alumnos >= $curso->cupos) {
             // Verificar si ya está en lista de espera
             $listaEsperaExistente = ListaEspera::where('id_usuario', $id_usuario)
                 ->where('id_curso', $request->id_curso)
