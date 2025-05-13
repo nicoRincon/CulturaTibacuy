@@ -76,7 +76,7 @@
                             {{ Auth::user()->primer_nombre }} {{ Auth::user()->primer_apellido }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('home') }}">
+                            <a class="dropdown-item" href="{{ route('welcome') }}">
                                 <i class="fas fa-home me-2"></i>{{ __('Inicio') }}
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
