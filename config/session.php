@@ -201,6 +201,19 @@ return [
 
     'same_site' => env('SESSION_SAME_SITE', 'lax'),
 
+        /*
+    |--------------------------------------------------------------------------
+    | Session User ID
+    |--------------------------------------------------------------------------
+    |
+    | This option allows you to specify the column name to use as the user ID
+    | when storing sessions in the database. This is necessary when your
+    | users table or primary key does not follow Laravel's conventions.
+    |
+    */
+
+    'user_column' => 'id_usuario',
+
     /*
     |--------------------------------------------------------------------------
     | Partitioned Cookies

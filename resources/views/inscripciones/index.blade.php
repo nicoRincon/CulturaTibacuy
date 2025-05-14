@@ -32,6 +32,7 @@
                                 $inscripcion->fecha_inscripcion->format('d/m/Y') : 
                                 $inscripcion->fecha_inscripcion }}
                         </td>
+                        <td>
                             <div class="btn-group" role="group">
                                 @if(Auth::user()->tieneRol('Estudiante') && $inscripcion->id_usuario == Auth::user()->id_usuario)
                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $inscripcion->id_inscripcion }}">
