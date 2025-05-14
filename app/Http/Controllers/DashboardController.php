@@ -8,7 +8,6 @@ use App\Models\Inscripcion;
 use App\Models\Evaluacion;
 use App\Models\Escuela;
 use App\Models\ProgramaFormacion;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller

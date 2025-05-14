@@ -42,12 +42,14 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
         'expires_at' => 'datetime',
     ];
 
+    protected $tokenableIdColumn = 'id_usuario';
+
     /**
      * Relación polimórfica con el modelo tokenable.
      * Personalizada para usar id_usuario en lugar de id
      */
     public function tokenable()
     {
-        return $this->morphTo('tokenable', 'tokeneable_type', 'id_usuario');
+        return $this->morphTo('tokenable', 'tokenable_type', 'id_usuario');
     }
 }
