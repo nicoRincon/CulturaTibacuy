@@ -27,6 +27,13 @@ class CustomDatabaseSessionHandler extends BaseDatabaseSessionHandler
      */
     protected function getUserId($session)
     {
+        if ($this->container->bound(Guard::class)) {
+            $guard = $this->container->make(Guard::class);
+            if ($guard->user()) {
+                return $guard->user()->id_usuario;
+            }
+        }
+        
         return $session['user_id'] ?? null;
     }
 

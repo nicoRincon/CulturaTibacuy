@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
+        Sanctum::usePersonalAccessTokenModel(\App\Models\PersonalAccessToken::class);
         
         $this->app->resolving(SessionManager::class, function ($manager) {
             $manager->extend('database', function ($app) {
