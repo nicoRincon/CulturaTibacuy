@@ -240,7 +240,7 @@ class EvaluacionController extends Controller
             
             // Actualizar la nota final
             $notaFinal = NotaFinal::updateOrCreate(
-                ['id_usuario' => $id_usuario, 'Id_Curso' => $id_curso],
+                ['id_usuario' => $id_usuario, 'id_curso' => $id_curso],
                 ['nota_final' => $this->calcularNotaFinal($id_usuario, $id_curso)]
             );
             
@@ -265,7 +265,7 @@ class EvaluacionController extends Controller
      */
     private function calcularNotaFinal($id_usuario, $id_curso)
     {
-        $evaluaciones = Evaluacion::where('Id_Usuario', $id_usuario)
+        $evaluaciones = Evaluacion::where('id_usuario', $id_usuario)
             ->where('id_curso', $id_curso)
             ->get();
             
@@ -273,6 +273,6 @@ class EvaluacionController extends Controller
             return 0;
         }
         
-        return $evaluaciones->avg('Nota');
+        return $evaluaciones->avg('nota');
     }
 }

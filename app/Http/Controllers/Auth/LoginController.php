@@ -17,7 +17,6 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
     }
 
     /**
@@ -64,12 +63,10 @@ class LoginController extends Controller
         }
 
         // Redireccionar según el rol
-        if ($user->tieneRol('Administrador')) {
-            return redirect()->route('dashboard');
-        } elseif ($user->tieneRol('Instructor')) {
+        if ($user->tieneRol('Administrador') || $user->tieneRol('Instructor') || $user->tieneRol('Estudiante')) {
             return redirect()->route('dashboard');
         } else {
-            return redirect()->route('dashboard');
+            return redirect()->route('home');
         }
     }
 }
