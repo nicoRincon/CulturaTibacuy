@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Escuela;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class EscuelaController extends Controller
 {

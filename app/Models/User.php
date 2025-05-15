@@ -70,7 +70,7 @@ class User extends Authenticatable
      */
     public function tieneRol($rol_nombre)
     {
-        return $this->rol()->exists() && strtolower($this->rol->rol) === strtolower($rol_nombre);
+        return $this->rol()->exists() && $this->rol->rol === $rol_nombre;
     }
 
     /**
@@ -78,29 +78,7 @@ class User extends Authenticatable
      */
     public function getNombreCompletoAttribute()
     {
-        $nombreCompleto = $this->primer_nombre;
-        
-        if (!empty($this->segundo_nombre)) {
-            $nombreCompleto .= ' ' . $this->segundo_nombre;
-        }
-        
-        $nombreCompleto .= ' ' . $this->primer_apellido;
-        
-        if (!empty($this->segundo_apellido)) {
-            $nombreCompleto .= ' ' . $this->segundo_apellido;
-        }
-        
-        return $nombreCompleto;
-    }
-
-    /**
-     * Get the name of the unique identifier for the user.
-     *
-     * @return string
-     */
-    public function getAuthIdentifierName()
-    {
-        return 'id_usuario';
+        return $this->primer_nombre . ' ' . $this->primer_apellido;
     }
 
     /**

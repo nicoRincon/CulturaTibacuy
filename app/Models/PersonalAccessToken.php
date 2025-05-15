@@ -41,8 +41,6 @@ class PersonalAccessToken extends Model
         'expires_at',
     ];
 
-    protected $tokenableIdColumn = 'id_usuario';
-
     /**
      * Relación polimórfica con el modelo tokenable.
      */
