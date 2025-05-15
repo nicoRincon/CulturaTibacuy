@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
+use Illuminate\Database\Eloquent\Model;
 
-class PersonalAccessToken extends SanctumPersonalAccessToken
+class PersonalAccessToken extends Model
 {
     use HasFactory;
 
@@ -36,20 +36,18 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
      *
      * @var array
      */
-    protected $casts = [
-        'abilities' => 'json',
-        'last_used_at' => 'datetime',
-        'expires_at' => 'datetime',
+    protected $dates = [
+        'last_used_at',
+        'expires_at',
     ];
 
     protected $tokenableIdColumn = 'id_usuario';
 
     /**
      * Relación polimórfica con el modelo tokenable.
-     * Personalizada para usar id_usuario en lugar de id
      */
     public function tokenable()
     {
-        return $this->morphTo('tokenable', 'tokenable_type', 'id_usuario');
+        return $this->morphTo();
     }
 }

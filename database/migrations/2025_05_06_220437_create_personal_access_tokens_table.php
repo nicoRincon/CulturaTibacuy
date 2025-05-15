@@ -13,11 +13,7 @@ return new class extends Migration
     {
         Schema::create('personal_access_tokens', function (Blueprint $table) {
             $table->id();
-            // En lugar de usar morphs directamente, definimos las columnas manualmente
-            $table->string('tokenable_type');
-            $table->unsignedBigInteger('id_usuario'); // Usar id_usuario en lugar de tokenable_id
-            $table->index(['tokenable_type', 'id_usuario']); // Índice compuesto
-            
+            $table->morphs('tokenable');
             $table->string('name');
             $table->string('token', 64)->unique();
             $table->text('abilities')->nullable();
