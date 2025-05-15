@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\InscripcionController;
@@ -17,11 +16,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Rutas de autenticación
-Auth::routes();
+Route::middleware('web')->group(function () {
+    Auth::routes();
+});
 
 // Ruta del Home y Dashboard
-Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Rutas para Usuarios

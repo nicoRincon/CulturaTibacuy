@@ -146,4 +146,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(NotaFinal::class, 'id_usuario');
     }
+
+    // El método morphTo para Sanctum probablemente necesita ser ajustado
+    // Esto debería agregarse para que funcione correctamente con Sanctum
+    public function tokens()
+    {
+        return $this->morphMany(
+            PersonalAccessToken::class, 
+            'tokenable', 
+            'tokenable_type', 
+            'id_usuario'
+        );
+    }
 }

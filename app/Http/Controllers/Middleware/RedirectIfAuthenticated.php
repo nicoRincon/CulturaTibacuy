@@ -19,7 +19,7 @@ class RedirectIfAuthenticated
     {
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect('/home'); // Adjust the redirect path as needed
+                return redirect('/'); // Adjust the redirect path as needed
             }
         }
 
