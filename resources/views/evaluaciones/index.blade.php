@@ -32,7 +32,7 @@
                         <td>{{ $evaluacion->id_evaluacion }}</td>
                         <td>{{ $evaluacion->usuario->primer_nombre }} {{ $evaluacion->usuario->primer_apellido }}</td>
                         <td>{{ $evaluacion->curso->curso }}</td>
-                        <td>{{ $evaluacion->fecha_evaluacion->format('d/m/Y') }}</td>
+                        <td>{{ $evaluacion->fecha_evaluacion instanceof \Carbon\Carbon ? $evaluacion->fecha_evaluacion->format('d/m/Y') : $evaluacion->fecha_evaluacion }}</td>
                         <td>{{ number_format($evaluacion->nota, 2) }}</td>
                         <td>{{ Str::limit($evaluacion->comentarios, 30) }}</td>
                         <td>

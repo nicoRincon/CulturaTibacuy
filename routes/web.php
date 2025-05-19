@@ -11,6 +11,7 @@ use App\Http\Controllers\EscuelaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InformeController;
 
+
 // Ruta principal
 Route::get('/', function () {
     return view('welcome');

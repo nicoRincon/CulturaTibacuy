@@ -35,8 +35,8 @@
                         <td>{{ $curso->curso }}</td>
                         <td>{{ $curso->instructor->primer_nombre }} {{ $curso->instructor->primer_apellido }}</td>
                         <td>{{ $curso->nivel->nivel }}</td>
-                        <td>{{ $curso->fecha_inicio->format('d/m/Y') }}</td>
-                        <td>{{ $curso->fecha_fin->format('d/m/Y') }}</td>
+                        <td>{{ $curso->fecha_inicio instanceof \Carbon\Carbon ? $curso->fecha_inicio->format('d/m/Y') : $curso->fecha_inicio }}</td>
+                        <td>{{ $curso->fecha_fin instanceof \Carbon\Carbon ? $curso->fecha_fin->format('d/m/Y') : $curso->fecha_fin }}</td>
                         <td>{{ $curso->cupos }}</td>
                         <td>{{ $curso->cupos - $curso->cantidad_alumnos }}</td>
                         <td>
