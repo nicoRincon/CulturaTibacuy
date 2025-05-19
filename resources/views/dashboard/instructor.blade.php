@@ -38,7 +38,7 @@
         <tbody>
             @foreach ($inscripciones as $inscripcion)
             <tr>
-                <td>{{ $inscripcion->usuario->nombre }}</td>
+                <td>{{ $inscripcion->usuario->primer_nombre}}</td>
                 <td>{{ $inscripcion->curso->curso }}</td>
                 <td>{{ $inscripcion->fecha_inscripcion instanceof \Carbon\Carbon ? $inscripcion->fecha_inscripcion->format('d/m/Y') : $inscripcion->fecha_inscripcion }}</td>
             </tr>
@@ -59,7 +59,7 @@
         <tbody>
             @foreach ($evaluacionesRecientes as $evaluacion)
             <tr>
-                <td>{{ $evaluacion->usuario->nombre }}</td>
+                <td>{{ $evaluacion->usuario->primer_nombre }}</td>
                 <td>{{ $evaluacion->curso->curso }}</td>
                 <td>{{ $evaluacion->nota }}</td>
                 <td>{{ $evaluacion->fecha_evaluacion instanceof \Carbon\Carbon ? $evaluacion->fecha_evaluacion->format('d/m/Y') : $evaluacion->fecha_evaluacion }}</td>

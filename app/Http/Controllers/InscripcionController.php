@@ -60,16 +60,28 @@ class InscripcionController extends Controller
                 ->pluck('id_curso')
                 ->toArray();
             
-            // Obtener los cursos disponibles (con cupos y que no esté inscrito)
+            // Obtener los cursos disponibles (que no esté inscrito)
             $cursos = Curso::whereRaw('cupos > cantidad_alumnos')
                 ->whereNotIn('id_curso', $cursosInscritos)
+                ->with('instructor')
                 ->get();
                 
             return view('inscripciones.create', compact('cursos'));
         } 
-        // Si es administrador o instructor, mostrar todos los cursos y usuarios
+        // Si es instructor, mostrar solo sus cursos y todos los estudiantes
+        else if ($user->tieneRol('Instructor')) {
+            $cursos = Curso::where('id_usuario', $user->id_usuario)
+                ->get();
+                
+            $usuarios = User::whereHas('rol', function($query) {
+                $query->where('rol', 'Estudiante');
+            })->get();
+            
+            return view('inscripciones.create', compact('cursos', 'usuarios'));
+        } 
+        // Si es administrador, mostrar todos los cursos y usuarios
         else {
-            $cursos = Curso::all();
+            $cursos = Curso::with('instructor')->get();
             $usuarios = User::whereHas('rol', function($query) {
                 $query->where('rol', 'Estudiante');
             })->get();
@@ -77,7 +89,7 @@ class InscripcionController extends Controller
             return view('inscripciones.create', compact('cursos', 'usuarios'));
         }
     }
-    
+        
     /**
      * Almacena una nueva inscripción en la base de datos.
      */
@@ -101,6 +113,14 @@ class InscripcionController extends Controller
             ]);
             
             $id_usuario = $request->id_usuario;
+
+            if ($user->tieneRol('Instructor')) {
+            $curso = Curso::findOrFail($request->id_curso);
+            
+            if ($curso->id_usuario != $user->id_usuario) {
+                return redirect()->back()->with('error', 'Solo puedes inscribir estudiantes en tus propios cursos');
+            }
+        }
         }
         
         if ($validator->fails()) {
