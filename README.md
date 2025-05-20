@@ -77,7 +77,7 @@ hasta que ya no genere nada, si en un momento se queda ahi quieto y ya no da mas
 
         Correr el programa
             npm run dev
-            php artisan serve (En una nueva terminal)
+            php artisan serve (En una nueva terminal de git bash)
         
 
             
