@@ -65,10 +65,19 @@ hasta que ya no genere nada, si en un momento se queda ahi quieto y ya no da mas
         
         Vamos a una nueva terminal e ingreamos
             composer require laravel/ui
-            npm install ; npm run dev (Una vez instalado y no de mas lineas cancelamos con ctrl + c)
+            npm install (Una vez instalado y no de mas lineas cancelamos con ctrl + c)
             composer require laravel/sanctum 
             php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
             php artisan key:generate
+
+        Migrar base de datos
+
+            php artisan migrate - Migrar datos
+            php artisan migrate:fresh --seed
+
+        Correr el programa
+            npm run dev
+            php artisan serve (En una nueva terminal)
         
 
             
