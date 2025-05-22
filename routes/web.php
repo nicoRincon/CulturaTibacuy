@@ -62,7 +62,7 @@ Route::middleware(['auth'])->prefix('informes')->group(function () {
     Route::get('/', [InformeController::class, 'index'])->name('informes.index');
     
     // Informes para Administradores e Instructores
-    Route::middleware(['role:Administrador|Instructor'])->group(function () {
+    Route::group(['middleware' => ['role:Administrador|Instructor']], function () {
         Route::post('/usuarios', [InformeController::class, 'usuariosInforme'])->name('informes.usuarios');
         Route::post('/cursos', [InformeController::class, 'cursosInforme'])->name('informes.cursos');
         Route::post('/inscripciones', [InformeController::class, 'inscripcionesInforme'])->name('informes.inscripciones');
@@ -71,7 +71,7 @@ Route::middleware(['auth'])->prefix('informes')->group(function () {
     });
     
     // Informe para Estudiantes
-    Route::middleware(['role:Estudiante'])->group(function () {
+    Route::group(['middleware' => ['role:Estudiante']], function () {
         Route::get('/mi-informe', [InformeController::class, 'estudianteInforme'])->name('informes.estudiante');
     });
 });

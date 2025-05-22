@@ -8,11 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     protected $table = 'usuarios';
     protected $primaryKey = 'id_usuario';
@@ -64,13 +65,24 @@ class User extends Authenticatable
 
     /**
      * Verifica si el usuario tiene un rol específico.
+     * Mantiene compatibilidad con el método existente y agrega soporte para Spatie
      *
      * @param string $rol_nombre
      * @return bool
      */
     public function tieneRol($rol_nombre)
     {
-        return $this->rol()->exists() && $this->rol->rol === $rol_nombre;
+        // Primero verificar con el sistema tradicional (tu base de datos)
+        if ($this->rol()->exists() && $this->rol->rol === $rol_nombre) {
+            return true;
+        }
+        
+        // También verificar con Spatie Permission si está disponible
+        if (method_exists($this, 'hasRole')) {
+            return $this->hasRole($rol_nombre);
+        }
+        
+        return false;
     }
 
     /**
