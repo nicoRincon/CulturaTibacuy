@@ -52,8 +52,16 @@
         .card-dashboard:hover {
             transform: translateY(-5px);
         }
+
+        .footer {
+            display: grid;
+            min-height: 10dvh;
+            background-color: #f8f9fa;
+            padding: 1rem 0;
+            text-align: center;
+        }
     </style>
-    
+
     @yield('styles')
 </head>
 <body>
@@ -147,4 +155,10 @@
     
     @yield('scripts')
 </body>
+
+<footer class="footer">
+    <div class="container text-center">
+        <span class="text-muted">© {{ date('Y') }} {{ config('app.name', 'Sistema Escolar') }}. Todos los derechos reservados.</span>
+    </div>
+</footer>
 </html>
