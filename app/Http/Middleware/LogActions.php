@@ -27,9 +27,9 @@ class LogActions
             $action = $request->method() . ' ' . $request->path();
             
             Seguridad::create([
-                'Id_Usuario' => $user->Id_Usuario,
-                'Accion' => $action,
-                'Fecha' => now(),
+                'id_usuario' => $user->id_usuario,
+                'accion' => $action,
+                'fecha' => now(),
             ]);
         }
         

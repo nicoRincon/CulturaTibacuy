@@ -4,31 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Models\Role as SpatieRole;
+use Illuminate\Foundation\Auth\User;
 
-class Rol extends SpatieRole
+class Rol extends Model
 {
     use HasFactory;
 
     protected $table = 'roles';
     protected $primaryKey = 'id_rol';
-    
-    // Spatie Permission usa 'name' por defecto, pero tu tabla usa 'rol'
+    public $timestamps = false;
+
     protected $fillable = [
         'rol',
-        'guard_name',
     ];
-
-    // Override para usar 'rol' en lugar de 'name'
-    public function getNameAttribute()
-    {
-        return $this->attributes['rol'];
-    }
-
-    public function setNameAttribute($value)
-    {
-        $this->attributes['rol'] = $value;
-    }
 
     public function usuarios()
     {

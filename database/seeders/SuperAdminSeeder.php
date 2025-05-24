@@ -188,13 +188,11 @@ class SuperAdminSeeder extends Seeder
     {
         $rol = DB::table('roles')
             ->where('rol', 'Administrador')
-            ->where('guard_name', 'web')
             ->first();
         
         if (!$rol) {
             return DB::table('roles')->insertGetId([
                 'rol' => 'Administrador',
-                'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

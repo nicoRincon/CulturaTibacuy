@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class UsuarioController extends Controller
 {
@@ -31,12 +32,12 @@ class UsuarioController extends Controller
     public function index()
     {
         if (!Auth::check()) {
-            \Log::error('Usuario no autenticado en UsuarioController@index');
+            Log::error('Usuario no autenticado en UsuarioController@index');
             return redirect()->route('login');
         }
         
         $user = Auth::user();
-        \Log::info('Usuario autenticado en UsuarioController@index', [
+        Log::info('Usuario autenticado en UsuarioController@index', [
             'id_usuario' => $user->id_usuario,
             'nombre' => $user->primer_nombre,
             'rol' => $user->rol->rol ?? 'Sin rol'

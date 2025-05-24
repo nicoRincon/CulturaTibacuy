@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Rol;
 
 class CheckRole
 {
@@ -23,18 +24,10 @@ class CheckRole
         }
 
         $user = Auth::user();
-        $roleArray = explode('|', $roles);
-        
-        $userHasRequiredRole = false;
-        foreach ($roleArray as $role) {
-            if ($user->tieneRol(trim($role))) {
-                $userHasRequiredRole = true;
-                break;
-            }
-        }
-        
-        if (!$userHasRequiredRole) {
-            return redirect()->route('dashboard')->with('error', 'No tienes permiso para acceder a esta página.');
+        $rolesArray = explode('|', $roles);
+
+        if (!in_array($user->rol->nombre, $rolesArray)) {
+            return redirect('home');
         }
 
         return $next($request);

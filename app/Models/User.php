@@ -7,13 +7,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
+use App\Models\Rol;
+use App\Models\DocumentoIdentificacion;
+use App\Models\Estado;
+use App\Models\LugarNacimiento;
+use App\Models\Genero;
+use App\Models\Contacto;
+use App\Models\Especialidad;
+use App\Models\Curso;
+use App\Models\Inscripcion;
+use App\Models\Evaluacion;
+use App\Models\NotaFinal;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'usuarios';
     protected $primaryKey = 'id_usuario';
@@ -70,20 +82,6 @@ class User extends Authenticatable
      * @param string $rol_nombre
      * @return bool
      */
-    public function tieneRol($rol_nombre)
-    {
-        // Primero verificar con el sistema tradicional (tu base de datos)
-        if ($this->rol()->exists() && $this->rol->rol === $rol_nombre) {
-            return true;
-        }
-        
-        // También verificar con Spatie Permission si está disponible
-        if (method_exists($this, 'hasRole')) {
-            return $this->hasRole($rol_nombre);
-        }
-        
-        return false;
-    }
 
     /**
      * Obtener el nombre completo del usuario.
@@ -169,5 +167,15 @@ class User extends Authenticatable
             'tokenable_type', 
             'id_usuario'
         );
+    }
+
+    public function tieneRol($rol_nombre)
+    {
+        // Primero verificar con el sistema tradicional (tu base de datos)
+        if ($this->rol()->exists() && $this->rol->rol === $rol_nombre) {
+            return true;
+        }
+
+        return false;
     }
 }
