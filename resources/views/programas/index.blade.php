@@ -42,7 +42,7 @@
                                 </a>
                                 
                                 @if(Auth::user()->tieneRol('Administrador'))
-                                <a href="{{ route('programas.edit', $programa->Id_Programa) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route('programas.edit', $programa->id_programa) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $programa->id_programa }}">
@@ -81,4 +81,4 @@
         </div>
     </div>
 </div>
-
+@endsection

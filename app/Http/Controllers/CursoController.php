@@ -9,7 +9,7 @@ use App\Models\Nivel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CursoController extends Controller
 {
@@ -17,7 +17,6 @@ class CursoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Administrador|Instructor')->except(['index', 'show']);
     }
     
     /**
@@ -81,7 +80,7 @@ class CursoController extends Controller
             
             return redirect()->route('cursos.index')->with('success', 'Curso creado exitosamente');
         } catch (\Exception $e) {
-            \Log::error('Error al crear curso: ' . $e->getMessage());
+            Log::error('Error al crear curso: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Ocurrió un error al crear el curso. Por favor, inténtalo nuevamente.');
         }
     }

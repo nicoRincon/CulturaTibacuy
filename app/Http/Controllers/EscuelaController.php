@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Escuela;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 
 class EscuelaController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Administrador')->except(['index', 'show']);
     }
     
     /**
