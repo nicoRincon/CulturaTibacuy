@@ -163,9 +163,9 @@ class User extends Authenticatable
     {
         return $this->morphMany(
             PersonalAccessToken::class, 
-            'tokenable', 
-            'tokenable_type', 
-            'id_usuario'
+            'tokenable',
+            'tokenable_type',
+            'tokenable_id' 
         );
     }
 

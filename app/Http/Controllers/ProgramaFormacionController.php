@@ -23,7 +23,13 @@ class ProgramaFormacionController extends Controller
      */
     public function index()
     {
-        $programas = ProgramaFormacion::with(['tipoEscuela', 'escuela', 'ubicacion', 'curso', 'responsable'])->get();
+        $programas = ProgramaFormacion::with([
+            'tipoEscuela',
+            'escuela',
+            'ubicacion',
+            'curso',
+            'responsable'
+        ])->get();
         return view('programas.index', compact('programas'));
     }
 
