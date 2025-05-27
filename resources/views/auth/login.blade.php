@@ -317,7 +317,7 @@ $(document).ready(function() {
 // Animación de ripple
 const style = document.createElement('style');
 style.textContent = `
-    @keyframes ripple {
+    @keyframes ripple { 
         0% {
             transform: scale(0);
             opacity: 1;

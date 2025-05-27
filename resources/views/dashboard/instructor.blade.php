@@ -4,7 +4,48 @@
 
 @section('content')
 <div class="container">
-    <h1 class="text-center my-4">Dashboard - Instructor</h1>
+    <!-- Botón de Mi Perfil -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="text-center">Dashboard - Instructor</h1>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('usuarios.show', Auth::user()->id_usuario) }}" class="btn btn-outline-primary">
+                        <i class="fas fa-user"></i> Ver Mi Perfil
+                    </a>
+                    <a href="{{ route('usuarios.edit', Auth::user()->id_usuario) }}" class="btn btn-primary">
+                        <i class="fas fa-user-edit"></i> Editar Mi Perfil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Información personal del usuario -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center">
+                            <div class="avatar-placeholder bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; font-size: 24px;">
+                                {{ substr(Auth::user()->primer_nombre, 0, 1) }}{{ substr(Auth::user()->primer_apellido, 0, 1) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="mb-1">{{ Auth::user()->primer_nombre }} {{ Auth::user()->primer_apellido }}</h4>
+                            <p class="text-muted mb-1">{{ Auth::user()->rol->rol }} - {{ Auth::user()->especialidad->especialidad }}</p>
+                            <p class="text-muted mb-0">{{ Auth::user()->contacto->email }}</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <small class="text-muted">Cursos que imparto:</small><br>
+                            <h5 class="text-success">{{ $cursos->count() }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <h2 class="mt-5">Cursos que Imparte</h2>
     <table class="table table-striped table-hover">
