@@ -62,13 +62,7 @@
                                 <h6 class="dropdown-header">
                                     <i class="fas fa-user-circle"></i> Mi Cuenta
                                 </h6>
-
-                                @if (Route::has('/'))
-                                    <a class="dropdown-item" href="{{ route('dashboard') }}">
-                                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                                    </a>
-                                @endif 
-
+ 
                                 <a class="dropdown-item" href="{{ route('usuarios.show', Auth::user()->id_usuario) }}">
                                     <i class="fas fa-user me-2"></i>Mi Perfil
                                 </a>

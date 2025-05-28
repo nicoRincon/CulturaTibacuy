@@ -78,5 +78,6 @@ Route::middleware(['auth'])->prefix('informes')->group(function () {
     // Informe para Estudiantes
     Route::middleware(['auth'])->group(function () {
         Route::get('/mi-informe', [InformeController::class, 'estudianteInforme'])->name('informes.estudiante');
+        Route::get('/mi-informe-excel', [InformeController::class, 'estudianteInformeExcel'])->name('informes.estudiante.excel');
     });
 });
