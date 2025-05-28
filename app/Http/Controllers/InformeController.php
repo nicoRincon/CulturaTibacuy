@@ -9,12 +9,18 @@ use App\Models\Evaluacion;
 use App\Models\NotaFinal;
 use App\Models\Escuela;
 use App\Models\ProgramaFormacion;
+use App\Exports\UsuariosExport;
+use App\Exports\CursosExport;
+use App\Exports\InscripcionesExport;
+use App\Exports\EvaluacionesExport;
+use App\Exports\ProgramasExport;
+use App\Exports\EstudianteExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Barryvdh\DomPDF\Facade as PDF;
-
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InformeController extends Controller
 {
@@ -81,9 +87,12 @@ class InformeController extends Controller
             $pdf = PDF::loadView('informes.usuarios_pdf', compact('usuarios'));
             return $pdf->download('informe_usuarios.pdf');
         } 
-        else {
-            // Excel - Implementar exportación a Excel
-            return redirect()->back()->with('info', 'Exportación a Excel no implementada aún');
+        else if ($request->formato == 'excel') {
+            $filename = 'informe_usuarios_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            return Excel::download(
+                new UsuariosExport($request->tipo_usuario, $request->estado),
+                $filename
+            );
         }
     }
     
@@ -129,9 +138,12 @@ class InformeController extends Controller
             $pdf = PDF::loadView('informes.cursos_pdf', compact('cursos'));
             return $pdf->download('informe_cursos.pdf');
         } 
-        else {
-            // Excel - Implementar exportación a Excel
-            return redirect()->back()->with('info', 'Exportación a Excel no implementada aún');
+        else if ($request->formato == 'excel') {
+            $filename = 'informe_cursos_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            return Excel::download(
+                new CursosExport($request->estado_curso),
+                $filename
+            );
         }
     }
     
@@ -160,11 +172,11 @@ class InformeController extends Controller
         
         // Filtro por fecha
         if ($request->filled('fecha_desde')) {
-            $query->where('Fecha_Inscripcion', '>=', $request->fecha_desde);
+            $query->where('fecha_inscripcion', '>=', $request->fecha_desde);
         }
         
         if ($request->filled('fecha_hasta')) {
-            $query->where('Fecha_Inscripcion', '<=', $request->fecha_hasta);
+            $query->where('fecha_inscripcion', '<=', $request->fecha_hasta);
         }
         
         $inscripciones = $query->get();
@@ -177,9 +189,12 @@ class InformeController extends Controller
             $pdf = PDF::loadView('informes.inscripciones_pdf', compact('inscripciones'));
             return $pdf->download('informe_inscripciones.pdf');
         } 
-        else {
-            // Excel - Implementar exportación a Excel
-            return redirect()->back()->with('info', 'Exportación a Excel no implementada aún');
+        else if ($request->formato == 'excel') {
+            $filename = 'informe_inscripciones_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            return Excel::download(
+                new InscripcionesExport($request->id_curso, $request->fecha_desde, $request->fecha_hasta),
+                $filename
+            );
         }
     }
     
@@ -225,14 +240,17 @@ class InformeController extends Controller
             $pdf = PDF::loadView('informes.evaluaciones_pdf', compact('evaluaciones'));
             return $pdf->download('informe_evaluaciones.pdf');
         } 
-        else {
-            // Excel - Implementar exportación a Excel
-            return redirect()->back()->with('info', 'Exportación a Excel no implementada aún');
+        else if ($request->formato == 'excel') {
+            $filename = 'informe_evaluaciones_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            return Excel::download(
+                new EvaluacionesExport($request->id_curso, $request->fecha_desde, $request->fecha_hasta),
+                $filename
+            );
         }
     }
     
     /**
-     * Genera informe para un estudiante.
+     * Genera informe para un estudiante en PDF.
      */
     public function estudianteInforme()
     {
@@ -257,6 +275,21 @@ class InformeController extends Controller
             
         $pdf = PDF::loadView('informes.estudiante_pdf', compact('user', 'inscripciones', 'evaluaciones', 'notasFinales'));
         return $pdf->download('mi_informe_academico.pdf');
+    }
+    
+    /**
+     * Genera informe académico completo para estudiante en Excel.
+     */
+    public function estudianteInformeExcel()
+    {
+        $user = Auth::user();
+        
+        if (!$user->tieneRol('Estudiante')) {
+            return redirect()->back()->with('error', 'Esta función es solo para estudiantes.');
+        }
+        
+        $filename = 'informe_academico_' . str_replace(' ', '_', $user->primer_nombre . '_' . $user->primer_apellido) . '_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+        return Excel::download(new EstudianteExport($user->id_usuario), $filename);
     }
     
     /**
@@ -290,9 +323,56 @@ class InformeController extends Controller
             $pdf = PDF::loadView('informes.programas_pdf', compact('programas'));
             return $pdf->download('informe_programas.pdf');
         } 
-        else {
-            // Excel - Implementar exportación a Excel
-            return redirect()->back()->with('info', 'Exportación a Excel no implementada aún');
+        else if ($request->formato == 'excel') {
+            $filename = 'informe_programas_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            return Excel::download(
+                new ProgramasExport($request->id_escuela),
+                $filename
+            );
+        }
+    }
+    
+    /**
+     * Informe consolidado de estadísticas generales (BONUS)
+     */
+    public function estadisticasGenerales(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'formato' => 'required|in:web,pdf,excel',
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        
+        // Recopilar estadísticas generales
+        $estadisticas = [
+            'total_usuarios' => User::count(),
+            'total_estudiantes' => User::whereHas('rol', function($q) { $q->where('rol', 'Estudiante'); })->count(),
+            'total_instructores' => User::whereHas('rol', function($q) { $q->where('rol', 'Instructor'); })->count(),
+            'total_cursos' => Curso::count(),
+            'total_inscripciones' => Inscripcion::count(),
+            'total_evaluaciones' => Evaluacion::count(),
+            'promedio_general' => Evaluacion::avg('nota'),
+            'cursos_activos' => Curso::where('fecha_inicio', '<=', now())
+                                   ->where('fecha_fin', '>=', now())
+                                   ->count(),
+            'cursos_completos' => Curso::whereRaw('cupos <= cantidad_alumnos')->count(),
+            'ocupacion_promedio' => Curso::selectRaw('AVG(cantidad_alumnos / cupos * 100) as promedio')
+                                        ->where('cupos', '>', 0)
+                                        ->first()->promedio ?? 0,
+        ];
+        
+        if ($request->formato == 'web') {
+            return view('informes.estadisticas', compact('estadisticas'));
+        } 
+        else if ($request->formato == 'pdf') {
+            $pdf = PDF::loadView('informes.estadisticas_pdf', compact('estadisticas'));
+            return $pdf->download('estadisticas_generales.pdf');
+        } 
+        else if ($request->formato == 'excel') {
+            $filename = 'estadisticas_generales_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+            return Excel::download(new EstadisticasExport($estadisticas), $filename);
         }
     }
 }

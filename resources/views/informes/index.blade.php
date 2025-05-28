@@ -195,7 +195,18 @@
             </div>
             <div class="card-body">
                 <p>Genere un informe con su historial académico, incluyendo cursos, evaluaciones y notas finales.</p>
-                <a href="{{ route('informes.estudiante') }}" class="btn btn-primary">Generar Informe PDF</a>
+                <div class="d-grid gap-2">
+                    <a href="{{ route('informes.estudiante') }}" class="btn btn-danger">
+                        <i class="fas fa-file-pdf"></i> Descargar PDF
+                    </a>
+                    <a href="{{ route('informes.estudiante.excel') }}" class="btn btn-success">
+                        <i class="fas fa-file-excel"></i> Descargar Excel
+                    </a>
+                </div>
+                <small class="text-muted mt-2 d-block">
+                    <strong>PDF:</strong> Informe completo para imprimir<br>
+                    <strong>Excel:</strong> Datos organizados en hojas de cálculo
+                </small>
             </div>
         </div>
     </div>
