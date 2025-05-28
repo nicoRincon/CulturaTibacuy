@@ -22,7 +22,7 @@ use App\Models\NotaFinal;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
@@ -163,9 +163,9 @@ class User extends Authenticatable
     {
         return $this->morphMany(
             PersonalAccessToken::class, 
-            'tokenable', 
-            'tokenable_type', 
-            'id_usuario'
+            'tokenable',
+            'tokenable_type',
+            'tokenable_id' 
         );
     }
 

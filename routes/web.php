@@ -25,6 +25,10 @@ Route::middleware('web')->group(function () {
 // Ruta del Home y Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
 // Rutas para Usuarios
 Route::middleware(['auth'])->group(function () {
     Route::resource('usuarios', UsuarioController::class);

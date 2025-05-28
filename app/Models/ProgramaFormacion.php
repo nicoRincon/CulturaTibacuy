@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User;
+use App\Models\User; // ✅ CORRECTO - Usar tu modelo User personalizado
 
 class ProgramaFormacion extends Model
 {
@@ -14,7 +14,6 @@ class ProgramaFormacion extends Model
     protected $primaryKey = 'id_programa';
 
     public $timestamps = true;
-
 
     protected $fillable = [
         'id_tipo_escuela',
@@ -46,6 +45,6 @@ class ProgramaFormacion extends Model
 
     public function responsable()
     {
-        return $this->belongsTo(User::class, 'id_usuario');
+        return $this->belongsTo(User::class, 'id_usuario', 'id_usuario'); // ✅ CORRECTO - Especificar la clave primaria
     }
 }

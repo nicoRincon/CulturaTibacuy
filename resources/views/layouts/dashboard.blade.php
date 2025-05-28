@@ -10,6 +10,8 @@
 <div class="row">
     <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
         <div class="position-sticky pt-3">
+
+            <!-- Menú de navegación -->
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
@@ -70,6 +72,59 @@
                         Informes
                     </a>
                 </li>
+
+                <!-- Separador y acciones rápidas -->
+                <hr class="my-3">
+                <li class="nav-item">
+                    <h6 class="text-muted px-3 mb-2">
+                        <i class="fas fa-bolt me-1"></i>Acciones Rápidas
+                    </h6>
+                </li>
+
+                @if(Auth::user()->tieneRol('Estudiante'))
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link text-success" href="{{ route('inscripciones.create') }}">
+                        <i class="fas fa-plus-circle me-2"></i>
+                        Nueva Inscripción
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link text-info" href="{{ route('informes.estudiante') }}">
+                        <i class="fas fa-file-pdf me-2"></i>
+                        Mi Informe
+                    </a>
+                </li>
+                @endif
+
+                @if(Auth::user()->tieneRol('Instructor'))
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link text-success" href="{{ route('evaluaciones.create') }}">
+                        <i class="fas fa-star me-2"></i>
+                        Nueva Evaluación
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link text-warning" href="{{ route('cursos.create') }}">
+                        <i class="fas fa-plus me-2"></i>
+                        Nuevo Curso
+                    </a>
+                </li>
+                @endif
+
+                @if(Auth::user()->tieneRol('Administrador'))
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link text-success" href="{{ route('usuarios.create') }}">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Nuevo Usuario
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebar-link text-info" href="{{ route('escuelas.create') }}">
+                        <i class="fas fa-school me-2"></i>
+                        Nueva Escuela
+                    </a>
+                </li>
+                @endif
             </ul>
         </div>
     </nav>
@@ -86,3 +141,4 @@
     </main>
 </div>
 @endsection
+
