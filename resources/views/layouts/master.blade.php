@@ -18,76 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <!-- Custom Styles -->
-    <style>
-        .sidebar {
-            min-height: calc(70vh -36px);
-            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-        }
-        
-        .sidebar-link {
-            color: #333;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        
-        .sidebar-link:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-        
-        .sidebar-link.active {
-            background-color: rgba(0, 0, 0, 0.1);
-            font-weight: bold;
-        }
-        
-        .content {
-            padding: 20px;
-        }
-        
-        .card-dashboard {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        
-        .card-dashboard:hover {
-            transform: translateY(-5px);
-        }
-
-        .footer {
-            display: grid;
-            min-height: 10dvh;
-            background-color: #f8f9fa;
-            padding: 1rem 0;
-            text-align: center;
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(45deg, #007bff, #0056b3);
-            color: white;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 14px;
-            margin-right: 8px;
-        }
-
-        .navbar-profile-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            transition: all 0.3s;
-        }
-
-        .navbar-profile-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            transform: translateY(-1px);
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/master.css') }}">
 
     @yield('styles')
 </head>
@@ -124,19 +55,22 @@
                     @else
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ Auth::user()->primer_nombre }} {{ Auth::user()->primer_apellido }}
-                                <small class="d-block text-light opacity-75">{{ Auth::user()->rol->rol }}</small>
+                                {{ Auth::user()->primer_nombre }} {{ Auth::user()->primer_apellido }}   
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <!-- Opciones de perfil -->
                                 <h6 class="dropdown-header">
                                     <i class="fas fa-user-circle"></i> Mi Cuenta
                                 </h6>
+
+                                @if (Route::has('/'))
+                                    <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                                    </a>
+                                @endif 
+
                                 <a class="dropdown-item" href="{{ route('usuarios.show', Auth::user()->id_usuario) }}">
-                                    <i class="fas fa-user me-2"></i>Ver Mi Perfil
-                                </a>
-                                <a class="dropdown-item" href="{{ route('usuarios.edit', Auth::user()->id_usuario) }}">
-                                    <i class="fas fa-user-edit me-2"></i>Editar Mi Perfil
+                                    <i class="fas fa-user me-2"></i>Mi Perfil
                                 </a>
                                 
                                 <div class="dropdown-divider"></div>

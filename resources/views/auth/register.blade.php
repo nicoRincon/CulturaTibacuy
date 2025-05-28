@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('title', 'Registro')
 
@@ -196,7 +196,7 @@
 </style>
 @endsection
 
-@section('content')
+@section('content-wrapper')
 <!-- Section: Design Block -->
 <section class="text-center">
     <!-- Background image -->

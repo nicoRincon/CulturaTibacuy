@@ -1,38 +1,38 @@
 /* ===============================================
-   VARIABLES CSS - Colores de Tibacuy
-   =============================================== */
+VARIABLES CSS - Colores de Tibacuy
+=============================================== */
 :root {
-    /* Colores principales más suaves */
-    --primary-blue: #6fa8dc;
-    --primary-gold: #ffd966;
-    --primary-red: #ea9999;
-    --forest-green: #93c47d;
-    --mountain-brown: #b45f06;
-    
-    /* Colores secundarios */
-    --soft-blue: #e1ecf7;
-    --soft-gold: #fff2cc;
-    --soft-green: #d9ead3;
-    --soft-red: #f4cccc;
-    
-    /* Neutros */
-    --text-dark: #434343;
-    --text-medium: #666666;
-    --text-light: #999999;
-    --bg-white: #ffffff;
-    --bg-light: #f8f9fa;
-    
-    /* Sombras suaves */
-    --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
-    --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
-    
-    /* Transiciones */
-    --transition: all 0.3s ease;
+/* Colores principales más vivos */
+--primary-blue: #4a89dc; /* Más saturado */
+--primary-gold: #ffcc5c; /* Más brillante */
+--primary-red: #ff6b6b; /* Más vibrante */
+--forest-green: #7bc043; /* Más intenso */
+--mountain-brown: #a0522d; /* Más cálido */
+
+/* Colores secundarios */
+--soft-blue: #d4e6ff; /* Más claro */
+--soft-gold: #ffecb3; /* Más brillante */
+--soft-green: #c8e6c9; /* Más vivo */
+--soft-red: #ffcdd2; /* Más intenso */
+
+/* Neutros */
+--text-dark: #333333;
+--text-medium: #555555;
+--text-light: #777777;
+--bg-white: #ffffff;
+--bg-light: #f5f5f5;
+
+/* Sombras */
+--shadow-light: 0 2px 15px rgba(0,0,0,0.1);
+--shadow-medium: 0 5px 25px rgba(0,0,0,0.15);
+
+/* Transiciones */
+--transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* ===============================================
-   RESET Y BASE
-   =============================================== */
+RESET Y BASE
+=============================================== */
 * {
     margin: 0;
     padding: 0;
@@ -51,8 +51,8 @@ html {
 }
 
 /* ===============================================
-   UTILIDADES
-   =============================================== */
+UTILIDADES
+=============================================== */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -82,8 +82,8 @@ html {
 }
 
 /* ===============================================
-   BOTONES
-   =============================================== */
+BOTONES
+=============================================== */
 .btn {
     display: inline-block;
     padding: 12px 30px;
@@ -137,8 +137,8 @@ html {
 }
 
 /* ===============================================
-   HERO SECTION
-   =============================================== */
+HERO SECTION
+=============================================== */
 .hero-section {
     height: 100vh;
     display: flex;
@@ -213,8 +213,8 @@ html {
 }
 
 /* ===============================================
-   CULTURE SECTION
-   =============================================== */
+CULTURE SECTION
+=============================================== */
 .culture-section {
     padding: 80px 0;
     background: var(--bg-white);
@@ -263,8 +263,8 @@ html {
 }
 
 /* ===============================================
-   HISTORY SECTION
-   =============================================== */
+HISTORY SECTION
+=============================================== */
 .history-section {
     padding: 80px 0;
     background: var(--soft-green);
@@ -315,8 +315,8 @@ html {
 }
 
 /* ===============================================
-   NEWS SECTION
-   =============================================== */
+NEWS SECTION
+=============================================== */
 .news-section {
     padding: 80px 0;
     background: var(--bg-light);
@@ -391,8 +391,8 @@ html {
 }
 
 /* ===============================================
-   CTA SECTION
-   =============================================== */
+CTA SECTION
+=============================================== */
 .cta-section {
     padding: 80px 0;
     background: linear-gradient(135deg, var(--primary-blue), var(--forest-green));
@@ -419,8 +419,8 @@ html {
 }
 
 /* ===============================================
-   ANIMATIONS
-   =============================================== */
+ANIMATIONS
+=============================================== */
 @keyframes bounce {
     0%, 20%, 50%, 80%, 100% {
         transform: translateY(0) translateX(-50%);
@@ -449,8 +449,8 @@ html {
 }
 
 /* ===============================================
-   RESPONSIVE DESIGN
-   =============================================== */
+RESPONSIVE DESIGN
+=============================================== */
 @media (max-width: 768px) {
     .hero-title {
         font-size: 3rem;
