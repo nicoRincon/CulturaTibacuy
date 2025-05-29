@@ -24,7 +24,7 @@
 </head>
 <body>
     <header class="navbar navbar-expand-md navbar-dark bg-primary sticky-top">
-        <div class="container-fluid">
+        <div class="container-fluid p-0">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Sistema Escolar') }}
             </a>
@@ -119,7 +119,7 @@
         </div>
     </header>
 
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
             <i class="fas fa-check-circle me-2"></i>{{ session('success') }}

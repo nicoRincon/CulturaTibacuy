@@ -10,6 +10,9 @@ use App\Http\Controllers\ProgramaFormacionController;
 use App\Http\Controllers\EscuelaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InformeController;
+use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Auth\Notifications\VerifyEmail;
 
 
 
@@ -18,9 +21,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/login', [LoginController::class, 'login'])
+    ->middleware('throttle:5,1');
+
+    
 Route::middleware('web')->group(function () {
     Auth::routes();
 });
+
 
 // Ruta del Home y Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

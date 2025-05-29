@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -55,21 +56,10 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        // Verificar si el usuario está activo
-        if ($user->id_estado != 1) {
-            Auth::logout();
-            throw ValidationException::withMessages([
-                $this->username() => ['Esta cuenta está inactiva. Por favor contacte al administrador.'],
-            ]);
-        }
-
-        // Redireccionar según el rol
-        if ($user->tieneRol('Administrador')) {
-            return redirect()->route('dashboard');
-        } elseif ($user->tieneRol('Instructor')) {
-            return redirect()->route('dashboard');
-        } else {
-            return redirect()->route('dashboard');
-        }
+        Log::info('User login successful', [
+            'user_id' => $user->id_usuario,
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent()
+        ]);
     }
 }

@@ -58,7 +58,7 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                ¿Está seguro de que desea eliminar la evaluación de {{ $evaluacion->usuario->pridmer_nombre }} {{ $evaluacion->usuario->primer_apellido }} para el curso {{ $evaluacion->curso->curso }}?
+                                                ¿Está seguro de que desea eliminar la evaluación de {{ $evaluacion->usuario->primer_nombre }} {{ $evaluacion->usuario->primer_apellido }} para el curso {{ $evaluacion->curso->curso }}?
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

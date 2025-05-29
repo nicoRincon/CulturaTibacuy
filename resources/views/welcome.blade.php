@@ -4,8 +4,160 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
+<style>
+/* Estilos adicionales para la sección de noticias */
+.news-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 60px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.news-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.08)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+}
+
+.news-banner-content {
+    position: relative;
+    z-index: 2;
+}
+
+.news-ticker {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.news-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.news-item:last-child {
+    border-bottom: none;
+}
+
+.news-item:hover {
+    transform: translateX(10px);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding-left: 15px;
+    margin: 0 -15px;
+}
+
+.news-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.news-content h4 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.news-content p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.news-date {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.breaking-badge {
+    background: #ff4757;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 10px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.news-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.news-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.news-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .news-banner {
+        padding: 40px 0;
+    }
+    
+    .news-header h2 {
+        font-size: 2rem;
+    }
+    
+    .news-item {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    .news-icon {
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+    
+    .news-date {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+</style>
+@endsection
 
 @section('content-wrapper')
+
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="hero-bg"></div>
@@ -27,6 +179,74 @@
     
     <div class="scroll-hint">
         <i class="fas fa-chevron-down"></i>
+    </div>
+</section>
+
+<section class="news-banner">
+    <div class="container">
+        <div class="news-banner-content">
+            <div class="news-header">
+                <h2>🗞️ Últimas Noticias</h2>
+                <p>Mantente al día con las novedades de nuestra comunidad cultural</p>
+            </div>
+            
+            <div class="news-ticker">
+                <div class="news-item">
+                    <div class="news-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="news-content">
+                        <div class="d-flex align-items-center">
+                            <span class="breaking-badge">Nuevo</span>
+                            <h4>¡Inscripciones Abiertas para el 2025!</h4>
+                        </div>
+                        <p>Ya están disponibles las inscripciones para todos nuestros programas culturales del próximo año. Cupos limitados.</p>
+                    </div>
+                    <div class="news-date">
+                        <i class="fas fa-calendar"></i> Hoy
+                    </div>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="news-content">
+                        <h4>Festival de Talentos 2024 - Gran Éxito</h4>
+                        <p>Más de 200 participantes demostraron sus habilidades en música, danza y teatro. ¡Felicitaciones a todos!</p>
+                    </div>
+                    <div class="news-date">
+                        <i class="fas fa-calendar"></i> 3 días
+                    </div>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="news-content">
+                        <h4>Nuevos Instructores se Unen al Equipo</h4>
+                        <p>Damos la bienvenida a 5 nuevos profesores especializados en artes plásticas y música tradicional.</p>
+                    </div>
+                    <div class="news-date">
+                        <i class="fas fa-calendar"></i> 1 semana
+                    </div>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div class="news-content">
+                        <h4>Exposición de Arte Local en el Cerro Quininí</h4>
+                        <p>Los trabajos de nuestros estudiantes de artes plásticas serán exhibidos junto a los petroglifos ancestrales.</p>
+                    </div>
+                    <div class="news-date">
+                        <i class="fas fa-calendar"></i> 2 semanas
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -157,4 +377,33 @@
 
 @section('scripts')
 <script src="{{ asset('js/main.js') }}"></script>
+<script>
+// JavaScript adicional para la sección de noticias
+document.addEventListener('DOMContentLoaded', function() {
+    // Animación de entrada para las noticias
+    const newsItems = document.querySelectorAll('.news-item');
+    
+    newsItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        item.style.transition = 'all 0.6s ease';
+        
+        setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, index * 200);
+    });
+    
+    // Efecto de hover mejorado
+    newsItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateX(10px) scale(1.02)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateX(0) scale(1)';
+        });
+    });
+});
+</script>
 @endsection

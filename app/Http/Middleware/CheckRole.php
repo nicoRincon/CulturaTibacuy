@@ -26,8 +26,8 @@ class CheckRole
         $user = Auth::user();
         $rolesArray = explode('|', $roles);
 
-        if (!in_array($user->rol->nombre, $rolesArray)) {
-            return redirect('home');
+        if (!in_array($user->rol->rol, $rolesArray)) {
+            return redirect('dashboard')->with('error', 'No tienes permisos para acceder a esta página');
         }
 
         return $next($request);
